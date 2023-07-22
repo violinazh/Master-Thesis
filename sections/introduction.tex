@@ -1,0 +1,114 @@
+\chapter{Introduction}
+\label{ch:Introduction}
+
+Title: Detecting Ambiguity in Neural Machine Translation Models by Inspecting Diversity in Translation
+
+- Opening paragraph about development of AI in recent years and its usefulnes in the area of translation, making it possible for people from all over the world to connect, learn and work in a foreign language.
+- Introduce briefly NMT, NLP and problem of bias and ambiguity (interplay of bias and ambiguity)
+
+\section{Motivation}
+\label{sec:Introduction:Motivation}
+
+Biases present in AI systems are an important problem stemming from cultural and historical issues present in the data from which models are learning. The developed systems in turn reinforce the present societal prejudices and old social norms, instead of mitigating them.
+In recent years, light has been shed on the different types of biases present in Neural Machine Translation (NMT) systems, the most researched type of bias being gender. Some previous works have attempted to uncover gender bias in existing systems, while others have tried mitigating gender bias by either modifying the training datasets or changing the architecture of the system.
+
+\section{Research Questions}
+\label{sec:Introduction:Questions}
+
+Main question: How can a neural network model automatically detect biased words in translated written text?
+-	How diverse are translations?
+-	How does the model perform depending on language?
+-	How does context influence the discovery of bias? 
+
+
+\section{Contribution}
+\label{sec:Introduction:Contribution}
+
+As a part of the thesis, I have attempted to create a novel system, which is able to detect ambiguous words in a text, that contains no contextual information relating to the ambiguity, therefore making several translations possible. 
+- Summarize approach, architecture, dataset and languages 
+
+\section{Thesis Outline}
+\label{sec:Introduction:Outline}
+This thesis is structured as follows: Chapter 2 describes the background of Neural Machine Translations
+systems and introduces the problems stemming from language ambiguity and bias in the data. Next, Chapter 3 introduces some existing research on the topic, such as techniques to detect, assess, and mitigate bias in Machine Translation. Chapter 5 states the research problem and describes approaches used to answer the research questions. Furthermore, Chapter 5 describes the design of the experiments performed, which includes the corpora, models and evaluation methods used to conduct the experiments as well as technical details necessary for reproducibility. In Chapter 6 the results of the experiments are presented and discussed. Chapter 7 outlines the answers to the research questions from conducting the experiments and discusses challenges and limitations. Finally, Chapter 8 summarizes the key findings and proposes possible directions for future work.
+
+
+
+
+
+
+
+
+
+
+%% -------------------
+%% | Example content |
+%% -------------------
+
+% This is the SDQ thesis template.
+% For more information on the formatting of theses at SDQ, please refer to
+% \url{https://sdq.kastel.kit.edu/wiki/Ausarbeitungshinweise} or to your advisor.
+
+% \section{Spacing and indentation}
+% To separate parts of text in \LaTeX, please use two line breaks.
+% They will then be set with correct indentation.
+% Do \emph{not} use:
+% \begin{itemize}
+%   \itemsep0em
+%   \item \texttt{\textbackslash\textbackslash}
+%   \item \texttt{\textbackslash parskip}
+%   \item \texttt{\textbackslash vskip}
+% \end{itemize} 
+% or other commands to manually insert spaces, since they break the layout of this template.
+
+% \section{Example: Citation}
+% \label{sec:Introduction:Citation}
+% This template is based on \texttt{biblatex} and \texttt{biber}, which is preferred over the
+% outdated Bib\TeX{} software.
+% Please adjust your build environment if necessary (see
+% \url{https://sdq.kastel.kit.edu/wiki/BibTeX-Literaturlisten#biblatex.2Fbiber})
+
+% A citation: \cite{becker2008a} 
+
+% \section{Example: Figures}
+% \label{sec:Introduction:Figures}
+% \begin{figure}
+% \centering
+% \includegraphics[width=4cm]{logos/sdqlogo}
+% \caption{SDQ logo}
+% \label{fig:sdqlogo}
+% \end{figure}
+
+% A reference: The SDQ logo is displayed in \autoref{fig:sdqlogo}. 
+% (Use \code{\textbackslash autoref\{\}} for easy referencing.) 
+
+% \section{Example: Tables}
+% The \texttt{booktabs} package offers nicely typeset tables, as in \autoref{tab:atable}.
+
+% \label{sec:Introduction:Tables}
+% \begin{table}
+% \centering
+% \begin{tabular}{r l}
+% \toprule
+% abc & def\\
+% ghi & jkl\\
+% \midrule
+% 123 & 456\\
+% 789 & 0AB\\
+% \bottomrule
+% \end{tabular}
+% \caption{A table}
+% \label{tab:atable}
+% \end{table}
+
+% \section{Example: Formula}
+% One of the nice things about the Linux Libertine font is that it comes with
+% a math mode package.
+% \begin{displaymath}
+% f(x)=\Omega(g(x))\ (x\rightarrow\infty)\;\Leftrightarrow\;
+% \limsup_{x \to \infty} \left|\frac{f(x)}{g(x)}\right|> 0
+% \end{displaymath}
+
+%% --------------------
+%% | /Example content |
+%% --------------------

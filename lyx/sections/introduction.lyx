@@ -1,0 +1,454 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass sdqthesis
+\use_default_options true
+\master ../thesis.lyx
+\begin_modules
+enumitem
+\end_modules
+\maintain_unincluded_children false
+\language british
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command biber
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine biblatex
+\cite_engine_type numerical
+\biblio_style plain
+\biblatex_bibstyle numeric
+\biblatex_citestyle numeric
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style british
+\dynamic_quotes 1
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Chapter
+Introduction
+\end_layout
+
+\begin_layout Standard
+This is the SDQ thesis template.
+ For more information on the formatting of theses at SDQ, please refer to
+ 
+\begin_inset CommandInset href
+LatexCommand href
+target "https://sdqweb.ipd.kit.edu/wiki/Ausarbeitungshinweise"
+literal "false"
+
+\end_inset
+
+ or to your advisor.
+\end_layout
+
+\begin_layout Section
+Spacing and Indentation
+\end_layout
+
+\begin_layout Standard
+Because you are using \SpecialChar LyX
+, you do not have to worry about using the correct
+ commands for formatting.
+ Nevertheless, please do still 
+\emph on
+not
+\emph default
+ use:
+\end_layout
+
+\begin_layout Itemize
+Manual new lines (like 
+\begin_inset Newline newline
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+Manual vertical spacing (like 
+\begin_inset VSpace defskip
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+or other commands to manually insert spaces, since they break the layout
+ of this template.
+\end_layout
+
+\begin_layout Section
+Example: Citation
+\end_layout
+
+\begin_layout Standard
+This template is based on 
+\family typewriter
+biblatex
+\family default
+ and 
+\family typewriter
+biber
+\family default
+.
+ \SpecialChar LyX
+ will automatically set up these tools for you.
+\end_layout
+
+\begin_layout Standard
+A citation: 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "becker2008a"
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Example: Figures
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename ../../logos/sdqlogo.pdf
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:sdqlogo"
+
+\end_inset
+
+SDQ logo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A reference: The SDQ logo is displayed in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:sdqlogo"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Example: Tables
+\end_layout
+
+\begin_layout Standard
+The 
+\family typewriter
+booktabs
+\family default
+ package offers nicely typeset tables, as in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:atable"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ You activate it by enabling the 
+\begin_inset Quotes xld
+\end_inset
+
+formal
+\begin_inset Quotes xrd
+\end_inset
+
+ style in \SpecialChar LyX
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features booktabs="true" tabularvalignment="middle">
+<column alignment="right" valignment="top" width="0pt">
+<column alignment="left" valignment="top" width="0pt">
+<row>
+<cell alignment="right" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+abc
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+def
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="right" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ghi
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+jkl
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+123
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+456
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="right" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+789
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0AB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:atable"
+
+\end_inset
+
+A table
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Example: Formula
+\end_layout
+
+\begin_layout Standard
+One of the nice things about the Linux Libertine font is that it comes with
+ a math mode package.
+\begin_inset Formula 
+\[
+f(x)=\Omega(g(x))\ (x\to\infty)\;\iff\;\limsup_{x\to\infty}\left|\frac{f(x)}{g(x)}\right|>0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Example: Character Styles
+\end_layout
+
+\begin_layout Standard
+This class comes with two character styles:
+\end_layout
+
+\begin_layout Itemize
+One for code: 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+int i = 5
+\end_layout
+
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+and one for model elements: 
+\begin_inset Flex Model
+status open
+
+\begin_layout Plain Layout
+Package
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

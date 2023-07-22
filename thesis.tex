@@ -1,0 +1,136 @@
+%% LaTeX2e class for student theses
+%% thesis.tex
+%% 
+%% Karlsruhe Institute of Technology
+%% Institute for Program Structures and Data Organization
+%% Chair for Software Design and Quality (SDQ)
+%%
+%% Dr.-Ing. Erik Burger
+%% burger@kit.edu
+%%
+%% See https://sdq.kastel.kit.edu/wiki/Dokumentvorlagen
+%%
+%% Version 1.3.6, 2022-09-28
+
+%% Available page modes: oneside, twoside
+%% Available languages: english, ngerman
+%% Available modes: draft, final (see README)
+\documentclass[twoside, english]{sdqthesis}
+
+%% ---------------------------------
+%% | Information about the thesis  |
+%% ---------------------------------
+
+%% Name of the author
+\author{Violina Zhekova}
+
+%% Title (and possibly subtitle) of the thesis
+\title{Detecting Ambiguity in Neural Machine Translation Models by Inspecting Diversity in Translation}
+
+%% Type of the thesis 
+\thesistype{Master's Thesis}
+
+%% Change the institute here, ``KASTEL'' is default
+\myinstitute{Artificial Intelligence for Language Technologies (AI4LT)}
+
+%% You can put a logo in the ``logos'' directory and include it here
+%% instead of the SDQ logo
+% \grouplogo{myfile}
+%% Alternatively, you can disable the group logo
+\nogrouplogo
+
+%% The reviewers are the professors that grade your thesis
+\reviewerone{Prof. Dr. Jan Niehues}
+\reviewertwo{Prof. Dr. Alexander Waibel}
+
+%% The advisors are PhDs or Postdocs
+\advisorone{M. Sc. Tu Anh Dinh}
+
+%% Please enter the start end end time of your thesis
+\editingtime{01. May 2023}{02. November 2023}
+
+\settitle
+
+%% --------------------------------
+%% | Bibliography                 |
+%% --------------------------------
+
+%% Use biber instead of BibTeX, see README
+% style=authoryear; without numbers in Bibliography
+\usepackage[style=numeric, citestyle=authoryear, maxbibnames=15, abbreviate=false, backend=biber]{biblatex}
+\addbibresource{thesis.bib}
+
+%% ====================================
+%% ====================================
+%% ||                                ||
+%% || Beginning of the main document ||
+%% ||                                ||
+%% ====================================
+%% ====================================
+\begin{document}
+
+%% Set PDF metadata
+\setpdf
+
+%% Set the title
+\maketitle
+
+%% The Preamble begins here
+\frontmatter
+
+\input{sections/declaration.tex}
+
+\setcounter{page}{1}
+\pagenumbering{roman}
+
+%% ----------------
+%% |   Abstract   |
+%% ----------------
+ 
+%% For theses written in English, an abstract both in English
+%% and German is mandatory.
+%%
+%% For theses written in German, a German abstract is sufficient.
+%%
+%% The text is included from the following files:
+%% - sections/abstract
+
+\includeabstract
+
+%% ------------------------
+%% |   Table of Contents  |
+%% ------------------------
+\tableofcontents
+
+\listoffigures
+\listoftables
+
+%% -----------------
+%% |   Main part   |
+%% -----------------
+
+\mainmatter
+
+\input{sections/introduction.tex}
+\input{sections/background.tex}
+\input{sections/related_work.tex}
+\input{sections/methodology.tex}
+\input{sections/experiments.tex}
+\input{sections/results.tex}
+\input{sections/discussion.tex}
+\input{sections/conclusion.tex}
+
+%% --------------------
+%% |   Bibliography   |
+%% --------------------
+
+%% Add entry to the table of contents for the bibliography
+\printbibliography[heading=bibintoc]
+
+%% ----------------
+%% |   Appendix   |
+%% ----------------
+\appendix
+\input{sections/appendix.tex}
+
+\end{document}

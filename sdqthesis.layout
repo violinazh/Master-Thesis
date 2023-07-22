@@ -1,0 +1,211 @@
+#% Do not delete the line below; configure depends on this
+#  \DeclareLaTeXClass[sdqthesis,scrbook]{SDQ Thesis}
+#  \DeclareCategory{Books}
+# sdqthesis textclass definition file.
+
+Format 66
+Input scrbook.layout
+Provides hyperref 1
+Provides longtable 1
+Provides enumitem 1
+Provides graphicx 1
+DefaultModule enumitem
+CiteFramework biblatex
+Sides 2
+TocDepth 2
+
+AddToPreamble
+	\AtBeginDocument{%
+		\let\ref\autoref
+	}
+	% Undo LyX’ meddling with the hyperref options
+	\newcommand{\@fixhyperref}{%
+		\hypersetup{breaklinks,colorlinks=false,pdfborderstyle={},pdfborder={0 0 0}}
+	}
+	\ifx\hypersetup\undefined
+		\AtBeginDocument{\@fixhyperref}
+	\else
+		\@fixhyperref
+	\fi
+EndPreamble
+
+TitleLatexName setpdf\settitle\maketitle\frontmatter
+
+style "Thesis Type"
+	Category FrontMatter
+	LatexType Command
+	LatexName thesistype
+	InTitle true
+	Align Center
+	Font
+		Family Sans
+		Size Large
+	EndFont
+End
+
+style Institute
+	Category FrontMatter
+	LatexType Command
+	LatexName reviewerone
+	InTitle true
+	LeftMargin xxxxxxxxxxxxxxxxx:xx
+	LabelSep xx
+	BottomSep 0.4
+	ParSep 0.4
+	Align Left
+	LabelType Static
+	LabelString "First Reviewer"
+	LabelFont
+		Shape Italic
+		Color Blue
+	EndFont
+End
+
+style "Reviewer 1"
+	CopyStyle Institute
+	LatexName reviewerone
+	LabelString "First Reviewer"
+End
+
+style "Reviewer 2"
+	CopyStyle Institute
+	LatexName reviewertwo
+	LabelString "Second Reviewer"
+End
+
+style "Advisor 1"
+	CopyStyle Institute
+	LatexName advisorone
+	LabelString "First Advisor"
+End
+
+style "Advisor 2"
+	CopyStyle Institute
+	LatexName advisortwo
+	LabelString "Second Advisor"
+End
+
+Style "Editing Start"
+	CopyStyle Institute
+	LabelString "Editing Start"
+	LatexName editingstart
+	LabelFont
+		Color Green
+	EndFont
+	Preamble
+		\newcommand{\editingstart}[1]{\let\oldend=\theeditend\editingtime{#1}{\oldend}}
+	EndPreamble
+End
+
+Style "Editing End"
+	CopyStyle "Editing Start"
+	LabelString "Editing End"
+	LatexName editingend
+	Preamble
+		\newcommand{\editingend}[1]{\let\oldstart=\theeditstart\editingtime{\oldstart}{#1}}
+	EndPreamble
+End
+
+Style Declaration
+	CopyStyle Institute
+	LatexType Environment
+	LatexName declaration
+	LabelString Declaration
+	KeepEmpty 1
+	InTitle false
+	Argument 1
+		LabelString Place
+		Mandatory 1
+	EndArgument
+	Argument 2
+		LabelString Date
+		Mandatory 1
+	EndArgument
+	Preamble
+		\newcommand{\declarationsigning}{}
+		\newenvironment{declaration}[2]{%
+			\renewcommand{\declarationsigning}{#1,~#2}
+			\thispagestyle{empty}%
+			\null\vfill%
+			\noindent\hbox to \textwidth{\hrulefill}%
+		}{%
+			\par%
+			\textbf{\declarationsigning}%
+			\vspace{1.5cm}%
+ 			\par%
+			\dotfill\hspace*{8.0cm}\newline%
+			\hspace*{2cm}(\theauthor) %
+			\cleardoublepage%
+		}
+	EndPreamble
+	LabelFont
+		Color black
+	EndFont
+End
+
+Style Abstract
+	Category FrontMatter
+	LatexType Command
+	LatexName Abstract
+	LabelString Abstract
+	LeftMargin AbstractAbstract
+	LabelType Static
+	AddToToc Abstract
+	KeepEmpty 1
+	NextNoIndent 1
+	TocLevel 0
+	TopSep 2
+	BottomSep 0.8
+	LabelFont
+		Family sans
+		Series Bold
+		Size largest
+	EndFont
+End
+
+
+InsetLayout "Flex:German Only"
+	LyxType custom
+	LatexType Command
+	LatexName germanonly
+	LabelString German
+	ForceLocalFontSwitch 1
+	CustomPars 1
+	MultiPar true
+	Preamble
+		\newcommand\germanonly[1]{\ifcurrentbaselanguage{german}{#1}{}}
+	EndPreamble
+End
+
+InsetLayout "Flex:English Only"
+	CopyStyle "Flex:German Only"
+	LatexName englishonly
+	LabelString English
+	Preamble
+		\newcommand\englishonly[1]{\ifcurrentbaselanguage{english}{#1}{}}
+	EndPreamble
+End
+
+InsetLayout "Flex:Code"
+	LyxType charstyle
+	LabelString Code
+	LatexType Command
+	LatexName code
+	ForcePlain 1
+	Spellcheck 0
+	Font
+		Family Typewriter
+	EndFont
+End
+
+InsetLayout "Flex:Model"
+	LyxType charstyle
+	LabelString Model
+	LatexType Command
+	LatexName model
+	ForcePlain 1
+	Spellcheck 0
+	Font
+		Family Sans
+	EndFont
+End

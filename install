@@ -1,0 +1,124 @@
+#! /bin/bash
+
+reset="\e[0m"
+red="\e[31m"
+green="\e[32m"
+
+# script directory, see https://stackoverflow.com/questions/59895/how-to-get-the-source-directory-of-a-bash-script-from-within-the-script-itself
+source="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+function error {
+	>&2 echo -e "$red$1$reset"
+}
+
+function throw {
+	error "$1"
+	exit 1
+}
+
+function help {
+	echo "options:"
+	echo "  -h, --help              Show this brief help."
+	echo "  -t, --target <dir>      Install into the directory <dir>."
+	echo "  -f, --force             Clear existing files before installing."
+	echo "  -l, --lyx               Also install the LyX layout."
+	echo "  -c, --copy              Copy the files instead of linking them. If set, changes to the source"
+	echo "                          files after the installation will not influence the installed files."
+}
+
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+		-h|--help)
+			echo "sdqthesis install script"
+			echo ""
+			help
+			exit 0
+			;;
+		-c|--copy)
+			shift
+			copy=true
+			;;
+		-t|--to)
+			shift
+			if [[ $# -gt 0 ]]; then
+				target="$1"
+			else
+				throw "--to (or -t) must be followed by the target directory!"
+			fi
+			shift
+			;;
+		-f|--force)
+			shift
+			force=true
+			;;
+		-l|--lyx)
+			shift
+			lyx=true
+			;;
+		*)
+		 	error "Unexpected argument '$1'! Aborting."
+			echo ""
+			help
+			exit 1
+			;;
+	esac
+done
+
+if [[ -z "$target" ]]; then
+	target="$(kpsewhich -var-value=TEXMFHOME)/tex/latex/sdqthesis"
+fi
+
+if [[ -e "$target" ]]; then
+	if [[ $force == true ]]; then
+		echo "Deleting existing $target..."
+		rm -rf $target \
+			|| throw "Failure!"
+	else
+		throw "$target already exists. Aborting. Use --force to overwrite existing files!"
+	fi
+fi
+
+if [[ $copy == true ]]; then
+	echo "Copying files to $target..."
+	install="cp -r"
+	ainstalling="Copying"
+else 
+	install="ln -s"
+	installing="Linking"
+fi
+
+echo "$installing the document class files to $target..."
+
+mkdir -p "$target" \
+	&& $install "$source/sdqthesis.cls" "$source/logos" "$source/title-background.pdf" "$target/" \
+	|| throw "Failure!"
+
+if [[ $lyx == true ]]; then
+	lyxdir="$HOME/.lyx"
+	if [[ ! -d "$lyxdir" ]]; then
+		throw "Cannot install the LyX layout because Lyx is not installed on this system! Aborting."
+	fi
+	lyxtarget="$HOME/.lyx/layouts/sdqthesis.layout"
+
+	if [[ -h "$lyxtarget" || -e "$lyxtarget" ]]; then
+		if [[ $force == true ]]; then
+			echo "Deleting existing $lyxtarget..."
+			rm -f "$lyxtarget" \
+				|| throw "Failure!"
+		else
+			throw "$lyxtarget already exists. Aborting. Use --force to overwrite existing files!"
+		fi
+	else 
+		echo "no"
+	fi
+	
+	echo "$installing the LyX layout to $lyxtarget..."
+	$install "$source/sdqthesis.layout" "$lyxtarget" \
+		|| throw "Failure!"
+
+	echo "Updating the LyX configuration..."
+	( cd "$lyxdir" && 2>&1 /usr/share/lyx/configure.py ) > /dev/null \
+		|| throw "Failure!"
+fi
+
+echo -e "${green}Done.$reset"

@@ -1,0 +1,382 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass sdqthesis
+\begin_preamble
+\usepackage[useregional=text]{datetime2}
+\end_preamble
+\use_default_options true
+\begin_modules
+enumitem
+\end_modules
+\maintain_unincluded_children false
+\language british
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command biber
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine biblatex
+\cite_engine_type numerical
+\biblio_style plain
+\biblatex_bibstyle numeric
+\biblatex_citestyle numeric
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style british
+\dynamic_quotes 1
+\papercolumns 1
+\papersides 2
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Title of this Thesis
+\end_layout
+
+\begin_layout Thesis Type
+Master’s Thesis / Bachelor’s Thesis
+\end_layout
+
+\begin_layout Author
+My Name
+\end_layout
+
+\begin_layout Reviewer 1
+Prof.
+ A
+\end_layout
+
+\begin_layout Reviewer 2
+Prof.
+ B
+\end_layout
+
+\begin_layout Advisor 1
+M.
+\begin_inset space \thinspace{}
+\end_inset
+
+Sc.
+ C
+\end_layout
+
+\begin_layout Advisor 2
+M.
+\begin_inset space \thinspace{}
+\end_inset
+
+Sc.
+ D
+\end_layout
+
+\begin_layout Editing Start
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+DTMDate{1980-12-24}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Editing End
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+DTMDate{1981-06-01}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Declaration
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Musterstadt
+\end_layout
+
+\end_inset
+
+
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+DTMDate{1981-05-25}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Flex German Only
+status open
+
+\begin_layout Plain Layout
+
+\lang ngerman
+Ich versichere wahrheitsgemäß, die Arbeit selbstständig angefertigt, alle
+ benutzten Hilfsmittel vollständig und genau angegeben und alles kenntlich
+ gemacht zu haben, was aus Arbeiten anderer unverändert oder mit Änderungen
+ entnommen wurde.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Flex English Only
+status open
+
+\begin_layout Plain Layout
+I declare that I have developed and written the enclosed thesis completely
+ by myself, and have not used sources or means without declaration in the
+ text.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{page}{1}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagenumbering{roman}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex German Only
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset include
+LatexCommand include
+filename "sections/abstract_de.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Flex English Only
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset include
+LatexCommand include
+filename "sections/abstract_en.lyx"
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand include
+filename "sections/abstract_de.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList figure
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList table
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+mainmatter
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand include
+filename "sections/introduction.lyx"
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand include
+filename "sections/content.lyx"
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand include
+filename "sections/evaluation.lyx"
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand include
+filename "sections/conclusion.lyx"
+
+\end_inset
+
+
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "../thesis"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\start_of_appendix
+\begin_inset CommandInset include
+LatexCommand include
+filename "sections/appendix.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
