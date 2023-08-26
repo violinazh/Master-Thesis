@@ -1,10 +1,24 @@
 \chapter{Introduction}
 \label{ch:Introduction}
+% Title: Detecting Ambiguity in Neural Machine Translation Models by Inspecting Diversity in Translation
 
-Title: Detecting Ambiguity in Neural Machine Translation Models by Inspecting Diversity in Translation
+% PRICoBE
+% Problem: What is the problem you are trying to address?
+% Research questions: What are the research questions you are trying to answer? (to make novelty/originality clear)
+% Idea: What is your idea of how to address the problem? (is often broader than the contribution)
+% Contributions: Which contributions to the research area are you making with that idea?
+% Benefits: What are the benefits of your contributions?
+% Evaluation: How do you plan to evaluate your envisioned benefits? (Validation)
 
-- Opening paragraph about development of AI in recent years and its usefulnes in the area of translation, making it possible for people from all over the world to connect, learn and work in a foreign language.
-- Introduce briefly NMT, NLP and problem of bias and ambiguity (interplay of bias and ambiguity)
+% Define clear research objectives: Clearly define the goals and objectives of your research. These objectives should be specific, measurable, achievable, relevant, and time-bound (SMART).
+
+% Introduce ML, MT, NMT
+In the world more than 7000 natural languages are spoken today. It is humanly impossible to learn every language, which outlines the need for translation between different languages for the purpose of communication. This is a task for Machine Translation (MT), a subfield of Machine Learning (ML) that focuses on automatic translation from one language to another using computer technology. The development of Artificial Intelligence (AI) in recent years has expanded the field of MT and made it possible for people from all over the world to connect, learn and work in a foreign language. 
+Neural Machine Translation (NMT) uses deep learning to learn a statistical model for machine translation in an end-to-end fashion, translating directly from an input source language to an output target language. 
+
+% Elaborate on the problem of bias and ambiguity (interplay of bias and ambiguity) and how it affects different individuals
+
+
 
 \section{Motivation}
 \label{sec:Introduction:Motivation}
@@ -12,12 +26,22 @@ Title: Detecting Ambiguity in Neural Machine Translation Models by Inspecting Di
 Biases present in AI systems are an important problem stemming from cultural and historical issues present in the data from which models are learning. The developed systems in turn reinforce the present societal prejudices and old social norms, instead of mitigating them.
 In recent years, light has been shed on the different types of biases present in Neural Machine Translation (NMT) systems, the most researched type of bias being gender. Some previous works have attempted to uncover gender bias in existing systems, while others have tried mitigating gender bias by either modifying the training datasets or changing the architecture of the system.
 
+
+Machine Translation (MT) technology has assisted humans in gathering, processing, and communicating information. In recent years, neural models have advanced the field of machine translation significantly. However, neural models are trained on large datasets which contain social constructs and stereotypes. As a consequence, neural machine translation models learn the biases from the data and perpetuate them, affecting downstream applications like coreference resolution \parencite{Zhao_2018_coreference} and contributing further to discrimination based on gender, race, age and religious beliefs \parencite{Rudinger_2017}. Stereotypical assumptions tend to impact individuals' perceptions of reality and influence their behavior in accordance with stereotypical expectations.
+
+Examples:
+- doctor and nurse \parencite{Escud_Font_2019}
+- lexical semantics (“man is to computer programmer as woman is to homemaker”; \cite{bolukbasi2016man})
+- natural language inference (associating women with gossiping and men with guitars; \cite{Rudinger_2017})
+
 \section{Research Questions}
 \label{sec:Introduction:Questions}
 
-Main question: How can a neural network model automatically detect biased words in translated written text?
+% state objective
+
+Main question: How can we detect biased words in translated written text?
 -	How diverse are translations?
--	How does the model perform depending on language?
+-	How does language influence the discovery of bias? (different language families and alphabets)
 -	How does context influence the discovery of bias? 
 
 
@@ -27,10 +51,10 @@ Main question: How can a neural network model automatically detect biased words 
 As a part of the thesis, I have attempted to create a novel system, which is able to detect ambiguous words in a text, that contains no contextual information relating to the ambiguity, therefore making several translations possible. 
 - Summarize approach, architecture, dataset and languages 
 
+
 \section{Thesis Outline}
 \label{sec:Introduction:Outline}
-This thesis is structured as follows: Chapter 2 describes the background of Neural Machine Translations
-systems and introduces the problems stemming from language ambiguity and bias in the data. Next, Chapter 3 introduces some existing research on the topic, such as techniques to detect, assess, and mitigate bias in Machine Translation. Chapter 5 states the research problem and describes approaches used to answer the research questions. Furthermore, Chapter 5 describes the design of the experiments performed, which includes the corpora, models and evaluation methods used to conduct the experiments as well as technical details necessary for reproducibility. In Chapter 6 the results of the experiments are presented and discussed. Chapter 7 outlines the answers to the research questions from conducting the experiments and discusses challenges and limitations. Finally, Chapter 8 summarizes the key findings and proposes possible directions for future work.
+The rest of the thesis is structured as follows. Chapter 2 describes the background of Neural Machine Translations systems and introduces the problems stemming from language ambiguity and bias in the data. Next, Chapter 3 introduces some existing research on the topic, such as techniques to detect, assess, and mitigate bias in Machine Translation. Chapter 5 states the research problem and describes approaches used to answer the research questions. Furthermore, Chapter 5 describes the design of the experiments performed, which includes the corpora, models and evaluation methods used to conduct the experiments as well as technical details necessary for reproducibility. In Chapter 6 the results of the experiments are presented and discussed. Chapter 7 outlines the answers to the research questions from conducting the experiments and discusses challenges and limitations. Finally, Chapter 8 summarizes the key findings and proposes possible directions for future work.
 
 
 

@@ -1,12 +1,102 @@
 \chapter{Related work}
 \label{ch:Related_work}
 
-Learning Gender-Neutral Word Embeddings \parencite{Zhao_2018}
+% Conduct a thorough literature review: Familiarize yourself with existing research and literature related to your topic. Identify the knowledge gaps and research questions that your thesis will address. This will help you build a strong theoretical framework for your study.
 
-Equalizing Gender Bias in Neural Machine Translation
+% Available literature focuses on gender bias
+% Bias detection methods:
+% - Challenge sets 
+% - Automatic evaluation methods [Stanovsky2019]
+% Bias mitigation methods:
+% - Modification of the data [Costa2019]
+% - Debiasing word embeddins [Zhao2018] [Bolukbasi2016]
+% - Model debiasing through metadata about gender [Vanmassenhove2018]
+
+% In Progress:
+% - Unsupervised Word Sense Disambiguation (WSD) may help discover biased words
+% - Researching methods for Quality Estimation (QE) for detecting biases in translation
+
+
+
+\textbf{Topics}: 
+- Bias Detection in MT
+- Bias Mitigation in MT: data modification, word embeddings, architecture modification
+- WSD %TODO
+- QE %TODO
+
+
+Man is to computer programmer as woman is to
+homemaker? debiasing word embeddings \parencite{bolukbasi2016man}
+- Hard-debiased embeddings: post-process method for debiasing word embeddings
+- Downsides: pipeline approach propagates errors; completely removes gender information from words; 
+- Downsides: pipeline approach propagates errors; completely removes gender information from words;  remove valuable information in the embeddings for semantic relations between words with several meanings that are not related to the bias being treated
+
+Men Also Like Shopping: Reducing Gender Bias Amplification using Corpus-level Constraints \parencite{Zhao_2017}
+- WinoBias dataset: composed of pro-stereotype (PRO) and anti-stereotype (ANTI) subsets
+
+Gender bias in coreference resolution: Evaluation and debiasing
+methods \parencite{Zhao_2018_coreference}
+
+Assessing gender bias in machine translation: a case study with Google Translate \parencite{Prates_2019}
+- list of occupations
+
+Getting Gender Right in Neural Machine Translation \parencite{Vanmassenhove_2018}
+- develop gender-informed MT models; model debiasing through metadata
+- compile a large multilingual dataset on the politics domain that contains the speaker information
+- incorporating it into a MT system improves the translation quality
+
+Neural Machine Translation Doesn't Translate Gender Coreference Right Unless You Make It \parencite{Saunders_2020_coreference}
+- explore the use of word-level gender tags
+
+Reducing Gender Bias in Neural Machine Translation as a Domain Adaptation Problem \parencite{Saunders_2020}
+- propose to post-process the MT output with a lattice re-scoring module
+- counterfactual data augmentation
+ 
+Decoding and diversity in machine translation \parencite{roberts2020decoding}
+
+GeBioToolkit: Automatic extraction of gender-balanced multilingual corpus of Wikipedia biographies \parencite{costa2019gebiotoolkit}
+- fine-tuning on gender-balanced datasets based on Wikipedia biographies
+- Downside: does not mitigate stereotyping harms, as it does not account for the qualitative different ways in which men and women are portrayed
+
+On Measuring Gender Bias in Translation of Gender-neutral Pronouns \parencite{Cho_2019}
+
+Automatically identifying gender issues in machine translation using perturbations \parencite{Gonen_2020}
+
+"You sound just like your father": Commercial machine translation systems include stylistic biases \parencite{Hovy_2020}
+- conjecture the existence of age and gender stylistic bias due to models’ under-exposure to the writings of women and younger segments of the population
+
+Gender in danger? evaluating speech translation technology on the MuST-SHE corpus \parencite{MuST-SHE}
+
+Fine-tuning Neural Machine Translation on Gender-Balanced Datasets \parencite{costa2020fine}
+
+
+!Learning Gender-Neutral Word Embeddings \parencite{Zhao_2018_GN-GloVe}
+- propose a training procedure for learning gender-neutral word embeddings
+- Gender-Neutral variant of GloVe (GN-GloVe): training word embedding models with protected attributes (e.g., gender)
+
+!Equalizing Gender Bias in Neural Machine Translation
 with Word Embeddings Techniques \parencite{Escud_Font_2019}
+- study the presence of gender bias in MT and give insight on
+the impact of debiasing in such systems
+- proposed a gender-debiased approach for NMT
+- specific analysis based on correference and stereotypes to evaluate the effectiveness of our technique
+- evaluate proposed system on the WMT English-Spanish benchmark task
+- bilingual English-Spanish Occupations test set
+- verified hypothesis that consisted on the fact that if the translation system is gender biased, the context is disregarded, while if the system is neutral, the translation is correct (since it has the information of gender in the sentence).
 
-Evaluating Gender Bias in Machine Translation \parencite{Stanovsky_2019}
+!Evaluating Gender Bias in Machine Translation \parencite{Stanovsky_2019}
+- present the first challenge set (WinoMT) and evaluation protocol for the analysis of gender bias in machine translation (MT)
+- devise an automatic gender bias evaluation method for eight target languages with grammatical gender, based on morphological analysis
+- evaluate  four popular industrial MT systems and two recent state-of-the-art academic MT models (Google Translate, Microsoft Translator)
+- use data introduced by two recent coreference gender-bias studies: the
+Winogender \parencite{Rudinger_2018_coreference}, and the WinoBias \cite{Zhao_2018_coreference} datasets
+- WinoMT: concatenating Winogender and WinoBias; equally balanced between male and female genders as well as between stereotypical and non-stereotypical gender-role assignments (e.g., a female doctor versus a female nurse)
+- Measures: gender accuracy, difference in performance between male and female, difference in performance between stereotypical and non-stereotypical gender role assignments
+- Fighting bias with bias: automatically creating a version of WinoMT with the adjectives “handsome” and “pretty” prepended to male and female entities, respectively -> not applicable in a real-world scenario
+- Downsides: synthetic samples - controlled experiment environment, but may introduce some artificial biases; only English as source language; too small set for training easy to overfit
 
-Literature review: Gender Bias in Machine Translation \parencite{Savoldi_2021}
-
+!Literature review: Gender Bias in Machine Translation \parencite{Savoldi_2021}
+- critically review current conceptualizations of bias in light of theoretical insights from related disciplines
+- summarize previous analyses aimed at assessing gender bias in MT
+- discuss the mitigating strategies proposed so far
+- point toward potential directions for future work

@@ -5,5 +5,25 @@
 \section{Neural Machine Translation}
 \label{sec:Introduction:NMT}
 
+A Transformer is an Encoder-Decoder Sequence-to-Sequence model, introduced by \cite{transformer}. Sequence-to-Sequence models consist of an Encoder and a Decoder. The Encoder takes the input sequence and maps it into a higher dimensional space, an n-dimensional matrix, that contains token embeddings for each token of the sequence, carrying context information about the other tokens in the sequence weighted by relevance. That abstract matrix is fed into the Decoder, which produces an output sequence by autoregressive sampling from the encoder matrix and its own previous values. An important feature of the Transformer architecture is its attention mechanism. The attention module looks at an input sequence and decides at each step which other parts of the sequence are important, differentially weighting the significance of each part of the input data. 
+
+Like Recurrent Neural Networks (RNNs), Transformers are designed to handle sequential input data, such as natural language. However, unlike RNNs, Transformers can process the whole input sequence in parallel. The attention mechanism provides context for any position in the input sequence. This feature allows for more parallelization than RNNs and therefore reduces training times significantly.
+
+
+- Transformer and deep learning
+- Word embeddings
+- WSD (if I end up using it)
+- Definitions of bias and  ambiguity
+- Types of biases
+- Types of languages
+
 \section{Ambiguity and Bias in Machine Translation}
 \label{sec:Introduction:Ambiguity_Bias}
+
+
+% For bias detection we need:
+% - Challenge sets are artificially created usually small datasets that represent some gender-related issue, such as assigning the right pronoun to a specific role
+% - Automatic evaluation methods needed, because the BLEU score, normally used for assessing the quality of translations, cannot judge on the occurrence of bias
+% WSD: technique in natural language processing (NLP), defined as the ability to determine which meaning of word is activated by the use of word in a particular context
+% QE: method for predicting the quality of a given translation rather than assessing how similar it is to a reference segment, E.g. multiple beams in Beam search: low confidence = high confidence for error in translation
+
