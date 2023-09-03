@@ -39,10 +39,10 @@ The attention mechanism allows the decoder to look at the source tokens that are
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Transformer Architecture}
 \label{sec:Background:Transformer}
-A Transformer is a Seq2Seq model, introduced by \cite{transformer}. An important feature of the Transformer architecture is its attention mechanism. The attention module looks at an input sequence and decides at each step which other parts of the sequence are important, differentially weighting the significance of each part of the input data. Like RNNs, Transformers are designed to handle sequential input data, such as natural language. However, unlike RNNs, Transformers can process the whole input sequence in parallel. The attention mechanism provides context for any position in the input sequence. This feature allows for more parallelization than RNNs and therefore reduces training times significantly \parencite{transformer}.
+A Transformer is a Seq2Seq model, introduced by \citet{transformer}. An important feature of the Transformer architecture is its attention mechanism. The attention module looks at an input sequence and decides at each step which other parts of the sequence are important, differentially weighting the significance of each part of the input data. Like RNNs, Transformers are designed to handle sequential input data, such as natural language. However, unlike RNNs, Transformers can process the whole input sequence in parallel. The attention mechanism provides context for any position in the input sequence. This feature allows for more parallelization than RNNs and therefore reduces training times significantly \parencite{transformer}.
 
 % Transformer Components
-The Transformer architecture as presented in the original paper by \cite{transformer} is depicted in Fig. \ref{fig:transformer}.
+The Transformer architecture as presented in the original paper by \citet{transformer} is depicted in Fig. \ref{fig:transformer}.
 The input embedding layer converts the high-dimensional input sequence into a low-dimensional sequence of vectors to capture the meaning and context.
 The positional encoding preserves the sequential order of words in the input sentence and can be thought of as the distance of one word to another word in a sequence. This relative position of the words in the sequence is needed since the words are passed in parallel, as opposed to RNNs, which process them in order.
 Self-attention is the weighted sum of all other words in the input sequence for each word using similarity (dot product) and SoftMax to focus on the most relevant parts of the input for each element. The multi-head attention repeats self-attention multiple times based on how many encoder/decoder layers there are.
@@ -75,15 +75,19 @@ It is important to understand how these biases occur in translation and to diffe
 
 Next, I will define the concepts of ambiguity and bias.
 
-\paragraph{Ambiguity}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Ambiguity}
+\label{sec:Background:Ambiguity}
 Ambiguity refers to the quality of being open to more than one interpretation, as in not having one obvious meaning. It is the type of meaning in which a phrase, statement, or resolution is not explicitly defined, making several interpretations plausible. A common aspect of ambiguity is uncertainty. In MT, ambiguity occurs when the source text leaves some essential properties unspecified, but the target language requires the property to be specified for correct translation. 
 
 The ambiguity can be \textbf{resolvable} or \textbf{unresolvable}. It is resolvable when some semantic property required for the subject to be disambiguated can be found in the context, which defines the rest of the text available to the translation system. On the other hand, it is unresolvable, when no property necessary for disambiguation can be inferred from the context. To illustrate these two cases, we will look at two examples. When translating the sentence "She is a doctor." from English to German, which has no gender-neutral word for "doctor", the translation system has to choose the male ("Arzt") or female ("Ärztin") gender word for "doctor". In this case, the word "doctor" is ambiguous. However, the gender is resolvable from context due to the presence of the female pronoun "she". In contrast, the example sentence "I am a doctor." also contains the ambiguous word "doctor", but it is not indicated in the rest of the text whether the intended referent of "I" and "doctor" is a man or a woman. This makes the ambiguity in this case unresolvable \parencite{bias_taxonomy}.
 
 When the ambiguity is unresolvable, the translation system cannot make an informed decision and instead applies randomness or previously acquired knowledge in choosing the translation, making an \textbf{unjustified assumption}. The assumption is unjustified because nothing actually present in the source text justifies it. In the example of "I am a doctor." the translator typically decides for the male translation of the word "doctor", because this case appears most often in similar contexts in its training data. Although, context allows for two possible translations in German for the ambiguous word "doctor", the system will consistently prefer the male translation, which leads to a \textbf{bias}. 
 
-\paragraph{Bias}
-Bias refers to a disproportionate weight in favor of or against an idea or thing, usually in a way that is closed-minded, prejudicial, or unfair. In machine translation, it is the tendency to make certain unjustified assumptions more often than others. Biases stem from unresolved ambiguities leading to unjustified assumptions and can be categorized as follows \parencite{bias_taxonomy}:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Bias}
+\label{sec:Background:Bias}
+Bias refers to a disproportionate weight in favor of or against an idea or thing, usually in a way that is closed-minded, prejudicial, or unfair. In machine translation, it is the tendency to discriminate against certain individuals or groups in favor of others. Biases typically stem from unresolved ambiguities leading to unjustified assumptions, and can be classified as follows \parencite{bias_taxonomy}:
 \begin{itemize}
     \item \textbf{Gender bias}: This type of bias occurs when there is an unresolvable ambiguity relating to the gender of people. Some commonly gender ambiguous words are professions such as doctor, teacher, cleaner. 
     \item \textbf{Number bias}: This bias presents itself when the English pronoun "you" has an unresolvable ambiguity concerning whether it refers to a single person ("du" in German) or multiple people ("ihr" in German). 
@@ -92,33 +96,64 @@ Bias refers to a disproportionate weight in favor of or against an idea or thing
 
 A MT system is biased if, while dealing with unresolvable ambiguities and deciding which unjustified assumptions to make, its decisions are not random. This means that the system makes certain unjustified assumptions more often than others. For example, if it consistently translates the occupation "doctor" as male, then the translator is biased \parencite{bias_taxonomy}.
 
+Furthermore, biases can lead to harmful results. These can be categorized into representational and allocational harms \parencite{Savoldi_2021}. \textbf{Representational harms} detract from the representation of social groups and their identity and can be further distinguished into \textit{under-representation} and \textit{stereotyping}. Under-representation refers to the reduction of the visibility of certain social groups through language, such as producing a disproportionately low representation of women (e.g., most feminine entities in a text are misrepresented as male in translation) and not recognizing the existence of non-binary individuals (e.g., when a system does not account for gender-neutral forms). Stereotyping regards the propagation of negative generalizations of a social group, for example, belittling feminine representation to less prestigious occupations (e.g. teacher (feminine) vs. lecturer (masculine)). \textbf{Allocational harms} occur when a system allocates or withholds opportunities or resources to certain groups, for example, when a woman attempting to translate her biography by relying on an MT system requires additional energy and time to revise incorrect masculine references \parencite{Savoldi_2021}. In the long run, stereotypical assumptions and prejudices are reinforces and affect the self-esteem and behavior of members of the target group, and may also influence indirect stakeholders. 
 
-% TODO: Types of languages
-
-\parencite{Savoldi_2021}
-
-
-% Available literature focuses on gender bias
+Currently, most of the scientific literature around biases in MT focuses on gender bias \parencite{Savoldi_2021}. For this reason, I will further outline the progress made in this direction, which serves as a foundation for this study. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Bias Detection in Machine Translation}
+\subsection{Language Types Based on Gender}
+\label{sec:Background:Language}
+In order to understand gender bias better, we need to know how it is encoded linguistically (lexical, pronominal, grammatical). There are three main groups relating to the linguistic form of gender \parencite{Savoldi_2021}:
+\begin{itemize}
+    \item \textbf{Genderless languages} (e.g., Finnish, Turkish): have minimal expression of gender, relating only to lexical gender (e.g., in Finnish "sisko" (sister) and "veli" (brother)).
+    \item \textbf{Notional gender languages} (e.g., English, Danish): in addition to lexical gender (mom/dad) have also pronominal gender expression (she/he, her/him).
+    \item \textbf{Grammatical gender languages} (e.g., Arabic, Spanish): each noun is assigned to a class such as masculine, feminine or neutral. Grammatical gender is expressed morphosyntactically, such that several parts of speech beside the noun (e.g., verbs, determiners, adjectives) carry gender inflections.
+\end{itemize}
+
+To illustrate the difference between the different groups with an example, we look at the English sentence "He/She is a good friend.". This sentence has no expression of gender in a genderless language like Finnish ("Hän on hyvä ystävä."), whereas in Spanish several masculine or feminine forms are needed to express the gender ("El/Ela es un/una buen/buena amigo/amiga."). 
+
+Previous scientific work around bias has focused on detection and mitigation of bias in NMT models using various techniques, which I will present in the following two subsections. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Bias Detection}
 \label{sec:Background:Bias_Detection}
 
-% For bias detection we need:
-% - Challenge sets are artificially created usually small datasets that represent some gender-related issue, such as assigning the right pronoun to a specific role
-% - Automatic evaluation methods needed, because the BLEU score, normally used for assessing the quality of translations, cannot judge on the occurrence of bias [Stanovsky2019]
+Dedicated benchmarks, evaluations, and experiments have been designed in order to assess the existence and scale of gender bias across several languages. In MT, several studies concerned themselves with pronoun translation and coreference resolution across typologically different languages. 
+
+For example, \citet{Prates_2019} investigate pronoun translation from 12 genderless languages into English. They retrieve around 1,000 job positions from the U.S. Bureau of Labor Statistics and build synthetic examples like the Hungarian "Ö egy mernök." ("He/She is an engineer."). Then they use the Google Translate API to generate translations and gather statistics about the frequency of female, male and gender-neutral pronouns in the translated output. By comparing the proportion of pronoun predictions against the real-world proportion of men and women employed in 22 sectors, they find that the MT system not only exhibits a strong tendency toward male defaults, but it also underestimates feminine frequency at a greater rate than occupation data alone suggest, failing to reproduce a real-world distribution of female workers.
+
+Similarly, \citet{Cho_2019} extend the analysis to Korean-English including both occupations and sentiment words such as "kind". Since the samples are ambiguous by design, the predictions of he/she pronouns are expected to be random, but masculine pronouns seem to appear more often. \citet{Cho_2019} also make light of the fact that a higher frequency of feminine pronoun translations does not necessarily reflect a bias reduction. In some cases, it may be an indication for stereotyping, such as associating nurse more often with feminine. Therefore, while frequency count may be suitable for testing under-representational harms, it may ignore stereotyping.
+
+Expanding beyond synthetic examples and sentiment word phrases, \citet{Gonen_2020} develop a novel technique to mine examples from real-world data to explore gender issues. They inspect the translation of natural yet ambiguous English sentences into four grammatical gender languages (Russian, German, Spanish and French) from three language families (Slavic, Germanic and Romance). Their analysis of the ratio and type of generated masculine/feminine job titles consistently exhibits social asymmetries, such as translating "lecturer" as masculine and "teacher" as feminine.
+
+Furthermore, \citet{Stanovsky_2019} present the first challenge set and evaluation protocol for the analysis of gender bias in MT. Challenge sets are artificially created, usually small datasets that represent some gender-related issue, such as assigning the right pronoun to a specific role. Their purpose is to isolate the impact of gender from other factors that may affect the performance of the NMT system. Also, automatic evaluation methods for bias are needed, because the BLEU score, normally used for assessing the quality of translations, cannot judge on the occurrence of bias. 
+
+For building the challenge set called WinoMT, \citet{Stanovsky_2019} used data introduced by two recent coreference gender-bias studies: Winogender \parencite{Rudinger_2018_coreference} and WinoBias \parencite{Zhao_2018_coreference}. They are composed of English sentences which cast participants into non-stereotypical gender roles (e.g., “The doctor asked the nurse to help \textit{her} in the operation.”). WinoMT is equally balanced between male and female genders, as well as between stereotypical and non-stereotypical gender-role assignments (e.g., a female doctor versus a female nurse). 
+For assessing gender bias in translating the challenge set, \citet{Stanovsky_2019} devise an automatic gender bias evaluation method for eight target languages with grammatical gender, based on morphological analysis (e.g., the use of female inflection for the word “doctor”). They use the developed method to evaluate four popular industrial MT systems and two recent state-of-the-art academic MT models, measuring gender accuracy, difference in performance between male and female, difference in performance between stereotypical and non-stereotypical gender role assignments. An important discovery the authors made was that MT systems are faulty to the point of actually ignoring explicit feminine gender information in source English sentences. For example, MT systems produce a wrong masculine translation of the job title "baker", although it is referred to by the pronoun "she".
+
+\citet{Hovy_2020} speculate that the existence of age and gender stylistic bias may be due to under-exposure of MT models to the writings of women and younger people. They test this assumption by automatically translating a corpus of online reviews with available metadata about users. Then, they compare this demographic information with the prediction of age and gender classifiers run on the MT output. The results prove that different commercial MT models systematically make authors appear older and male.
+
+\citet{MuST-SHE} develop the MuST-SHE corpus, a natural benchmark for three language pairs (English-French/Italian/Spanish). Unlike challenge sets, natural corpora quantify whether MT yields reduced feminine representation in real-world scenarios and whether the quality of service varies across speakers of different genders. The MuST-SHE corpus is built on  TED talks data and the samples are balanced between masculine and feminine phenomena, and incorporate two types of constructions: sentences referring to the speaker (e.g., "I was born in Mumbai"), and sentences that present contextual information to disambiguate gender (e.g., "My mum was born in Mumbai"). Because every gender-marked word in the target language is annotated in the corpus, the corpus allows for accuracy-based evaluations on gender translation for four different types of gender phenomena. However, all gender marked words are treated equally, so it is not possible to identify if the model is propagating stereotypical representations.
 
 
+% TODO
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Bias Mitigation in Machine Translation}
+\subsection{Bias Mitigation}
 \label{sec:Background:Bias_Mitigation}
+
+\citet{Stanovsky_2019} attempted to fight bias with bias in an automatically created version of WinoMT with the adjectives “handsome” and “pretty” prepended to male and female entities, respectively. The results revealed that adding a socially implied adjective ("the \textit{pretty} baker") influences the model to choose a feminine gender word in translation. However, this is really not applicable in a real-world scenario, but is still a proof of the model’s reliance on unintended and often irrelevant cues.
+
+% model debiasing through metadata; incorporating it into a MT system improves the translation quality
+\citet{Vanmassenhove_2018} build upon the assumption that demographic factors such as gender and age also influence our use of language in terms of word choices or even on the level of syntactic constructions by integrating gender information into NMT systems. They compile a large multilingual dataset on the politics domain that contains the speaker information for 20 language pairs and conduct a simple set of experiments that incorporate gender information into NMT for multiple language pairs. The outputs of the gender-informed MT models are compared with those obtained by their baseline counterparts. The results prove that providing a gender feature to an NMT system significantly improves the translation quality for some language pairs.
+
+% model debiasing through word embeddings
+\citet{Escud_Font_2019} study the presence of gender bias in MT and give insight on
+the impact of debiasing in such systems. For this purpose, they developed the bilingual English-Spanish Occupations test set. It consists of 1000 sentences equally distributed across genders and contains gender information in the source context as correference. The authors also propose gender-debiased approach for NMT, in which they integrate debiased word embeddings into the NMT model. The proposed system is then evaluated on the occupations test set showing that it learns to equalize existing biases compared to a baseline system. This verified the hypothesis that consisted on the fact that if the translation system is gender biased, the context is disregarded, while if the system is neutral, the translation is correct in the case that it has the information of gender in the sentence.
 
 % Bias mitigation methods: data modification, word embeddings, architecture modification
 % - Modification of the data [Costa2019]
 % - Debiasing word embeddins [Zhao2018] [Bolukbasi2016]
 % - Model debiasing through metadata about gender [Vanmassenhove2018]
-
-
 
 Man is to computer programmer as woman is to
 homemaker? debiasing word embeddings \parencite{bolukbasi2016man}
@@ -132,13 +167,7 @@ Men Also Like Shopping: Reducing Gender Bias Amplification using Corpus-level Co
 Gender bias in coreference resolution: Evaluation and debiasing
 methods \parencite{Zhao_2018_coreference}
 
-Assessing gender bias in machine translation: a case study with Google Translate \parencite{Prates_2019}
-- list of occupations
-
-Getting Gender Right in Neural Machine Translation \parencite{Vanmassenhove_2018}
-- develop gender-informed MT models; model debiasing through metadata
-- compile a large multilingual dataset on the politics domain that contains the speaker information
-- incorporating it into a MT system improves the translation quality
+Fine-tuning Neural Machine Translation on Gender-Balanced Datasets \parencite{costa2020fine}
 
 Neural Machine Translation Doesn't Translate Gender Coreference Right Unless You Make It \parencite{Saunders_2020_coreference}
 - explore the use of word-level gender tags
@@ -153,42 +182,11 @@ GeBioToolkit: Automatic extraction of gender-balanced multilingual corpus of Wik
 - fine-tuning on gender-balanced datasets based on Wikipedia biographies
 - Downside: does not mitigate stereotyping harms, as it does not account for the qualitative different ways in which men and women are portrayed
 
-On Measuring Gender Bias in Translation of Gender-neutral Pronouns \parencite{Cho_2019}
-
-Automatically identifying gender issues in machine translation using perturbations \parencite{Gonen_2020}
-
-"You sound just like your father": Commercial machine translation systems include stylistic biases \parencite{Hovy_2020}
-- conjecture the existence of age and gender stylistic bias due to models’ under-exposure to the writings of women and younger segments of the population
-
-Gender in danger? evaluating speech translation technology on the MuST-SHE corpus \parencite{MuST-SHE}
-
-Fine-tuning Neural Machine Translation on Gender-Balanced Datasets \parencite{costa2020fine}
-
-
 !Learning Gender-Neutral Word Embeddings \parencite{Zhao_2018_GN-GloVe}
 - propose a training procedure for learning gender-neutral word embeddings
 - Gender-Neutral variant of GloVe (GN-GloVe): training word embedding models with protected attributes (e.g., gender)
 
-!Equalizing Gender Bias in Neural Machine Translation
-with Word Embeddings Techniques \parencite{Escud_Font_2019}
-- study the presence of gender bias in MT and give insight on
-the impact of debiasing in such systems
-- proposed a gender-debiased approach for NMT
-- specific analysis based on correference and stereotypes to evaluate the effectiveness of our technique
-- evaluate proposed system on the WMT English-Spanish benchmark task
-- bilingual English-Spanish Occupations test set
-- verified hypothesis that consisted on the fact that if the translation system is gender biased, the context is disregarded, while if the system is neutral, the translation is correct (since it has the information of gender in the sentence).
 
-!Evaluating Gender Bias in Machine Translation \parencite{Stanovsky_2019}
-- present the first challenge set (WinoMT) and evaluation protocol for the analysis of gender bias in machine translation (MT)
-- devise an automatic gender bias evaluation method for eight target languages with grammatical gender, based on morphological analysis
-- evaluate  four popular industrial MT systems and two recent state-of-the-art academic MT models (Google Translate, Microsoft Translator)
-- use data introduced by two recent coreference gender-bias studies: the
-Winogender \parencite{Rudinger_2018_coreference}, and the WinoBias \cite{Zhao_2018_coreference} datasets
-- WinoMT: concatenating Winogender and WinoBias; equally balanced between male and female genders as well as between stereotypical and non-stereotypical gender-role assignments (e.g., a female doctor versus a female nurse)
-- Measures: gender accuracy, difference in performance between male and female, difference in performance between stereotypical and non-stereotypical gender role assignments
-- Fighting bias with bias: automatically creating a version of WinoMT with the adjectives “handsome” and “pretty” prepended to male and female entities, respectively -> not applicable in a real-world scenario
-- Downsides: synthetic samples - controlled experiment environment, but may introduce some artificial biases; only English as source language; too small set for training easy to overfit
 
 !Literature review: Gender Bias in Machine Translation \parencite{Savoldi_2021}
 - critically review current conceptualizations of bias in light of theoretical insights from related disciplines

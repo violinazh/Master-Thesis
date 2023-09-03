@@ -36,8 +36,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Corpora}
 \label{sec:Experiments:Corpora}
-- languages
+- languages: three language families (Slavic, Germanic and Romance)
 - datasets: test dataset for general MT model performance, test set (challenge set or natural corpora) for assessing gender bias
+
+
+1) WinoMT challenge set
+- concatenating Winogender and WinoBias; equally balanced between male and female genders as well as between stereotypical and non-stereotypical gender-role assignments (e.g., a female doctor versus a female nurse)
+- uses data introduced by two recent coreference gender-bias studies: the
+Winogender \parencite{Rudinger_2018_coreference}, and the WinoBias \cite{Zhao_2018_coreference} datasets
+- Downsides: synthetic samples - controlled experiment environment, but may introduce some artificial biases; only English as source language; too small set for training easy to overfit
+
+2) MuST-SHE corpus
+- four different types of gender phenomena (interested in the 4th: No gender-disambiguating information can be retrieved)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Models}
@@ -47,6 +57,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Evaluation Methods}
 \label{sec:Experiments:Evaluation}
+
+Evaluation procedures ought to cover both models’ general performance and gender-related issues. This is crucial to establish the capabilities and limits of mitigating strategies \cite{Savoldi_2021}.
+
 - Model performance metric: BLEU (translation quality)
 - Gender accuracy metric (gender bias)
 
