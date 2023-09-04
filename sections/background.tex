@@ -98,21 +98,19 @@ A MT system is biased if, while dealing with unresolvable ambiguities and decidi
 
 Furthermore, biases can lead to harmful results. These can be categorized into representational and allocational harms \parencite{Savoldi_2021}. \textbf{Representational harms} detract from the representation of social groups and their identity and can be further distinguished into \textit{under-representation} and \textit{stereotyping}. Under-representation refers to the reduction of the visibility of certain social groups through language, such as producing a disproportionately low representation of women (e.g., most feminine entities in a text are misrepresented as male in translation) and not recognizing the existence of non-binary individuals (e.g., when a system does not account for gender-neutral forms). Stereotyping regards the propagation of negative generalizations of a social group, for example, belittling feminine representation to less prestigious occupations (e.g. teacher (feminine) vs. lecturer (masculine)). \textbf{Allocational harms} occur when a system allocates or withholds opportunities or resources to certain groups, for example, when a woman attempting to translate her biography by relying on an MT system requires additional energy and time to revise incorrect masculine references \parencite{Savoldi_2021}. In the long run, stereotypical assumptions and prejudices are reinforces and affect the self-esteem and behavior of members of the target group, and may also influence indirect stakeholders. 
 
-Currently, most of the scientific literature around biases in MT focuses on gender bias \parencite{Savoldi_2021}. For this reason, I will further outline the progress made in this direction, which serves as a foundation for this study. 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Language Types Based on Gender}
 \label{sec:Background:Language}
-In order to understand gender bias better, we need to know how it is encoded linguistically (lexical, pronominal, grammatical). There are three main groups relating to the linguistic form of gender \parencite{Savoldi_2021}:
+Currently, most of the scientific literature around biases in MT focuses on gender bias \parencite{Savoldi_2021}. In order to understand gender bias better, we need to know how it is encoded linguistically (lexical, pronominal, grammatical). There are three main groups relating to the linguistic form of gender \parencite{Savoldi_2021}:
 \begin{itemize}
     \item \textbf{Genderless languages} (e.g., Finnish, Turkish): have minimal expression of gender, relating only to lexical gender (e.g., in Finnish "sisko" (sister) and "veli" (brother)).
     \item \textbf{Notional gender languages} (e.g., English, Danish): in addition to lexical gender (mom/dad) have also pronominal gender expression (she/he, her/him).
-    \item \textbf{Grammatical gender languages} (e.g., Arabic, Spanish): each noun is assigned to a class such as masculine, feminine or neutral. Grammatical gender is expressed morphosyntactically, such that several parts of speech beside the noun (e.g., verbs, determiners, adjectives) carry gender inflections.
+    \item \textbf{Grammatical gender languages} (e.g., Spanish, Arabic): each noun is assigned to a class such as masculine, feminine or neutral. Grammatical gender is expressed morphosyntactically, such that several parts of speech beside the noun (e.g., verbs, determiners, adjectives) carry gender inflections.
 \end{itemize}
 
 To illustrate the difference between the different groups with an example, we look at the English sentence "He/She is a good friend.". This sentence has no expression of gender in a genderless language like Finnish ("Hän on hyvä ystävä."), whereas in Spanish several masculine or feminine forms are needed to express the gender ("El/Ela es un/una buen/buena amigo/amiga."). 
 
-Previous scientific work around bias has focused on detection and mitigation of bias in NMT models using various techniques, which I will present in the following two subsections. 
+Previous scientific work around bias has focused on detection and mitigation of bias in NMT models using various techniques, which I will present in the following two subsections.  % For more information, \citet{Savoldi_2021} provide a more extensive literature review on the topic of gender bias in MT, critically reviewing current conceptualizations of bias in light of theoretical insights from related disciplines. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Bias Detection}
@@ -135,65 +133,47 @@ For assessing gender bias in translating the challenge set, \citet{Stanovsky_201
 
 \citet{MuST-SHE} develop the MuST-SHE corpus, a natural benchmark for three language pairs (English-French/Italian/Spanish). Unlike challenge sets, natural corpora quantify whether MT yields reduced feminine representation in real-world scenarios and whether the quality of service varies across speakers of different genders. The MuST-SHE corpus is built on  TED talks data and the samples are balanced between masculine and feminine phenomena, and incorporate two types of constructions: sentences referring to the speaker (e.g., "I was born in Mumbai"), and sentences that present contextual information to disambiguate gender (e.g., "My mum was born in Mumbai"). Because every gender-marked word in the target language is annotated in the corpus, the corpus allows for accuracy-based evaluations on gender translation for four different types of gender phenomena. However, all gender marked words are treated equally, so it is not possible to identify if the model is propagating stereotypical representations.
 
+Another contribution to the topic of bias detection is made by \citet{roberts2020decoding}. They prove that beam search unlike sampling is skewed toward the generation of more frequent (masculine) pronouns, as it leads models to an extreme operating point that exhibits zero variability.
 
-% TODO
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Bias Mitigation}
 \label{sec:Background:Bias_Mitigation}
 
+To reduce the effect of gender bias, recent studies have proposed different strategies for dealing with input data, learning algorithms and model outputs. 
+
 \citet{Stanovsky_2019} attempted to fight bias with bias in an automatically created version of WinoMT with the adjectives “handsome” and “pretty” prepended to male and female entities, respectively. The results revealed that adding a socially implied adjective ("the \textit{pretty} baker") influences the model to choose a feminine gender word in translation. However, this is really not applicable in a real-world scenario, but is still a proof of the model’s reliance on unintended and often irrelevant cues.
 
-% model debiasing through metadata; incorporating it into a MT system improves the translation quality
-\citet{Vanmassenhove_2018} build upon the assumption that demographic factors such as gender and age also influence our use of language in terms of word choices or even on the level of syntactic constructions by integrating gender information into NMT systems. They compile a large multilingual dataset on the politics domain that contains the speaker information for 20 language pairs and conduct a simple set of experiments that incorporate gender information into NMT for multiple language pairs. The outputs of the gender-informed MT models are compared with those obtained by their baseline counterparts. The results prove that providing a gender feature to an NMT system significantly improves the translation quality for some language pairs.
+% Model debiasing through metadata
+\citet{Vanmassenhove_2018} build upon the assumption that demographic factors such as gender and age also influence our use of language in terms of word choices or even on the level of syntactic constructions by integrating gender information into NMT systems. They compile a large multilingual dataset on the politics domain that contains the speaker information for 20 language pairs and conduct a simple set of experiments that incorporate gender information into NMT for multiple language pairs. The outputs of the gender-informed MT models are compared with those obtained by their baseline counterparts. The results prove that providing a gender feature to an NMT system significantly improves the translation quality for some language pairs. However, this solution requires additional metadata regarding the gender of the speaker that might not always be possible to acquire.
 
-% model debiasing through word embeddings
+Similarly, \citet{Saunders_2020_coreference} explore the use of word-level gender tags on an expanded version of WinoMT for translating coreference sentences where the reference gender label is known. They find that existing approaches overgeneralize from a gender signal, incorrectly using the same inflection for every entity in the sentence. To solve this problem, they propose a tagged-coreference adaptation approach.
+
+% Debiasing word embeddings
+\citet{bolukbasi2016man} and \citet{Zhao_2018_GN-GloVe} take a different approach to mitigating gender bias by debiasing word embeddings. \citet{bolukbasi2016man} propose a hard-debiasing method, based on post-processing word embeddings. This pipeline approach has some downsides, such as propagating errors and completely removing gender information from words, as well as removing valuable information pertaining to the semantic relations between words with several meanings unrelated to the bias being treated.
+To improve upon this solution, \citet{Zhao_2018_GN-GloVe} propose instead a training procedure for learning gender-neutral word embeddings, called GN-GloVe, a Gender-Neutral variant of the GloVe embedding algorithm \parencite{Glove}.
+
+% Model debiasing through debiased word embeddings
 \citet{Escud_Font_2019} study the presence of gender bias in MT and give insight on
-the impact of debiasing in such systems. For this purpose, they developed the bilingual English-Spanish Occupations test set. It consists of 1000 sentences equally distributed across genders and contains gender information in the source context as correference. The authors also propose gender-debiased approach for NMT, in which they integrate debiased word embeddings into the NMT model. The proposed system is then evaluated on the occupations test set showing that it learns to equalize existing biases compared to a baseline system. This verified the hypothesis that consisted on the fact that if the translation system is gender biased, the context is disregarded, while if the system is neutral, the translation is correct in the case that it has the information of gender in the sentence.
+the impact of debiasing in such systems. For this purpose, they developed the bilingual English-Spanish Occupations test set. It consists of 1000 sentences equally distributed across genders and contains gender information in the source context as coreference. The authors propose a gender-debiased approach for NMT, in which they integrate debiased word embeddings (hard-debiased \parencite{bolukbasi2016man} or debiased using GN-GloVe \parencite{Zhao_2018_GN-GloVe}) into the NMT model. The proposed system is then evaluated on the occupations test set, showing that it learns to equalize existing biases compared to a baseline system. This verified the hypothesis that consisted on the fact that if the translation system is gender biased, the context is disregarded, while if the system is neutral, the translation is correct in the case that it has the information of gender in the sentence.
 
-% Bias mitigation methods: data modification, word embeddings, architecture modification
-% - Modification of the data [Costa2019]
-% - Debiasing word embeddins [Zhao2018] [Bolukbasi2016]
-% - Model debiasing through metadata about gender [Vanmassenhove2018]
+% Model debiasing through balanced datasets
+Another possibility for mitigating gender bias is through the use of gender-balanced datasets. Gender-balanced datasets are datasets featuring an equal amount of masculine/feminine references. \citet{costa2020fine} explore this by using the GeBioToolkit \parencite{costa2019gebiotoolkit} for automatic extraction of gender-balanced multilingual data from Wikipedia biographies and fine-tune NMT models on this data. The results show that the generation of feminine forms is overall improved. However, this approach does not remove stereotyping harms, because it does not take into account the qualitative different ways in which men and women are portrayed, as the translation on the anti-stereotypical WinoMT set proves.
 
-Man is to computer programmer as woman is to
-homemaker? debiasing word embeddings \parencite{bolukbasi2016man}
-- Hard-debiased embeddings: post-process method for debiasing word embeddings
-- Downsides: pipeline approach propagates errors; completely removes gender information from words; 
-- Downsides: pipeline approach propagates errors; completely removes gender information from words;  remove valuable information in the embeddings for semantic relations between words with several meanings that are not related to the bias being treated
+% Model debiasing through architecture modification
+A different approach to debiasing NMT models is introducing external components into the model architecture. For example, \citet{Saunders_2020} propose to post-process the MT output with a lattice re-scoring module. This module uses a converter to create a lattice by mapping gender-marked words in the MT output to all their possible inflectional variants. All paths in the lattice are re-scored with another model, which has been gender-debiased by fine-tuning the model on an augmented dataset containing a balanced number of masculine and feminine forms. Then, the sentence with the highest probability is picked as the final output. The experiments on the WinoMT test set show an increase in gender accuracy, however, data augmentation is a demanding task, especially for complex sentences that represent a rich variety of natural gender phenomena. 
 
-Men Also Like Shopping: Reducing Gender Bias Amplification using Corpus-level Constraints \parencite{Zhao_2017}
-- WinoBias dataset: composed of pro-stereotype (PRO) and anti-stereotype (ANTI) subsets
+On another note, \citet{Habash_2019} and \citet{alhafni2020gender} confront the problem of unresolved gender of the speaker in Arabic with a post-processing component that re-inflects first person references into masculine/feminine forms. Similarly, Google Translate also delivers two outputs for short gender-ambiguous queries from English to Spanish \parencite{johnson2020scalable}.
 
-Gender bias in coreference resolution: Evaluation and debiasing
-methods \parencite{Zhao_2018_coreference}
 
-Fine-tuning Neural Machine Translation on Gender-Balanced Datasets \parencite{costa2020fine}
+Considering the above methods for bias mitigation, there is currently no conclusive state-of-the-art method for preventing bias. The discussed interventions in MT tend to respond to specific aspects of the problem with modular solutions, but if and how they can be integrated within the same MT system remains unexplored.
 
-Neural Machine Translation Doesn't Translate Gender Coreference Right Unless You Make It \parencite{Saunders_2020_coreference}
-- explore the use of word-level gender tags
-
-Reducing Gender Bias in Neural Machine Translation as a Domain Adaptation Problem \parencite{Saunders_2020}
-- propose to post-process the MT output with a lattice re-scoring module
-- counterfactual data augmentation
+%%% Multimodal data
+% Men Also Like Shopping: Reducing Gender Bias Amplification using Corpus-level Constraints \parencite{Zhao_2017}
+% - study data and models associated with multilabel object classification and visual semantic role labeling
+% - Findings: (a) datasets for these tasks contain significant gender bias, (b) models trained on these datasets further amplify existing bias
+% - propose to inject corpus-level constraints for calibrating existing structured prediction models and design an algorithm based on Lagrangian relaxation for collective inference. 
  
-Decoding and diversity in machine translation \parencite{roberts2020decoding}
-
-GeBioToolkit: Automatic extraction of gender-balanced multilingual corpus of Wikipedia biographies \parencite{costa2019gebiotoolkit}
-- fine-tuning on gender-balanced datasets based on Wikipedia biographies
-- Downside: does not mitigate stereotyping harms, as it does not account for the qualitative different ways in which men and women are portrayed
-
-!Learning Gender-Neutral Word Embeddings \parencite{Zhao_2018_GN-GloVe}
-- propose a training procedure for learning gender-neutral word embeddings
-- Gender-Neutral variant of GloVe (GN-GloVe): training word embedding models with protected attributes (e.g., gender)
-
-
-
-!Literature review: Gender Bias in Machine Translation \parencite{Savoldi_2021}
-- critically review current conceptualizations of bias in light of theoretical insights from related disciplines
-- summarize previous analyses aimed at assessing gender bias in MT
-- discuss the mitigating strategies proposed so far
-- point toward potential directions for future work
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % In Progress:
