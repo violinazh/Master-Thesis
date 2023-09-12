@@ -14,7 +14,7 @@ In this chapter, I present the methods used for detecting ambiguity in MT. First
 \section{Problem Statement}
 \label{sec:Methodology:Problem}
 
-It has been proven that NMT systems reinforce bias present in the training data (e.g., \citet{Prates_2019}, \citet{Stanovsky_2019}). This is typically the case when translating from genderless or notional languages (e.g., English) into grammatical gender languages (e.g., German, Spanish, Russian). One of the most common type of bias is gender bias. 
+It has been proven that NMT systems reinforce bias present in the training data (e.g., \citet{Prates_2019}, \citet{Stanovsky_2019}). This is typically the case when translating from genderless or notional languages (e.g., English) into grammatical gender languages (e.g., German). One of the most common type of bias is gender bias. 
 This bias is often reflected in the way NMT systems translate occupations, since many professions are stereotyped to be either male or female dominated. For example, the occupations "doctor" would often be translated as male, while the occupation "nurse" is most commonly translated as female. 
 
 This study focuses on gender bias, which occurs in consequence of an unresolved ambiguity, meaning that the input text does not contain information regarding the gender of the ambiguous word (e.g., "The \textit{doctor} asked for more information."). More specifically, it attempts to detect patterns in translation which could indicate the presence of an ambiguous word, which is suspected to lead to bias. For this purpose, I make use of existing NMT models based on the Transformer architecture that I described in Section \ref{sec:Background:Transformer}.
@@ -54,7 +54,7 @@ To illustrate this, the translation and the following backtranslation are presen
   \label{fig:intuition}
 \end{figure}
 
-Next, I will perform a more thorough explanation of the different experimental steps followed to inspect the assumption.
+Next, I will perform a more thorough explanation of the different experimental conditions and steps followed to inspect the assumption.
 
 
 
