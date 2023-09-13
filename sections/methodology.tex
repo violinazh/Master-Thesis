@@ -45,7 +45,8 @@ The approach to detecting ambiguous words in text is based on the following assu
 % Intuition/hypothesis/assumption
 \paragraph{Hypothesis:} Ambiguous words generate less unique words in backtranslation than non-ambiguous words.
 
-To illustrate this, the translation and the following backtranslation are presented in Fig. \ref{fig:intuition}. There, the ambiguous word "doctor" is compared against the non-ambiguous version of "doctor", disambiguated with the prefix word "male". For each translation direction in the example two unique translations are generated. According to the intuition behind the approach, the ambiguous word has less amount of unique words in backtranslation overall, as depicted.
+To illustrate this, the translation and the following backtranslation are presented in Fig. \ref{fig:intuition}. There, the ambiguous word "doctor" is compared against the non-ambiguous version of "doctor", disambiguated with the prefix word "male". For each translation direction in the example, two unique translations are generated. In an ideal scenario, the ambiguous word generates the male and female version of the same word in translation, which leads to the same two translation options in backtranslation, while the disambiguated word generates two different words in translation, which are then translated into two other different words. In accordance with the intuition, the ambiguous word has therefore less unique words in backtranslation overall, as depicted in the example.
+% propagation of diversity
 
 \begin{figure}
   \centering

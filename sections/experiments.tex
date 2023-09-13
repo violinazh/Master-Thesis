@@ -40,7 +40,6 @@ For detecting gender ambiguous words, we used the tagged challenge test set Wino
 % - Downsides: synthetic samples - controlled experiment environment, but may introduce some artificial biases; only English as source language; too small set for training easy to overfit
 
 \begin{table}
-    \caption{Example of WinoMT}
     \label{tab:winomt}
     \begin{tabularx}{\linewidth}{|X|l|l|l|}
         \hline
@@ -48,6 +47,7 @@ For detecting gender ambiguous words, we used the tagged challenge test set Wino
         The \textbf{developer} argued with the designer because she did not like the design. & developer & 1 & female \\ \hline
         The developer argued with the \textbf{designer} because his idea cannot be implemented. & designer & 5 & male \\ \hline
     \end{tabularx}
+    \caption{Example: WinoMT challenge set}
 \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -57,8 +57,7 @@ For detecting gender ambiguous words, we used the tagged challenge test set Wino
 In order to evaluate the approach in a natural setting, we used the natural multilingual corpus MuST-SHE \parencite{MuST-SHE}, designed to evaluate the performance of NMT systems in the translation of gender for English to Spanish/French/Italian. It comprises naturally occurring instances of spoken language retrieved from MuST-C \parencite{MuST-C}, which is built on TED Talks data. The samples in the dataset are balanced between masculine and feminine phenomena. They include sentences representing four different types of gender phenomena, which are classified based
 on the type of information needed to disambiguate gender translation. We are specifically interested in the fourth category, which comprises sentences, for which no gender-disambiguating information can be retrieved from context, referred previously as \textit{unresolvable ambiguity}. It contains 34 sentences in total. In Table \ref{tab:mustshe} we can see two sentences of the category. 
 
-\begin{table}
-    \caption{Example of MuST-SHE}
+\begin{table} 
     \label{tab:mustshe}
     \begin{tabularx}{\linewidth}{|X|l|l|}
         \hline
@@ -66,10 +65,11 @@ on the type of information needed to disambiguate gender translation. We are spe
         We have our cognitive biases, so that I can take a perfect history on a \textbf{patient} with chest pain. & patient & male \\ \hline
         And there was perpetual \textbf{victim} blaming when these victims came to report their crimes. & victim & female \\ \hline
     \end{tabularx}
+    \caption{Example: MuST-SHE dataset}
 \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Models}
+\section{NMT Models}
 \label{sec:Experiments:Models}
 
 We use the following pre-trained NMT models:
@@ -93,18 +93,32 @@ For translating into German, we rely on Fairseq's \footnote{https://github.com/f
 \section{Technical Details}
 \label{sec:Experiments:Technical}
 
-% TODO
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Tools}
 \label{sec:Experiments:Tools}
 
-% Python, Pytorch, fairseq library
+In this section, we mention the most used tools during the development of the experiments. The programming code for the experiments is written in Python, and we use PyTorch's library for deep learning.
+
+\paragraph{Pre-processing Tools:}
+\begin{itemize}
+    \item \textbf{Sacremoses \footnote{https://github.com/alvations/sacremoses}:} A pre-porcessing tool for the tokenization and de-tokenization of text.
+    \item \textbf{Subword NMT \footnote{https://github.com/rsennrich/subword-nmt}:} A pre-processing tool for segmenting text into subword units. % used for the French models
+    \item \textbf{Fast BPE \footnote{https://github.com/glample/fastBPE}:} A pre-processing tool for segmenting text into subword units. % used for the German models
+    \item \textbf{Spacy \footnote{https://spacy.io/}:} An open-source library for Natural Language Processing. We use it for the detection of stop words, lemmatization and prediction of gender.
+\end{itemize}
+
+\paragraph{Word Alignment Tools:}
+\begin{itemize}
+    \item \textbf{Fast align \footnote{https://github.com/clab/fast\_align}:} A simple and fast unsupervised word aligner developed by \citet{fast-align}. This tool is used to align the translated sentences with the source sentences.
+    \item \textbf{Awesome align \footnote{https://github.com/neulab/awesome-align}:} A tool, developed by \citet{awesome-align}, that can extract word alignments from multilingual BERT (mBERT) and allows you to fine-tune mBERT on parallel corpora for better alignment quality. We use the default mBERT model provided in the package to align the source sentences with the translated sentences.
+    \item \textbf{Tercom alignment \footnote{https://github.com/jhclark/tercom}:} A tool for aligning between different translations of the source sentence. We use it to align the source sentences with the corresponding backtranslations.
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Hardware Resources}
 \label{sec:Experiments:Hardware}
 
+% TODO
 % - GPU: GeForce GTX 1080 Ti
 % - Batch size
 % - Training time
@@ -128,18 +142,17 @@ As we can see in Subsection \ref{sec:Experiments:Challenge_Set}, the sentences i
   As next, we generate a new set of sentences, replacing the ambiguous word with a disambiguated version. We disambiguate the ambiguous word with different techniques:
   \begin{itemize}
       \item \textbf{Gender Forcing:} We use the gender-defining adjectives \textit{male} and \textit{female} in front of the gender-ambiguous word. This technique is meant to force the translator to make the right decision regarding gender.
-      \item \textbf{Common Words Disambiguation:} We replace the ambiguous word with the following common gender non-ambiguous words: \textit{man, woman, girl, guy, boy}. This method serves as a baseline for comparison against the disambiguated occupations.
+      \item \textbf{Common Words Disambiguating:} We replace the ambiguous word with the following common gender non-ambiguous words: \textit{man, woman, girl, guy, boy}. This method serves as a baseline for comparison against the disambiguated occupations.
   \end{itemize}
 \end{enumerate}
 
 Table \ref{tab:preprocessing} shows the generated subsets obtained by disambiguating the base ambiguous sentence "The developer argued with John.".
 
 \begin{table}
-    \caption{Disambiguation Subsets}
     \label{tab:preprocessing}
     \begin{tabularx}{\linewidth}{|l|X|}
         \hline
-        \textbf{Method} & \textbf{Source Sentence} \\ \hline
+        \textbf{Disambiguation Method} & \textbf{Source Sentence} \\ \hline
         Gender Forcing & The \textbf{male developer} argued with John. \newline
         The \textbf{female developer} argued with John. \\ \hline
         Common Words & The \textbf{man} argued with John. \newline
@@ -148,6 +161,7 @@ Table \ref{tab:preprocessing} shows the generated subsets obtained by disambigua
         The \textbf{guy} argued with John. \newline
         The \textbf{boy} argued with John. \\ \hline
     \end{tabularx}
+    \caption{Example: Disambiguation subsets for the baseline sentence "The developer argued with John."}
 \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -156,26 +170,53 @@ Table \ref{tab:preprocessing} shows the generated subsets obtained by disambigua
 The next step in conducting the experiments is translating the subsets of sentences. This is executed in two steps:
 
 \begin{enumerate}
-    \item \textbf{Translation English -> German:} 
-    First, the subsets are translated in German.
-    \item \textbf{Backtranslation German -> English:}
-    The second step involves translating the translating back into English.
+    \item \textbf{Translation Source -> Target:} 
+    First, the subsets are translated in the target language.
+    \item \textbf{Backtranslation Target -> Source:}
+    The second step involves translating the translations back into the source language.
 \end{enumerate}
 
-% TODO
-% We use two different decoding algorithms to compare the results: Beam search and Sampling. In each step we generate nbest lists of different sizes: 10 and 100.
+
+% TODO: Decoding/search algorithm/strategy, nbest size
+% We use two different decoding algorithms to compare the results: Beam search and Sampling. 
+% In each step we generate nbest lists of different sizes: 10 and 100.
 
 % ! \citet{roberts2020decoding} prove that beam search unlike sampling is skewed toward the generation of more frequent (masculine) pronouns, as it leads models to an extreme operating point that exhibits zero variability.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Evaluation}
 
+The last step in the experiments involves evaluating the translations and backtranslations to detect patterns using different statistical methods.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Word alignment}
+\label{sec:Experiments:Alignment}
+
+First, in order to assign the words in the source sentence to their counterparts in the translations, we use two different alignment methods:
+
+\begin{enumerate}
+    \item Source-to-translation (\textit{fast\_align}, \textit{awesome-align}): This alignment method aligns from the source language to the target language.
+    \item Translation-to-translation (\textit{Tercom}): This alignment method aligns between two translations.
+\end{enumerate}
+
+We use the first method to map each word in the source sentence to its translations and backtranslations in the target nbest lists. We do this in a two-step way, depicted in Fig. \ref{fig:alignment}. First, we align between the source sentence and the sentences in the nbest translations and extract the translations for each word. Then, we align between the translations and the backtranslations and extract the corresponding backtranslations resulting from the aligned translations of each word. 
+
+We use the results from the second method as a baseline for comparison with the first method and to detect possible errors, which may occur in the information transfer between the two steps in the first method.
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{figures/alignment.png}
+  \caption{Example Illustration: 2-step mapping from source to translation and backtranslation}
+  \label{fig:alignment}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Statistics}
+\label{sec:Experiments:Statistics}
 
 
-% Word alignment: fast-align, awesome-align, Tercom; also explain how to generate the statistical results 
-% - Fast align: Is a simple and fast unsupervised word aligner developed by Chris Dyer et.al in their paper \A Simple, Fast, and Effective Reparameterization of IBM Model 2" [27]. This tool is used to align the translated text, with the source sentences (the English ones) labelled and the alignment, we can label the target sentences. In order to label the target sentence we use a tool called Spacy, that uses a language model that parses the sentence and we can query features like the gender, morphology.
 
-% Statistics on test set:
+% Statistics on test set: !!! define formally, maybe as a formula
 % - Gender produced in translation: for each source sentence how many of them produce both genders, male gender and female gender in translations
 % - Reoccurrence: how often ambiguous word reoccurs in backtranslation; for each source sentence how many of the sentences/ambiguous words reoccur in backtranslations
 % - Uniqueness: 
