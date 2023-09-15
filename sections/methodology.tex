@@ -40,12 +40,38 @@ In this study, we take a systematic approach to discovering ambiguous words.
 First, we extract sentences containing an ambiguous word, which we attempt to detect. Second, we generate a new set of sentences containing the disambiguated version of the ambiguous word. Then, we translate both sets of sentences into the target language and translate the generated translations back into the original language, also called backtranslating.
 Backtranslation means translating a completed translation of the input text back into the original language. The main purpose of the backtranslating technique is to be used for generating statistical results, comparing it with the original text and with its translation. On the basis of these results, we inspect the diversity of the translations and attempt to uncover recurring patterns that could prove an initial assumption.
 
-The approach to detecting ambiguous words in text is based on the following assumption:
+The approach to detecting ambiguous words in text is based on the following hypothesis:
 
-% Intuition/hypothesis/assumption
-\paragraph{Hypothesis:} Ambiguous words generate less unique words in backtranslation than non-ambiguous words.
+% Main hypothesis (intuition/hypothesis/assumption)
+\begin{hyp}\label{main}
+Sentences containing an ambiguity produce less diverse backtranslations than sentences without an ambiguity.
+\end{hyp}
 
-To illustrate this, the translation and the following backtranslation are presented in Fig. \ref{fig:intuition}. There, the ambiguous word "doctor" is compared against the non-ambiguous version of "doctor", disambiguated with the prefix word "male". For each translation direction in the example, two unique translations are generated. In an ideal scenario, the ambiguous word generates the male and female version of the same word in translation, which leads to the same two translation options in backtranslation, while the disambiguated word generates two different words in translation, which are then translated into two other different words. In accordance with the intuition, the ambiguous word has therefore less unique words in backtranslation overall, as depicted in the example.
+\setcounter{subhyp}{0}
+
+%%% ??? Translation
+% ??? The ambiguous word in a sentence generates more unique words in backtranslation than the corresponding non-ambiguous word.
+
+%%% Backtranslation
+% Uniqueness evaluation: sentences
+\begin{subhyp}\label{a}
+Sentences containing an ambiguous word generate less unique sentences in backtranslations compared to sentences without ambiguous words.
+\end{subhyp}
+
+% Uniqueness evaluation: words
+\begin{subhyp}\label{b}
+Sentences containing an ambiguous word generate less unique words in backtranslations compared to sentences without ambiguous words.
+\end{subhyp}
+
+% Alignment evaluation: ambiguous word
+\begin{subhyp}\label{c}
+The ambiguous word in a sentence generates less unique words in backtranslation than the corresponding non-ambiguous word.
+\end{subhyp}
+
+% ??? Alignment evaluation: rest of sentence ???
+
+
+Fig. \ref{fig:intuition} illustrates the intuition behind the hypothesis. There, the ambiguous word "doctor" is compared against the non-ambiguous version of "doctor", disambiguated with the prefix word "male". The word is first translated into German and the back to English. For each translation direction in the example, two unique translations are generated. In an ideal scenario, the ambiguous word generates the male and female version of the same word in translation, which leads to the same two translation options in backtranslation, while the disambiguated word generates two different words in translation, which are then translated into two other different words. In accordance with the intuition, the ambiguous word has therefore less unique words in backtranslation overall, as depicted in the example.
 % propagation of diversity
 
 \begin{figure}

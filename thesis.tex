@@ -59,6 +59,28 @@
 % Table with automatic equal width columns spanning the page width
 \usepackage{tabularx}
 
+% Package for hypothesis
+\usepackage[hyperref]{ntheorem}
+\newtheorem{hyp}{Hypothesis} 
+\newtheorem{subhyp}{Hypothesis}
+   \renewcommand\thesubhyp{\thehyp\alph{subhyp}}
+
+% *************** Hypothesis Labeling ***************
+\newtheorem{hypoin}{Hypothesis}[chapter]
+\newtheorem{hypoaux}{Hypothesis}[chapter]
+\usepackage{environ,etoolbox}
+\makeatletter
+\def\addtohypolist{\addtheoremline{hypoaux}}
+\NewEnviron{hypo}{%
+  \refstepcounter{hypoaux}%
+  \expandafter\addtohypolist\expandafter{\expandafter\ignorespaces\BODY}
+  \begin{hypoin}\BODY\end{hypoin}
+}
+\patchcmd\listtheorems
+  {\begingroup}
+  {\begingroup\let\label\@gobble}
+  {}{}
+\makeatother
 
 
 %% --------------------------------
@@ -125,6 +147,7 @@
 \input{sections/background.tex}
 \input{sections/related_work.tex}
 \input{sections/methodology.tex}
+\input{sections/setup.tex}
 \input{sections/experiments.tex}
 \input{sections/results.tex}
 \input{sections/discussion.tex}

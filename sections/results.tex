@@ -5,9 +5,26 @@
 % finding patterns in statistical results
 % tables and graphical representations
 
-% - Translation
-% - Gender bias
+
+% - Translation quality
+% - Gender bias quality
+
 
 % Compare original test set with disambiguated test set:
 % - How different are translations in each nbest backtranslation list?
 % - Are they more different for sentences with unresolved ambiguity?
+
+
+% Expected results:
+% - Original should have less unique sentences/words than disambiguated and non-ambiguous 
+% - Original should have less unique words (aligned) in backtranslation than disambiguated and non-ambiguous
+% - The rest of the sentence excluding the ambiguous word should have more unique words than the rest of the sentence excluding the disambigauted word
+% ??? - The ambiguous word in a sentence generates more unique words in backtranslation than the rest of the sentence.
+% Word occurrence: Check number of unique words for each word in sentence: non-ambiguous words such as stop words like “the” should have less unique translations 
+
+
+% Variables to consider:
+% - Word alignment method
+% - Disambiguation method 
+% - Search method
+% - Nbest size
