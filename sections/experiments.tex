@@ -1,17 +1,18 @@
 \chapter{Experiments}
 \label{ch:Experiments}
 
-% TODO: refine this section to also be able to include experiments on MuST-SHE and other 
+% TODO: Refine this section to also be able to include experiments on MuST-SHE and other 
 % - Base Experiment (challenge set)
 % - Real-world Experiment (natural corpora)
 % (-) WSD Experiment
 
-We follow three main steps in doing the experiments. First, we preprocess the data, then we translate it, and lastly we evaluate the translations based on different factors.
+We follow four main steps in doing the experiments. First, we preprocess the data, then we translate it, after that we align the source with the translations, and lastly we evaluate the translations based on different factors.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Data Pre-processing}
+\label{sec:Experiments:Pre-processing}
 
-As we can see in Subsection \ref{sec:Experiments:Challenge_Set}, the sentences in WinoMT usually consist of two gender ambiguous occupations and a context, containing disambiguation information about one of the occupations. We take the following steps to preprocess the sentences:
+As we can see in Subsection \ref{sec:Setup:Challenge_Set}, the sentences in WinoMT usually consist of two gender ambiguous occupations and a context, containing disambiguation information about one of the occupations. We take the following steps to preprocess the sentences:
 
 \begin{enumerate}
   \item \textbf{Sentence Extraction:}  
@@ -32,9 +33,9 @@ Table \ref{tab:preprocessing} shows the generated subsets obtained by disambigua
     \begin{tabularx}{\linewidth}{|l|X|l|}
         \hline
         \textbf{Disambiguation Method} & \textbf{Source Sentence} & \textbf{Source Word} \\ \hline
-        Gender Forcing & The \textbf{male developer} argued with John. & developer \\
+        \multirow{2}{*}{Gender Forcing} & The \textbf{male developer} argued with John. & developer \\
         & The \textbf{female developer} argued with John. & developer \\ \hline
-        Common Words & The \textbf{man} argued with John. & man \\
+        \multirow{5}{*}{Common Words} & The \textbf{man} argued with John. & man \\
         & The \textbf{woman} argued with John. & woman \\
         & The \textbf{girl} argued with John. & girl \\
         & The \textbf{guy} argued with John. & guy \\
@@ -45,6 +46,7 @@ Table \ref{tab:preprocessing} shows the generated subsets obtained by disambigua
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Translation}
+\label{sec:Experiments:Translation}
 
 The next step in conducting the experiments is translating the subsets of sentences. This is executed in two steps:
 
@@ -63,17 +65,12 @@ The next step in conducting the experiments is translating the subsets of senten
 % ! \citet{roberts2020decoding} prove that beam search unlike sampling is skewed toward the generation of more frequent (masculine) pronouns, as it leads models to an extreme operating point that exhibits zero variability.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Evaluation}
-
-The last step in the experiments involves evaluating the translations and backtranslations to detect patterns using different statistical methods. These methods aim to probe the initial Hypothesis \ref{main}, discussed in Section \ref{sec:Methodology:Approach}.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Word alignment}
+\section{Word alignment}
 \label{sec:Experiments:Alignment}
 
 % ??? maybe move this to Methodology, because this is the same for all experiments
 
-First, in order to assign the words in the source sentence to their counterparts in the translations, we use two different alignment methods:
+In order to assign the words in the source sentence to their counterparts in the translations, we use two different alignment methods:
 
 \begin{enumerate}
     \item Source-to-translation (\textit{fast\_align}, \textit{awesome-align}): This alignment method aligns from the source language to the target language.
@@ -91,16 +88,16 @@ We use the results from the second method as a baseline for comparison with the 
   \label{fig:alignment}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Statistics}
-\label{sec:Experiments:Statistics}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Evaluation}
+\label{sec:Experiments:Evaluation}
+
+The last step in the experiments involves evaluating the translations and backtranslations to detect patterns using different statistical methods. These methods aim to probe the initial Hypothesis \ref{main}, discussed in Section \ref{sec:Methodology:Approach}. We apply all methods to all subsets and compare the results of the subsets against each other.
 
 % TODO: define formally, maybe as a formula, pseudocode ???
 
-We evaluate the translations and backtranslations of the subsets using a couple of statistical methods. We apply all methods to all subsets and compare the results of the subsets against each other.
-
-%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Recurrence Evaluation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Recurrence Evaluation}
 \label{sec:Experiments:Statistics:Recurrence}
 We evaluate how many of the source sentences and source words reoccur in the backtranslations:
 
@@ -112,8 +109,8 @@ We evaluate how many of the source sentences and source words reoccur in the bac
 
 The purpose of this evaluation is to determine which of the subsets are able to reconstruct more of the original source sentences/words.
 
-%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Uniqueness Evaluation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Uniqueness Evaluation}
 \label{sec:Experiments:Statistics:Uniqueness}
 We evaluate the number of unique words and sentences in the translations and backtranslations for each sentence of the subsets. 
 
@@ -129,12 +126,26 @@ For the sake of the evaluation, we follow this routine (\textit{[translations | 
 
 We use this method to probe the Hypotheses \ref{a} and \ref{b}. 
 
-%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Alignment Evaluation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Gender Evaluation}
+\label{sec:Experiments:Statistics:Gender}
+We perform the evaluation of gender on the translations of the subsets.  First, we align each word in the source sentence with its corresponding word in the translations and backtranslations (see Subsection \ref{sec:Experiments:Alignment} for more detail). Then, we perform the following steps:
+
+\begin{enumerate}
+    \item[1. ] Gather the translations of the source word for each source sentence.
+    \item[2. ] Detect the gender of the translations for each source sentence.
+    \item[3a. ] Determine the proportion of source sentences producing \textit{male} versus \textit{female}.
+    \item[3b. ] Calculate how many of the source sentences produce \textit{both genders}. 
+\end{enumerate}
+
+The purpose of this method is to assess if the translations produce the right gender (in disambiguated subsets) or both genders (in the original ambiguous subset).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Alignment Evaluation}
 \label{sec:Experiments:Statistics:Alignment}
 Another form of evaluation is based on the alignment of the words between the source sentence, the translations and backtranslations (see Subsection \ref{sec:Experiments:Alignment} for more detail).
 
-First, we align each word in the source sentence with its corresponding word in the translations and backtranslations. Then, to assess the translations and backtranslations of the source word, we do:
+In order to assess the translations and backtranslations of the source word, we do:
 \begin{enumerate}
     \item[1. ] Collect all \textit{[translations | backtranslations]} of the source word.
     \item[2. ] Count how many of the \textit{[translations | backtranslations]} are unique.
@@ -150,20 +161,6 @@ Similarly, to assess the translations and backtranslations of the rest of the se
 
 The idea behind this evaluation method is to assess the Hypothesis \ref{c}.
 
-%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Gender Evaluation}
-\label{sec:Experiments:Statistics:Gender}
-We perform the evaluation of gender on the translations of the subsets.  For this purpose, the following steps are executed:
-
-\begin{enumerate}
-    \item[1. ] Gather the translations of the source word for each source sentence.
-    \item[2. ] Detect the gender of the translations for each source sentence.
-    \item[3a. ] Count how many of the source sentences produce \textit{both genders}, how many - \textit{female} and how many - \textit{male}. 
-    \item[3b. ] Calculate how many of the translations are female and how many - male and determine the percent of the source sentences producing \textit{male} versus \textit{female}. 
-\end{enumerate}
-
-The purpose of this method is to assess if the translations produce the right gender (in disambiguated subsets) or both genders (in the original ambiguous subset).
-
-In the next chapter, we will present the results of these statistical evaluations of the subsets.
+Next, we will present the results of these statistical evaluations of the subsets.
 
 

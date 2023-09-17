@@ -5,7 +5,7 @@ In this chapter, I outline the setup for the experiments and describe the used d
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Languages}
-\label{sec:Experiments:Languages}
+\label{sec:Setup:Languages}
 
 % Source language: English 
 % Target languages:
@@ -24,7 +24,7 @@ The main target language for the base experiments of this study is German. This 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Datasets}
-\label{sec:Experiments:Datasets}
+\label{sec:Setup:Datasets}
 
 % - test dataset for general MT model performance
 % - test set (challenge set or natural corpora) for assessing gender bias
@@ -33,7 +33,7 @@ We use two types of datasets — challenge sets and natural corpora. Challenge s
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Challenge Test Set}
-\label{sec:Experiments:Challenge_Set}
+\label{sec:Setup:Challenge_Set}
 
 For detecting gender ambiguous words, we used the tagged challenge test set WinoMT, developed by \citet{Stanovsky_2019}. It consists of 3888 synthetic sentences presenting two human entities defined by their occupation and a subsequent pronoun that needs to be correctly resolved to match the gender of one of the entities. It also contains an equal balance between male and female gender nouns, as well as between stereotypical and non-stereotypical gender-role assignments (e.g., a female doctor versus a female nurse). We can see in Table \ref{tab:winomt} two sentences of the original dataset.
 
@@ -52,7 +52,7 @@ For detecting gender ambiguous words, we used the tagged challenge test set Wino
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Natural Corpora}
-\label{sec:Experiments:Natural_Corpora}
+\label{sec:Setup:Natural_Corpora}
 
 In order to evaluate the approach in a natural setting, we used the natural multilingual corpus MuST-SHE \parencite{MuST-SHE}, designed to evaluate the performance of NMT systems in the translation of gender for English to Spanish/French/Italian. It comprises naturally occurring instances of spoken language retrieved from MuST-C \parencite{MuST-C}, which is built on TED Talks data. The samples in the dataset are balanced between masculine and feminine phenomena. They include sentences representing four different types of gender phenomena, which are classified based
 on the type of information needed to disambiguate gender translation. We are specifically interested in the fourth category, which comprises sentences, for which no gender-disambiguating information can be retrieved from context, referred previously as \textit{unresolvable ambiguity}. It contains 34 sentences in total. In Table \ref{tab:mustshe} we can see two sentences of the category. 
@@ -70,7 +70,7 @@ on the type of information needed to disambiguate gender translation. We are spe
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{NMT Models}
-\label{sec:Experiments:Models}
+\label{sec:Setup:Models}
 
 We use the following pre-trained NMT models:
 
@@ -81,7 +81,7 @@ For translating into German, we rely on Fairseq's \footnote{https://github.com/f
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Evaluation Methods}
-\label{sec:Experiments:Evaluation}
+\label{sec:Setup:Evaluation}
 
 % TODO
 % Evaluation procedures ought to cover both models’ general performance and gender-related issues. This is crucial to establish the capabilities and limits of mitigating strategies \cite{Savoldi_2021}.
@@ -91,7 +91,7 @@ For translating into German, we rely on Fairseq's \footnote{https://github.com/f
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Technical Details}
-\label{sec:Experiments:Technical}
+\label{sec:Setup:Technical}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Tools}
@@ -116,7 +116,7 @@ In this section, we mention the most used tools during the development of the ex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Hardware Resources}
-\label{sec:Experiments:Hardware}
+\label{sec:Setup:Hardware}
 
 % TODO
 % - GPU: GeForce GTX 1080 Ti
