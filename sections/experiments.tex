@@ -18,11 +18,11 @@ As we can see in Subsection \ref{sec:Setup:Challenge_Set}, the sentences in Wino
   \item \textbf{Sentence Extraction:}  
   In order to obtain fully ambiguous sentences, we remove the context information from the sentences and obtain a subset of 335 sentences from the type: "The developer argued with the designer.".
   To remove additional detection overhead, we want to have a single ambiguous word per sentence. For this purpose, we replace the second ambiguous word with a non-ambiguous proper noun, e.g. "John". 
-  \item \textbf{Disambiguation:} 
-  As next, we generate a new set of sentences, replacing the ambiguous word with a disambiguated version. We disambiguate the ambiguous word with different techniques:
+  \item \textbf{Replacement:} 
+  As next, we generate a new set of sentences, replacing the ambiguous word with different techniques:
   \begin{itemize}
-      \item \textbf{Gender Forcing:} We use the gender-defining adjectives \textit{male} and \textit{female} in front of the gender-ambiguous word. This technique is meant to force the translator to make the right decision regarding gender.
-      \item \textbf{Common Words Disambiguating:} We replace the ambiguous word with the following common gender non-ambiguous words: \textit{man, woman, girl, guy, boy}. This method serves as a baseline for comparison against the disambiguated occupations.
+      \item \textbf{Disambiguation:} We use the gender-defining adjectives \textit{male} and \textit{female} in front of the gender-ambiguous word. This technique is meant to force the translator to make the right decision regarding gender. % gender forcing
+      \item \textbf{Common Words:} We replace the ambiguous word with the following common gender non-ambiguous words: \textit{man, woman, girl, guy, boy}. This method serves as a baseline for comparison against the disambiguated occupations.
   \end{itemize}
 \end{enumerate}
 
@@ -32,8 +32,8 @@ Table \ref{tab:preprocessing} shows the generated subsets obtained by disambigua
     \label{tab:preprocessing}
     \begin{tabularx}{\linewidth}{|l|X|l|}
         \hline
-        \textbf{Disambiguation Method} & \textbf{Source Sentence} & \textbf{Source Word} \\ \hline
-        \multirow{2}{*}{Gender Forcing} & The \textbf{male developer} argued with John. & developer \\
+        \textbf{Replacement Method} & \textbf{Source Sentence} & \textbf{Source Word} \\ \hline
+        \multirow{2}{*}{Disambiguation} & The \textbf{male developer} argued with John. & developer \\
         & The \textbf{female developer} argued with John. & developer \\ \hline
         \multirow{5}{*}{Common Words} & The \textbf{man} argued with John. & man \\
         & The \textbf{woman} argued with John. & woman \\

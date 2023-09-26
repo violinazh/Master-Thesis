@@ -1,7 +1,7 @@
 \chapter{Background}
 \label{ch:Background}
 
-In this chapter, I present the concepts relevant to the subject of this thesis. First, I introduce the topic of MT and the type of architecture I focus on later in the work. Next, I outline the problem of ambiguity and bias in MT models.
+In this chapter, we present the concepts relevant to the subject of this thesis. First, we introduce the topic of MT and the type of architecture we focus on later in the work. Next, we outline the problem of ambiguity and bias in MT models.
 
 % WSD (if I end up using it)
 % QE (if I end up using it)
@@ -34,7 +34,7 @@ The task of NMT is typically solved using Sequence-to-Sequence (Seq2Seq) modelin
 
 The original architecture consists of a pair of Recurrent Neural Networks (RNNs) in the roles of encoder and decoder. RNNs process the input sequence token by token, which prohibits parallelization and makes the training and inference slow, especially when processing longer sequences. Also, they suffer from vanishing or exploding gradients, which is inconvenient for effective training. One solution for these problems served Long Short-Term Memory (LSTM) networks, a type of RNN that has additional memory gates to regulate the flow of information through the network better \parencite{lstm}. Despite this, using a fixed-length context vector still incurs a bottleneck in the model. To alleviate this problem, the use of attention-based architectures for neural machine translation was explored \parencite{attention}. 
 
-The attention mechanism allows the decoder to look at the source tokens that are relevant while generating the next token. Despite all these efforts, using RNN-based encoder and decoder still forces the network to handle input sequentially, which makes it difficult to handle long-range dependencies within the input and output sequences from memory. Hence, \cite{transformer} proposed the Transformer architecture, which replaces RNNs with self-attention layers in the Encoder-Decoder network. Since in this work I make use of models based on the Transformer, next I will introduce its basic principle and components.
+The attention mechanism allows the decoder to look at the source tokens that are relevant while generating the next token. Despite all these efforts, using RNN-based encoder and decoder still forces the network to handle input sequentially, which makes it difficult to handle long-range dependencies within the input and output sequences from memory. Hence, \cite{transformer} proposed the Transformer architecture, which replaces RNNs with self-attention layers in the Encoder-Decoder network. Since in this work we make use of models based on the Transformer, next we will introduce its basic principle and components.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Transformer Architecture}
@@ -73,7 +73,7 @@ The Transformer revolutionized NMT by replacing recurrence with attention, which
 Biases present in AI systems are an important problem stemming from cultural and historical issues present in the data from which models are learning. The developed systems in turn reinforce the present societal prejudices and old social norms, instead of mitigating them. 
 It is important to understand how these biases occur in translation and to differentiate the different types of bias one may face.
 
-Next, I will define the concepts of ambiguity and bias.
+Next, we will define the concepts of ambiguity and bias.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Ambiguity}

@@ -1,7 +1,7 @@
 \chapter{Experimental Setup}
 \label{ch:Setup}
 
-In this chapter, I outline the setup for the experiments and describe the used datasets, models, evaluation methods and tools.
+In this chapter, we outline the setup for the experiments and describe the used datasets, models, evaluation methods and tools.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Languages}
@@ -110,7 +110,7 @@ In this section, we mention the most used tools during the development of the ex
 \paragraph{Word Alignment Tools:}
 \begin{itemize}
     \item \textbf{Fast align \footnote{https://github.com/clab/fast\_align}:} A simple and fast unsupervised word aligner developed by \citet{fast-align}. This tool is used to align the translated sentences with the source sentences.
-    \item \textbf{Awesome align \footnote{https://github.com/neulab/awesome-align}:} A tool, developed by \citet{awesome-align}, that can extract word alignments from multilingual BERT (mBERT) and allows you to fine-tune mBERT on parallel corpora for better alignment quality. We use the default mBERT model provided in the package to align the source sentences with the translated sentences.
+    \item \textbf{Awesome align \footnote{https://github.com/neulab/awesome-align}:} A contextualized embedding-based word aligner that extracts word alignments based on similarities of the tokens’ contextualized embeddings \parencite{awesome-align}. Awesome-align achieves state-of-the-art performance on five language pairs. It can extract word alignments from multilingual BERT (mBERT) and can be fine-tuned on parallel corpora for better alignment quality. We use the base mBERT model provided in the package to align the source sentences with the translated sentences.
     \item \textbf{Tercom alignment \footnote{https://github.com/jhclark/tercom}:} A tool for aligning between different translations of the source sentence. We use it to align the source sentences with the corresponding backtranslations.
 \end{itemize}
 

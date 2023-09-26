@@ -15,7 +15,9 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%% TODO: Results from MuST-SHE
+%%% TODO: Results from MuST-SHE unmasking
+
+% BLEU score on WinoMT: not possible, because no reference translations
 
 This chapter presents the results from the evaluation. 
 
@@ -23,12 +25,12 @@ This chapter presents the results from the evaluation.
 \section{Recurrence Evaluation Results}
 \label{ch:Results:Recurrence}
 
-The results from the evaluation of recurrence are listed in Table \ref{tab:recurrence}.
+The results from the evaluation of recurrence for beam search with beam size 10 are listed in Table \ref{tab:recurrence_10}.
 % Highest score
 As we can observe, the average from the subsets of common words presents the highest score in both the recurring sentences and words. This is to be expected, because the words in these subsets are most generic and have the highest probability of being predicted, compared to the occupational words from the WinoMT sentences in the other three subsets. 
 
 % Interesting findings
-Most interestingly, the female-disambiaguated subset has the lowest score for occurring sentences. When investigating the results, we found some discrepancy between the way "female" and "male" are translated. The "female" prefix is very often lost in the backtranslation, which results in the backtranslated sentence being regarded as differing from the source sentence. In contrast, the "male" prefix is most often preserved, resulting in the same sentence in backtranslation. I will illustrate this with the following example:
+Most interestingly, the female-disambiaguated subset has the lowest score for occurring sentences. When investigating the results, we found some discrepancy between the way "female" and "male" are translated. The "female" prefix is very often lost in the backtranslation, which results in the backtranslated sentence being regarded as differing from the source sentence. In contrast, the "male" prefix is most often preserved, resulting in the same sentence in backtranslation. We illustrate this with the following examples:
 
 \begin{itemize}
     \item \textbf{Source (EN):} The \textit{female} developer argued with John. \\
@@ -42,17 +44,33 @@ Most interestingly, the female-disambiaguated subset has the lowest score for oc
 
 As we can see, the "male" prefix is translated to its corresponding word in German "männliche", while the "female" prefix is lost in the translation, but its meaning is reflected in the female gender of the German word for developer "Entwicklerin".
 
+Also, both disambiguation subsets sometimes generate the opposite gender with the correct prefix, for example, "der \textit{weibliche} Entwickler" (the \textit{female} male developer) and "die \textit{männliche} Entwicklerin" (the \textit{male} female developer). This presents a contradiction. 
+
 We note that the findings from these results are important and will have an effect on the further experiments.
 
+Table \ref{tab:recurrence_100} shows the results from the evaluation of recurrence for beam search with beam size 100. Here we can observe that more female sentences are reoccurring in backtranslation compared to beam 100, which means that increasing the beam increases the possibility for preservation of the "female" prefix.
+Also, with beam size 100 the source word reappears for all source sentences in the backtranslations.
+
 \begin{table} 
-    \label{tab:recurrence}
+    \label{tab:recurrence_10}
     \begin{tabularx}{\linewidth}{|X|XXXX|}
         \hline
          & \textbf{Ambiguous} & \textbf{Disambiguated (male)} & \textbf{Disambiguated (female)} & \textbf{Non-ambiguous average} \\ \hline
          \textbf{Sentences} & 295/335 & 293/335 & 118/335 & \underline{308/335} \\ 
          \textbf{Words} & 329/335 & 330/335 & 314/335 & \underline{335/335} \\ \hline
     \end{tabularx}
-    \caption{\textbf{Recurrence Evaluation Results}. English-German. Backtranslation. Beam search with beam size 10. Nbest size 10. Highest scores are underlined. \\ First row: number of source sentences that reappear in the backtranslations. \\ Second row: number of source sentences which contain the source word in the backtranslations.}
+    \caption{\textbf{Recurrence Evaluation Results: Beam Size 10}. English-German. Backtranslation. Beam search with beam size 10. Nbest size 10. Highest scores are underlined. \\ First row: number of source sentences that reappear in the backtranslations. \\ Second row: number of source sentences which contain the source word in the backtranslations.}
+\end{table}
+
+\begin{table} 
+    \label{tab:recurrence_100}
+    \begin{tabularx}{\linewidth}{|X|XXXX|}
+        \hline
+         & \textbf{Ambiguous} & \textbf{Disambiguated (male)} & \textbf{Disambiguated (female)} & \textbf{Non-ambiguous average} \\ \hline
+         \textbf{Sentences} & 329/335 & \underline{330/335} & 281/335 & 329/335 \\ 
+         \textbf{Words} & 335/335 & 335/335 & 335/335 & 335/335 \\ \hline
+    \end{tabularx}
+    \caption{\textbf{Recurrence Evaluation Results: Beam Size 100}. English-German. Backtranslation. Beam search with beam size 100. Nbest size 100. Highest scores are underlined. \\ First row: number of source sentences that reappear in the backtranslations. \\ Second row: number of source sentences which contain the source word in the backtranslations.}
 \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -63,14 +81,16 @@ The results from the evaluation of uniqueness are listed in Table \ref{tab:uniqu
 Since we use the beam search algorithm for decoding with beam size 10 and nbest size 10, we expect it to generate 10 unique sentences per translation, which is almost always the case, as we see from the score for the number of unique sentences in translations. 
 
 % Interesting findings
-Most notable are the results for the number of unique backtranslations. As we can see, the ambiguous subset produces the least amount of unique sentences in backtranslation, which proves Hyp. \ref{a}. However, the results for the number of unique words in translation and backtranslation are inconclusive. Considering Hyp. \ref{b}, we expected the ambiguous subset to generate the least unique words in backtranslation, but this is not the case.
-
+Most notable are the results for the number of unique backtranslations. As we can see, the ambiguous subset produces the least amount of unique sentences in backtranslation, which proves Hyp. \ref{a}. In Table \ref{tab:uniqueness_backtranslation_100} we can see the results for number of unique backtranslations with beam size 100, which confirm this result.
+% TODO: plots and graphics for the range of common words (man, woman, girl, guy, boy) to compare with original
 % - As expected:  less unique sentences in original compared to the average of masked unambiguous words (! but not less than the min in the range)
 % 44.69 (man) ---
 % 49.48 (woman)
 % 48.11 (girl)
 % 49.15 (guy)
 % 43.90 (boy) ---
+
+The results for the number of unique words in translation and backtranslation are inconclusive. Considering Hyp. \ref{b}, we expected the ambiguous subset to generate the least unique words in backtranslation, but this is not the case.
 
 \begin{table} 
     \label{tab:uniqueness_translation}
@@ -91,21 +111,33 @@ Most notable are the results for the number of unique backtranslations. As we ca
          \textbf{Sentences} & 45.98/100 & 50.73/100 & \underline{50.82/100} & 47.06/100 \\ 
          \textbf{Words} & 0.044 & 0.039 & 0.043 & \underline{0.045} \\ \hline
     \end{tabularx}
-    \caption{\textbf{Uniqueness Evaluation Results for Backtranslation}. English-German. Beam search with beam size 10. Nbest size 10. Best results are underlined. \\ First row: Averaged number of unique sentences per source sentence out of 10 translations. \\ Second row: Averaged number of unique words per source sentence, normalized by the average total number of words in 100 backtranslations.}
+    \caption{\textbf{Uniqueness Evaluation Results for Backtranslation: Beam Size 10}. English-German. Beam search with beam size 10. Nbest size 10. Best results are underlined. \\ First row: Averaged number of unique sentences per source sentence out of 10 translations. \\ Second row: Averaged number of unique words per source sentence, normalized by the average total number of words in 100 backtranslations.}
+\end{table}
+
+\begin{table} 
+    \label{tab:uniqueness_backtranslation_100}
+    \begin{tabularx}{\linewidth}{|X|XXXX|}
+        \hline
+         & \textbf{Ambiguous} & \textbf{Disambiguated (male)} & \textbf{Disambiguated (female)} & \textbf{Non-ambiguous average} \\ \hline
+         \textbf{Sentences} & 3181.51/10000 & 3391.55/10000 & \underline{3424.98/10000} & 3297.48/10000 \\ \hline
+    \end{tabularx}
+    \caption{\textbf{Uniqueness Evaluation Results for Backtranslation: Beam Size 100}. English-German. Beam search with beam size 100. Nbest size 100. Best results are underlined. \\ First row: Averaged number of unique sentences per source sentence out of 100 translations. \\ Second row: Averaged number of unique words per source sentence, normalized by the average total number of words in 10000 backtranslations.}
 \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Gender Evaluation Results}
 \label{ch:Results:Gender}
 
-The results from the evaluation of gender are listed in Table \ref{tab:gender_percent}. We can observe that, as expected, the subset of disambiguated with "male" sentences has predominantly male translations, and similarly the subset of disambiguated with "female" sentences has mostly female translations. The same applies to the male words "man", "guy" and "boy", as well as the female word "woman". The female word "girl" presents an exception, because in German it is a neutral noun.
+The results from the evaluation of gender are listed in Table \ref{tab:gender_percent_10} for beam size 10 and in Table \ref{tab:gender_percent_100} for beam size 100. We can observe that, as expected, the subset of disambiguated with "male" sentences has predominantly male translations, and similarly the subset of disambiguated with "female" sentences has mostly female translations. The same applies to the male words "man", "guy" and "boy", as well as the female word "woman". The female word "girl" presents an exception, because in German it is a neutral noun.
 
 Also, as expected, the ambiguous source sentences produce the most translations of both genders, while the common non-ambiguous words produce the least. Despite this, the disambiguation subsets still have a rather high amount of sentences producing both genders. 
 
 Interestingly, when comparing the disambiguation subsets, the disambiguation with "female" seems to be more successful overall, with more sentences producing the right gender and less of both genders appearing in the translations.
 
+Furthermore, when comparing the tables for beam size 10 and 100, we can observe that more of both genders occur in translation with beam 100 compared to beam 10. Also, there is more balance between female and male in the translations of the ambiguous subset, with the difference between 78.66\% and 14.88\% being smaller than between 86.27\% and 12.81\%. But on the other hand, more male gender translations occur in the female-disambiguated subset, which is a downside.
+
 \begin{table} 
-    \label{tab:gender_percent}
+    \label{tab:gender_percent_10}
     \begin{tabularx}{\linewidth}{|X|XXXX|}
         \hline
          & \textbf{Ambiguous} & \textbf{Disambiguated (male)} & \textbf{Disambiguated (female)} & \textbf{Non-ambiguous} \\ \hline
@@ -121,45 +153,85 @@ Interestingly, when comparing the disambiguation subsets, the disambiguation wit
          &&&& \textit{boy}: 0.27\% \\\hline
          \textbf{Both genders} & \underline{38.21\%} & 35.22\% & 28.06\% & average: 0.72\% \\ \hline
     \end{tabularx}
-    \caption{\textbf{Gender Evaluation Results}. English-German. Translation. Beam search with beam size 10. Nbest size 10. Highest scores are underlined. \\ First and second row: Percentage of the source sentences producing male versus female translations. \\ Third row: Percentage of the source sentences producing both genders in translation.}
+    \caption{\textbf{Gender Evaluation Results: Beam Size 10}. English-German. Translation. Beam search with beam size 10. Nbest size 10. Highest scores are underlined. \\ First and second row: Percentage of the source sentences producing male versus female translations. \\ Third row: Percentage of the source sentences producing both genders in translation.}
+\end{table}
+
+\begin{table} 
+    \label{tab:gender_percent_100}
+    \begin{tabularx}{\linewidth}{|X|XXXX|}
+        \hline
+         & \textbf{Ambiguous} & \textbf{Disambiguated (male)} & \textbf{Disambiguated (female)} & \textbf{Non-ambiguous} \\ \hline
+         \textbf{Male} & 78.66\% & 81.96\% & 8.27\% & \textit{man}: 83.80\% \\
+         &&&& \textit{woman}: 0.59\% \\
+         &&&& \textit{girl}: 0.75\% \\
+         &&&& \textit{guy}: 78.59\% \\
+         &&&& \textit{boy}: \underline{86.48\%} \\ \hline
+         \textbf{Female} & 14.88\% & 14.24\% & 86.90\% & \textit{man}: 0.46\% \\ 
+         &&&& \textit{woman}: \underline{88.57\%} \\
+         &&&& \textit{girl}: 5.66\% \\
+         &&&& \textit{guy}: 0.98\% \\
+         &&&& \textit{boy}: 0.75\% \\\hline
+         \textbf{Both genders} & \underline{91.64\%} & 91.34\% & 82.98\% & average: 23.04\% \\ \hline
+    \end{tabularx}
+    \caption{\textbf{Gender Evaluation Results: Beam Size 100}. English-German. Translation. Beam search with beam size 100. Nbest size 100. Highest scores are underlined. \\ First and second row: Percentage of the source sentences producing male versus female translations. \\ Third row: Percentage of the source sentences producing both genders in translation.}
 \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Alignment Evaluation Results}
 \label{ch:Results:Alignment}
 
-The results from the evaluation of gender are listed in Table \ref{tab:alignment_translation} for translation and Table \ref{tab:alignment_backtranslation} for backtranslation.
+The results from the evaluation of gender for beam 10 and 100 are listed in Tables \ref{tab:alignment_translation_10} and \ref{tab:alignment_translation_100} for translation and Tables \ref{tab:alignment_backtranslation_10} and \ref{tab:alignment_backtranslation_100} for backtranslation.
 
 % ??? - The rest of the sentence excluding the ambiguous word should have more unique words than the rest of the sentence excluding the disambigauted word
 % ??? - The ambiguous word in a sentence generates more unique words in backtranslation than the rest of the sentence.
 
 % Translation
+The alignment results for translation feature unique words with and without gender information. For example, the male and female German word for developer: "Entwickler" and "Entwicklerin", are considered one unique word when disregarding gender information. The removal of gender information is performed using a rule-based approach. Despite this, the assumption that this would reduce the number of unique words for the ambiguous subset compared to the other subsets, is not entirely confirmed. This is only the case when we compare the female-disambiguated subset with the ambiguous subset.
 
-% Backtranslation
-While the results from the translation are not conclusive, the results from the backtranslation exhibit a noticeable pattern. We can see that for the source word the non-ambiguous subset has the least amount of unique backtranslations, contrary to the expectation from Hyp. \ref{c}, which postulated that the ambiguous subset should produce the least unique backtranslations. However, the ambiguous subset has less unique translations than the female-disambiguated subset, which partially fulfills proves the hypothesis. 
-
-% Interesting results
-Interestingly, both in translation and backtranslation the rest of the sentence for the non-ambiguous subset produces the most diverse translations compared to the ambiguous subset. This may indicate that more emphasis is given on diversity of the rest of the sentence, when the source word is unambiguous itself.
 
 % Difference between unique words per ambiguous words vs. rest of sentence for original and unambiguous words average (2.38 – 1.87 vs 1.70 – 1.94)
 A notable trend in the results is that the non-ambiguous subset has the significantly lowest score in uniqueness for the translations of the source word, but it also has the highest score for the rest of the sentence. But also, the scores for the source word and the rest of the sentence are closer together for the non-ambiguous subset than the scores for the ambiguous subset. This is also an indication of the stronger tendency of the decoding algorithm to put more emphasis on the ambiguous word rather than the rest of the sentence, when such an ambiguous word is present.
 
+The results for beam size 100 also show a similar trend.
+
+% Backtranslation
+While the results from the translation are not conclusive, the results from the backtranslation exhibit a noticeable pattern. We can see that for the source word, the non-ambiguous subset has the least amount of unique backtranslations, contrary to the expectation from Hyp. \ref{c}, which postulated that the ambiguous subset should produce the least unique backtranslations. However, the ambiguous subset has less unique translations than the female-disambiguated subset, which partially confirms the hypothesis. The same results are observed with beam size 100.
+
+% Interesting results
+Interestingly, for beam size 10, both in translation and backtranslation the rest of the sentence for the non-ambiguous subset produces the most diverse translations compared to the ambiguous subset. This may indicate that more emphasis is given on diversity of the rest of the sentence, when the source word is unambiguous itself. However, the same observation cannot be made for beam size 100, where the rest of the sentence for the ambiguous subset produces the most diverse translations.
+
 % TODO: Difference between FA and AA
 
 \begin{table} 
-    \label{tab:alignment_translation}
+    \label{tab:alignment_translation_10}
     \begin{tabularx}{\linewidth}{|X|XXXX|}
         \hline
          & \textbf{Ambiguous} & \textbf{Disambiguated (male)} & \textbf{Disambiguated (female)} & \textbf{Non-ambiguous average} \\ \hline
-         \textbf{Source word (FA)} & 2.66/10 & 2.64/10 & \underline{2.81/10} & 1.83/10 \\ 
-         \textbf{Source word (AA)} & 2.38/10 & \underline{2.43/10} & 2.33/10 & 1.70/10 \\ \hline 
+         \textbf{Source word (FA, WIG)} & 2.87/10 & 2.83/10 & \underline{3.02/10} & 1.83/10 \\
+         \textbf{Source word (FA, WOG)} & 2.66/10 & 2.64/10 & \underline{2.81/10} & 1.83/10 \\
+         \textbf{Source word (AA, WIG)} & 2.38/10 & \underline{2.43/10} & 2.33/10 & 1.70/10 \\ 
+         \textbf{Source word (AA, WOG)} & 2.66/10 & 2.64/10 & \underline{2.81/10} & 1.83/10 \\\hline 
          \textbf{Sentence rest (AA)} & 1.87/10 & 1.67/10 & 1.64/10 & \underline{1.94/10} \\ \hline
     \end{tabularx}
-    \caption{\textbf{Alignment Evaluation Results for Translation}. English-German. Beam search with beam size 10. Nbest size 10. Highest scores are underlined. FA: \textit{fast\_align}, AA: \textit{awesome-align}. \\ First and second row: Averaged number of unique translations of the source word per source sentence in the 10 translations. \\ Third row: Averaged number of unique translations of the sentence rest per source sentence in the 10 translations.}
+    \caption{\textbf{Alignment Evaluation Results for Translation: Beam Size 10}. English-German. Beam search with beam size 10. Nbest size 10. Highest scores are underlined. FA: \textit{fast\_align}, AA: \textit{awesome-align}. WIG (with gender): gender information preserved, WOG (without gender): gender information removed. \\ First and second row: Averaged number of unique translations of the source word per source sentence in the 10 translations. \\ Third row: Averaged number of unique translations of the sentence rest per source sentence in the 10 translations.}
 \end{table}
 
 \begin{table} 
-    \label{tab:alignment_backtranslation}
+    \label{tab:alignment_translation_100}
+    \begin{tabularx}{\linewidth}{|X|XXXX|}
+        \hline
+         & \textbf{Ambiguous} & \textbf{Disambiguated (male)} & \textbf{Disambiguated (female)} & \textbf{Non-ambiguous average} \\ \hline
+         \textbf{Source word (FA, WIG)} & 12.37/100 & 13.70/100 & \underline{14.76/100} & 7.18/100 \\
+         \textbf{Source word (FA, WOG)} & 11.04/100 & 12.47/100 & \underline{13.38/100} & 7.18/100 \\
+         \textbf{Source word (AA, WIG)} & 10.81/100 & 12.12/100 & \underline{13.12/100} & 5.26/100 \\ 
+         \textbf{Source word (AA, WOG)} & 9.46/100 & 10.88/100 & \underline{11.75/100} & 5.26/100 \\\hline 
+         \textbf{Sentence rest (AA)} & 6.52/100 & 5.39/100 & 5.85/100 & \underline{7.23/100} \\ \hline
+    \end{tabularx}
+    \caption{\textbf{Alignment Evaluation Results for Translation: Beam Size 100}. English-German. Beam search with beam size 100. Nbest size 100. Highest scores are underlined. FA: \textit{fast\_align}, AA: \textit{awesome-align}. WIG (with gender): gender information preserved, WOG (without gender): gender information removed. \\ First and second row: Averaged number of unique translations of the source word per source sentence in the 100 translations. \\ Third row: Averaged number of unique translations of the sentence rest per source sentence in the 100 translations.}
+\end{table}
+
+\begin{table} 
+    \label{tab:alignment_backtranslation_10}
     \begin{tabularx}{\linewidth}{|X|XXXX|}
         \hline
          & \textbf{Ambiguous} & \textbf{Disambiguated (male)} & \textbf{Disambiguated (female)} & \textbf{Non-ambiguous average} \\ \hline
@@ -168,6 +240,20 @@ A notable trend in the results is that the non-ambiguous subset has the signific
          \textbf{Source word (Tercom)} & 8.02/100 & 7.90/100 & \underline{9.82/100} & 6.52/100 \\ \hline
          \textbf{Sentence rest (AA)} & 4.13/100 & 3.72/100 & 3.73/100 & \underline{4.66/100} \\ \hline
     \end{tabularx}
-    \caption{\textbf{Alignment Evaluation Results for Backtranslation}. English-German. Beam search with beam size 10. Nbest size 10. Highest scores are underlined. FA: \textit{fast\_align}, AA: \textit{awesome-align}. \\ First-third row: Averaged number of unique backtranslations of the source word per source sentence in the 100 backtranslations. \\ Fourth row: Averaged number of unique backtranslations of the sentence rest per source sentence in the 10 translations.}
+    \caption{\textbf{Alignment Evaluation Results for Backtranslation}. English-German. Beam search with beam size 10. Nbest size 10. Highest scores are underlined. FA: \textit{fast\_align}, AA: \textit{awesome-align}. \\ First-third row: Averaged number of unique backtranslations of the source word per source sentence in the 100 backtranslations. \\ Fourth row: Averaged number of unique backtranslations of the sentence rest per source sentence in the 100 backtranslations.}
 \end{table}
+
+\begin{table} 
+    \label{tab:alignment_backtranslation_100}
+    \begin{tabularx}{\linewidth}{|X|XXXX|}
+        \hline
+         & \textbf{Ambiguous} & \textbf{Disambiguated (male)} & \textbf{Disambiguated (female)} & \textbf{Non-ambiguous average} \\ \hline
+         \textbf{Source word (FA)} & 147.93/10000 & 148.34/10000 & \underline{163.53/10000} & 69.76/10000 \\ 
+         \textbf{Source word (AA)} & 120.08/10000 & 121.96/10000 & \underline{136.14/10000} & 48.82/10000 \\ \hline 
+         \textbf{Sentence rest (AA)} & \underline{68.00/10000} & 66.39/10000 & 63.41/10000 & 66.06/10000 \\ \hline
+    \end{tabularx}
+    \caption{\textbf{Alignment Evaluation Results for Backtranslation}. English-German. Beam search with beam size 100. Nbest size 100. Highest scores are underlined. FA: \textit{fast\_align}, AA: \textit{awesome-align}. \\ First-third row: Averaged number of unique backtranslations of the source word per source sentence in the 10000 backtranslations. \\ Fourth row: Averaged number of unique backtranslations of the sentence rest per source sentence in the 10000 backtranslations.}
+\end{table}
+
+
 
