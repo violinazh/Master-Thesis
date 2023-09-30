@@ -40,7 +40,6 @@ For detecting gender ambiguous words, we used the tagged challenge test set Wino
 % - Downsides: synthetic samples - controlled experiment environment, but may introduce some artificial biases; only English as source language; too small set for training easy to overfit
 
 \begin{table}
-    \label{tab:winomt}
     \begin{tabularx}{\linewidth}{|X|l|l|l|}
         \hline
         \textbf{Source Sentence} & \textbf{Ambiguous word} & \textbf{Position} & \textbf{Gender} \\ \hline
@@ -48,6 +47,7 @@ For detecting gender ambiguous words, we used the tagged challenge test set Wino
         The developer argued with the \textbf{designer} because his idea cannot be implemented. & designer & 5 & male \\ \hline
     \end{tabularx}
     \caption{Example: WinoMT challenge set}
+    \label{tab:winomt}
 \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -58,7 +58,6 @@ In order to evaluate the approach in a natural setting, we used the natural mult
 on the type of information needed to disambiguate gender translation. We are specifically interested in the fourth category, which comprises sentences, for which no gender-disambiguating information can be retrieved from context, referred previously as \textit{unresolvable ambiguity}. It contains 34 sentences in total. In Table \ref{tab:mustshe} we can see two sentences of the category. 
 
 \begin{table} 
-    \label{tab:mustshe}
     \begin{tabularx}{\linewidth}{|X|l|l|}
         \hline
         \textbf{Source Sentence} & \textbf{Ambiguous Word} & \textbf{Gender} \\ \hline
@@ -66,6 +65,7 @@ on the type of information needed to disambiguate gender translation. We are spe
         And there was perpetual \textbf{victim} blaming when these victims came to report their crimes. & victim & female \\ \hline
     \end{tabularx}
     \caption{Example: MuST-SHE dataset}
+    \label{tab:mustshe}
 \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

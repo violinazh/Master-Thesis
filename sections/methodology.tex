@@ -30,8 +30,11 @@ This study focuses on gender bias, which occurs in consequence of an unresolved 
 In this study, we take a systematic approach to discovering ambiguous words. 
 
 \begin{enumerate}
-  \item \textbf{Sentence Extraction:} Extract sentences containing an ambiguous word, which we attempt to detect.
-  \item \textbf{Replacement:} Generate a new set of sentences replacing the ambiguous word.
+  \item \textbf{Data Preprocessing:}
+  \begin{itemize}
+    \item \textbf{Sentence Extraction:} Extract sentences containing an ambiguous word, which we attempt to detect.
+    \item \textbf{Replacement:} Generate a new set of sentences replacing the ambiguous word.
+  \end{itemize}
   \item \textbf{Translation:} Translate both sets of sentences into the target language.
   \item \textbf{Backtranslation:} Translate the generated translations back into the original language.
   \item \textbf{Evaluation:} Generate statistical results on the translation and backtranslations.
