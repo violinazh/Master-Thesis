@@ -84,6 +84,13 @@ The ambiguity can be \textbf{resolvable} or \textbf{unresolvable}. It is resolva
 
 When the ambiguity is unresolvable, the translation system cannot make an informed decision and instead applies randomness or previously acquired knowledge in choosing the translation, making an \textbf{unjustified assumption}. The assumption is unjustified because nothing actually present in the source text justifies it. In the example of "I am a doctor." the translator typically decides for the male translation of the word "doctor", because this case appears most often in similar contexts in its training data. Although, context allows for two possible translations in German for the ambiguous word "doctor", the system will consistently prefer the male translation, which leads to a \textbf{bias}. 
 
+In this thesis, we use two different aspects of ambiguity:
+\begin{itemize}
+    \item \textbf{General Ambiguity:} Ambiguity relating to the multiple semantic meanings of a word or phrase.
+    \item \textbf{Gender Ambiguity:} Ambiguity relating to the different possible gender variations of the same word.
+\end{itemize}
+One word can have both general and gender ambiguity, as well as only one or the other or neither.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Bias}
 \label{sec:Background:Bias}

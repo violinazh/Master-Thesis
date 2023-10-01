@@ -23,7 +23,7 @@ The first step in conducting the base experiment is preprocessing the dataset. W
   As next, we generate a new set of sentences, replacing the ambiguous word with different techniques:
   \begin{itemize}
       \item \textbf{Disambiguation:} We use the gender-defining adjectives \textit{male} and \textit{female} in front of the gender-ambiguous word. This technique is meant to force the translator to make the right decision regarding gender. % gender forcing
-      \item \textbf{Common Words:} We replace the ambiguous word with the following common gender non-ambiguous words: \textit{man, woman, girl, guy, boy}. This method serves as a baseline for comparison against the disambiguated occupations.
+      \item \textbf{Common Words:} We replace the ambiguous word with each of the following common gender non-ambiguous words: \textit{man, woman, girl, guy, boy}. This method serves as a baseline for comparison against the disambiguated occupations.
   \end{itemize}
 \end{enumerate}
 
@@ -223,7 +223,7 @@ The results from the evaluation of reoccurrence for beam search with beam size 1
 As we can observe, the average from the subsets of common words presents the highest score in both the recurring sentences and words. This is to be expected, because the words in these subsets are most generic and have the highest probability of being predicted, compared to the occupational words from the WinoMT sentences in the other three subsets. 
 
 % Interesting findings
-Most interestingly, the female-disambiaguated subset has the lowest score for occurring sentences. When investigating the results, we found some discrepancy between the way "female" and "male" are translated. The "female" prefix is very often lost in the backtranslation, which results in the backtranslated sentence being regarded as differing from the source sentence. In contrast, the "male" prefix is most often preserved, resulting in the same sentence in backtranslation. We illustrate this with the following examples:
+Most interestingly, the female-disambiaguated subset has the lowest score for reoccurring sentences. When investigating the results, we found some discrepancy between the way "female" and "male" are translated. The "female" prefix is very often lost in the backtranslation, which results in the backtranslated sentence being regarded as differing from the source sentence. In contrast, the "male" prefix is most often preserved, resulting in the same sentence in backtranslation. We illustrate this with the following examples:
 
 \begin{itemize}
     \item \textbf{Source (EN):} The \textit{female} developer argued with John. \\
@@ -377,6 +377,8 @@ The results from the evaluation of gender are listed in Table \ref{tab:gender_pe
 
 Also, as expected, the ambiguous source sentences produce the most translations of both genders, while the common non-ambiguous words produce the least. Despite this, the disambiguation subsets still have a rather high amount of sentences producing both genders. 
 
+Furthermore, we can make the observation that a significantly higher percentage of generated translation are male (86.27\%) versus female (12.81\%). This can only point to the already biased pre-trained NMT model.
+
 Interestingly, when comparing the disambiguation subsets, the disambiguation with "female" seems to be more successful overall, with more sentences producing the right gender and less of both genders appearing in the translations.
 
 % Pie 
@@ -466,7 +468,7 @@ The alignment results for translation feature unique words with and without gend
 
 
 % Difference between unique words per ambiguous words vs. rest of sentence for original and unambiguous words average (2.38 – 1.87 vs 1.70 – 1.94)
-A notable trend in the results is that the non-ambiguous subset has the significantly lowest score in uniqueness for the translations of the source word, but it also has the highest score for the rest of the sentence. Also, the scores for the source word and the rest of the sentence are closer together for the non-ambiguous subset than the scores for the ambiguous subset. This is an indication of the stronger tendency of the decoding algorithm to put more emphasis on the ambiguous word rather than the rest of the sentence, when such an ambiguous word is present.
+A notable trend in the results is that the non-ambiguous subset has the significantly lowest score in uniqueness for the translations of the source word, but it also has the highest score for the rest of the sentence. Also, the difference in the scores for the source word and the rest of the sentence (2.38 - 1.87) is smaller for the non-ambiguous subset than the difference for the ambiguous subset (1.70 - 1.94). This is an indication of the stronger tendency of the decoding algorithm to put more emphasis on the ambiguous word rather than the rest of the sentence, when such an ambiguous word is present.
 
 The results for beam size 100 show a similar trend.
 
@@ -512,8 +514,8 @@ Another discovery we can make is about the position of the average value for the
              & \textbf{Ambiguous} & \textbf{Disambiguated (male)} & \textbf{Disambiguated (female)} & \textbf{Non-ambiguous average} \\ \hline
              \textbf{Source word (FA, WIG)} & 2.87/10 & 2.83/10 & \underline{3.02/10} & 1.83/10 \\
              \textbf{Source word (FA, WOG)} & 2.66/10 & 2.64/10 & \underline{2.81/10} & 1.83/10 \\
-             \textbf{Source word (AA, WIG)} & 2.38/10 & \underline{2.43/10} & 2.33/10 & 1.70/10 \\ 
-             \textbf{Source word (AA, WOG)} & 2.66/10 & 2.64/10 & \underline{2.81/10} & 1.83/10 \\\hline 
+             \textbf{Source word (AA, WIG)} & 2.60/10 & \underline{2.63/10} & 2.55/10 & 1.70/10 \\ 
+             \textbf{Source word (AA, WOG)} & 2.38/10 & \underline{2.43/10} & 2.33/10 & 1.70/10 \\\hline 
              \textbf{Sentence rest (AA)} & 1.87/10 & 1.67/10 & 1.64/10 & \underline{1.94/10} \\ \hline
         \end{tabularx}
         \caption{\textbf{Beam Size 10}. English-German. Beam search with beam size 10. Nbest size 10. Highest scores are underlined. \textbf{FA}: \textit{fast\_align}, \textbf{AA}: \textit{awesome-align}. \textbf{WIG} (with gender): gender information preserved, \textbf{WOG} (without gender): gender information removed. \\ First - fourth row: Averaged number of unique translations of the source word per source sentence in the 10 translations. \\ Fifth row: Averaged number of unique translations of the sentence rest per source sentence in the 10 translations.}
