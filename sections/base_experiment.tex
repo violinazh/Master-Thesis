@@ -13,21 +13,20 @@ This chapter describes the base experiment, which serves the purpose of applying
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Data Pre-processing}
 \label{sec:Base_Experiment:Pre-processing}
-The first step in conducting the base experiment is preprocessing the dataset. We use the artificially created WinoMT challenge set, presented in Subsection \ref{sec:Setup:Challenge_Set}. The sentences in this dataset usually consist of two gender ambiguous occupations and a context, containing disambiguation information about one of the occupations. We take the following steps to preprocess the sentences:
+The first step in conducting the base experiment is preprocessing the dataset. We use the artificially created WinoMT challenge set, presented in Subsection \ref{sec:Setup:Challenge_Set}. The sentences in this dataset usually consist of two gender-ambiguous occupation nouns and a context, containing disambiguation information about one of the occupations. We take the following steps to preprocess the sentences:
 
 \begin{enumerate}
   \item \textbf{Sentence Extraction:}  
   In order to obtain fully ambiguous sentences, we remove the context information from the sentences and obtain a subset of 335 sentences from the type: "The developer argued with the designer.".
-  To remove additional detection overhead, we want to have a single ambiguous word per sentence. For this purpose, we replace the second ambiguous word with a non-ambiguous proper noun, e.g. "John". 
-  \item \textbf{Replacement:} 
-  As next, we generate a new set of sentences, replacing the ambiguous word with different techniques:
+  To remove additional detection overhead, we want to have a single ambiguous word per sentence. For this purpose, we replace the second ambiguous word with a non-ambiguous proper noun, e.g., "John". 
+  \item \textbf{Replacement:} As next, we generate new subsets of sentences, substituting the ambiguous word in the original sentence with a non-ambiguous version, using two different techniques:
   \begin{itemize}
       \item \textbf{Disambiguation:} We use the gender-defining adjectives \textit{male} and \textit{female} in front of the gender-ambiguous word. This technique is meant to force the translator to make the right decision regarding gender. % gender forcing
-      \item \textbf{Common Words:} We replace the ambiguous word with each of the following common gender non-ambiguous words: \textit{man, woman, girl, guy, boy}. This method serves as a baseline for comparison against the disambiguated occupations.
+      \item \textbf{Common Words:} We replace the ambiguous word with each of the following common gender non-ambiguous words: \textit{man, woman, girl, guy, boy}. We evaluate for each word separately, as well as take the average of them. This method serves as a baseline for comparison against the disambiguated occupation nouns.
   \end{itemize}
 \end{enumerate}
 
-Table \ref{tab:preprocessing} shows the generated subsets obtained by disambiguating the base ambiguous sentence "The developer argued with John.".
+Table \ref{tab:preprocessing} shows the generated non-ambiguous subsets obtained by modifying the base ambiguous sentence "The developer argued with John.".
 
 \begin{table}[!htb]
     \begin{tabularx}{\linewidth}{|l|X|l|}
@@ -41,9 +40,19 @@ Table \ref{tab:preprocessing} shows the generated subsets obtained by disambigua
         & The \textbf{guy} argued with John. & guy \\
         & The \textbf{boy} argued with John. & boy \\ \hline
     \end{tabularx}
-    \caption{Example: Disambiguation subsets for the baseline sentence "The developer argued with John."}
+    \caption{\textbf{Example}: Non-ambiguous subsets for the baseline sentence "The developer argued with John.". \\ Source sentence: reflects the sentence in the non-ambiguous subset. \\ Source word: word in the sentence we evaluate for.}
     \label{tab:preprocessing}
 \end{table}
+
+The subsets resulting from the preprocessing are: 
+\begin{itemize}
+    \item \textbf{Ambiguous Subset}: a subset, containing the base ambiguous sentences.
+    \item \textbf{Disambiguated Subset (male)}: a subset, containing the sentences, disambiguating the ambiguous word with \textit{male}.
+    \item \textbf{Disambiguated Subset (female)}: a subset, containing the sentences, disambiguating the ambiguous word with \textit{female}.
+    \item \textbf{Non-ambiguous Subsets}: five subsets, where the ambiguous word is replaced with the common words: \textit{man, woman, girl, guy, boy}.
+\end{itemize}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Translation}
@@ -93,9 +102,9 @@ We use the results from the second method as a baseline for comparison with the 
 \section{Evaluation}
 \label{sec:Base_Experiment:Evaluation}
 
-The last step in the experiments involves evaluating the translations and backtranslations to detect patterns using different statistical methods. These methods aim to probe the initial Hypothesis \ref{main}, discussed in Section \ref{sec:Methodology:Approach}. We apply all methods to all subsets and extract diversity information regarding the subsets themselves, as well as compare the results of the subsets against each other.
+The last step in the experiments involves evaluating the translations and backtranslations to detect patterns using different statistical methods. These methods aim to probe the initial Hypothesis \ref{main}, discussed in Section \ref{sec:Methodology:Approach}. We apply all methods to all subsets, as presented in Section \ref{sec:Base_Experiment:Pre-processing}, and extract diversity information regarding the subsets themselves, as well as compare the results of the subsets against each other.
 
-% TODO: define formally, maybe as a formula, pseudocode ???
+% define formally, maybe as a formula, pseudocode ???
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Reoccurrence Evaluation}
@@ -108,7 +117,8 @@ We evaluate how many of the source sentences and source words reoccur in the bac
     \item[2b. ] Count the number of source sentences which contain the source word in their list of backtranslations.
 \end{enumerate}
 
-The purpose of this evaluation is to determine which of the subsets are able to reconstruct more of the original source sentences/words.
+% Is it to test which disambiguation method is better?
+The purpose of this evaluation is to determine which of the subsets are able to reconstruct more of the source sentences/words. This could indicate which disambiguation method does better in restoring the original sentence.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Uniqueness Evaluation}
@@ -276,7 +286,7 @@ Since we use the beam search algorithm for decoding with beam size 10 and nbest 
              \textbf{Words} & 0.044 & 0.039 & 0.043 & \underline{0.045} \\ 
              \textbf{Words (R)} & 0.044 & 0.042 & 0.043 & \underline{0.045} \\ \hline
         \end{tabularx}
-        \caption{\textbf{Beam Size 10}. English-German. Beam search with beam size 10. Nbest size 10. \\ Highest scores are underlined. \textbf{R}: removed German words for \textit{male} and \textit{female}. \\ Averaged number of unique sentences per source sentence out of 10 translations. \\ Second row: Averaged number of unique words per source sentence, normalized by the average total number of words in 100 backtranslations.}    
+        \caption{\textbf{Beam Size 10}. English-German. Beam search with beam size 10. Nbest size 10. \\ Highest scores are underlined. \textbf{R}: removed German words for \textit{male} and \textit{female}. \\ First row: Averaged number of unique sentences per source sentence out of 10 translations. \\ Second row: Averaged number of unique words per source sentence, normalized by the average total number of words in 100 backtranslations.}    
         \label{tab:uniqueness_backtranslation_10}
     \end{subtable}
 

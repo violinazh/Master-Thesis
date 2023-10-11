@@ -31,32 +31,29 @@ One problem with this data is it often contains social constructs and stereotype
 \label{sec:Introduction:Questions}
 
 % State objective
-The objective of this work is to develop a method to detect gender ambiguous words in text by inspecting the diversity of translation. In order to achieve this, we attempt to answer the following question systematically.
+The objective of this work is to develop a method to detect ambiguous words in text by inspecting the diversity of translation. In order to achieve this, we attempt to answer the following question systematically.
 
 \paragraph{} \textbf{Main Research Question:} How can we detect ambiguous words in written text?
-\begin{itemize}
-    \item \textbf{Subquestion 1:} How diverse are translations? % inspecting diversity patterns in translations which could point to ambiguity
-    \item \textbf{Subquestion 2:} How do ambiguous and non-ambiguous words influence the diversity in translation? % inspecting diversity patterns in translations which could point to ambiguity
-    
-    % TODO: Should modify these questions
-    % \item How does language influence the discovery of ambiguity? % different language families and alphabets may have different effect on translation ambiguous words
-    % \item How does context influence the discovery of ambiguity? 
+\begin{itemize} 
+    \item \textbf{Subquestion 1:} How diverse are translations?
+    \item \textbf{Subquestion 2:} How do ambiguous and non-ambiguous words influence the diversity in translation? 
 \end{itemize}
 
+% Technical motivation (ambiguous words have more/less diversity) & high level description of your approach
+To answer these questions, we extract sentences with ambiguous words and generate translations in both language directions of the source and target language. Then, we evaluate the translations of the sentences containing ambiguous words and compare them with the translations of sentences containing equivalent non-ambiguous words to inspect diversity patterns which could point to ambiguity. Our approach is based on the assumption that ambiguous words, which have one version in the source language and multiple versions in the target language, generate less diverse translations when translating their target translations back into the source language.
 
-% TODO: mention the type of ambiguity I am detecting (unresolved ambiguity, gender bias)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Contribution}
 \label{sec:Introduction:Contribution}
 
 As a part of the thesis, we want to contribute to solving the problem of bias in Machine Translation by developing an approach for detecting ambiguous words that could lead to bias. 
-% TODO: Summarize approach, evaluation method and results 
 
 In recent years, light has been shed on the different types of biases present in Neural Machine Translation (NMT) systems, the most researched type being gender bias \parencite{Savoldi_2021}. Some previous works have attempted to uncover gender bias in existing systems \parencite{Prates_2019}, while others have tried mitigating gender bias by either modifying the data (e.g, \citet{Escud_Font_2019}, \citet{Stanovsky_2019}) or changing the architecture of the system \parencite{Vanmassenhove_2018}. 
 
-While there have been multiple studies on discovering gender biases in MT, this is the first study aiming to create a framework for detecting gender ambiguity in a text, which contains no contextual information relating to the ambiguity, therefore making several translations possible. The ability to uncover ambiguity could in turn help to alleviate the problem of MT systems making an unjustified assumption, leading to bias.
+While there have been multiple studies on discovering gender biases in MT, this is the first study aiming to create a framework for detecting ambiguity in a text, which contains no contextual information relating to the ambiguity, therefore making several translations possible. The ability to uncover ambiguity could in turn help to alleviate the problem of MT systems making an unjustified assumption, leading to bias.
 
+% TODO: Summarize results 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Thesis Outline}

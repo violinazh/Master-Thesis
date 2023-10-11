@@ -69,42 +69,57 @@ on the type of information needed to disambiguate gender translation. We are spe
 \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{NMT Models}
+\section{NMT Model}
 \label{sec:Setup:Models}
 
-We use the following pre-trained NMT models:
+%We use the following pre-trained NMT models:
 
-\subsection{English <-> German}
-For translating into German, we rely on Fairseq's \footnote{https://github.com/facebookresearch/fairseq/blob/main/examples/wmt19/README.md} WMT’19 ensemble Transformer model, developed by Facebook \parencite{WMT19}. WMT is a MT dataset composed of a collection of various sources, including news commentaries and parliament proceedings. The corpus file has around 4M sentences, translated by professional translators.
+%\subsection{English <-> German}
 
+For the language pair English - German, we rely on the WMT19 ensemble Transformer models \footnote{https://github.com/facebookresearch/fairseq/blob/main/examples/wmt19/README.md} (En->De, De->En), developed by Facebook \parencite{WMT19} using the Fairseq sequence modeling
+toolkit \parencite{fairseq}. The Workshop on Machine Translation (WMT) is the main event for machine translation and machine translation research. The WMT dataset is composed of a collection of various sources, including news commentaries and parliament proceedings. The corpus file has around 4M sentences, translated by professional translators. Facebook's WMT19 model is a state-of-the-art model, the winner in the WMT19 shared news translation task.
+
+% TODO: statistic of the model: model size, number of layers
+% ensemble of 4 models
+% embedding dimension, FFN size (8192), number of heads, and number of layers
+
+
+%\subsection{English <-> French}
 % - French-English WMT’14 model, finetuned on MuST-C data to use for MuST-SHE evaluation
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Evaluation Methods}
-\label{sec:Setup:Evaluation}
+% \section{Evaluation Methods}
+% \label{sec:Setup:Evaluation}
 
-% TODO
+
 % Evaluation procedures ought to cover both models’ general performance and gender-related issues. This is crucial to establish the capabilities and limits of mitigating strategies \cite{Savoldi_2021}.
 
 % - Model performance metric: BLEU (translation quality)
 % - Gender accuracy metric (gender bias)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Technical Details}
-\label{sec:Setup:Technical}
+% \section{Technical Details}
+% \label{sec:Setup:Technical}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Tools}
+\section{Tools}
 \label{sec:Experiments:Tools}
 
 In this section, we mention the most used tools during the development of the experiments. The programming code for the experiments is written in Python, and we use PyTorch's library for deep learning.
 
 \paragraph{Pre-processing Tools:}
 \begin{itemize}
-    \item \textbf{Sacremoses \footnote{https://github.com/alvations/sacremoses}:} A pre-porcessing tool for the tokenization and de-tokenization of text.
+    \item \textbf{Sacremoses \footnote{https://github.com/alvations/sacremoses}:} A pre-porcessing tool for the tokenization and detokenization of text.
     \item \textbf{Subword NMT \footnote{https://github.com/rsennrich/subword-nmt}:} A pre-processing tool for segmenting text into subword units. % used for the French models
     \item \textbf{Fast BPE \footnote{https://github.com/glample/fastBPE}:} A pre-processing tool for segmenting text into subword units. % used for the German models
     \item \textbf{Spacy \footnote{https://spacy.io/}:} An open-source library for Natural Language Processing. We use it for the detection of stop words, lemmatization and prediction of gender.
+\end{itemize}
+
+\paragraph{Translation Tools:}
+\begin{itemize}
+    \item \textbf{fairseq \footnote{https://github.com/facebookresearch/fairseq/tree/main}}: A sequence modeling toolkit that provides researchers and developers with tools to train custom models for translation, summarization, language modeling and other text generation tasks. It also provides reference implementations of various sequence modeling papers, including the WMT19 Transformer model \parencite{WMT19} we use for translation, as described in Section \ref{sec:Setup:Models}.
+
+We provide reference implementations of various sequence modeling papers:
 \end{itemize}
 
 \paragraph{Word Alignment Tools:}
@@ -115,10 +130,9 @@ In this section, we mention the most used tools during the development of the ex
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Hardware Resources}
-\label{sec:Setup:Hardware}
+% \subsection{Hardware Resources}
+% \label{sec:Setup:Hardware}
 
-% TODO
 % - GPU: GeForce GTX 1080 Ti
 % - Batch size
 % - Training time
