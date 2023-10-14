@@ -3,9 +3,6 @@
 
 In this chapter, we present the concepts relevant to the subject of this thesis. First, we introduce the topic of MT and the type of architecture we focus on later in the work. Next, we outline the problem of ambiguity and bias in MT models.
 
-% WSD (if I end up using it)
-% QE (if I end up using it)
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Neural Machine Translation}
 \label{sec:Background:NMT}
@@ -17,8 +14,6 @@ Conventional RBMT systems use pre-defined rules based on syntax, morphology and 
 SMT systems, on the other hand, use a data-driven approach that utilizes statistical models derived from the analysis of bilingual and monolingual corpora. The quality of SMT output depends heavily on the size and quality of the corpora used to train the models. SMT’s general weakness is that it can only translate a phrase if it exists in the training dataset \parencite{SMT_book}.
 
 Neural Machine Translation (NMT) is a subfield of SMT, which uses an artificial neural network to learn a statistical model for machine translation. Unlike traditional SMT systems, which require a pipeline of specialized components such as language model and translation model, NMT trains its statistical model end-to-end, mapping directly from an input source language to an output target language. NMT can recognize patterns in the training data to determine a context-based interpretation that can predict the likelihood of a sequence of words. Unlike SMT, NMT models are able to learn from each translation task and improve upon each subsequent translation. NMT models are more memory-efficient and also have a higher accuracy than SMT models, which makes them the appropriate choice for creating high-quality MT systems \parencite{NMT_book}.
-
-% TODO: How in deep should I explain the Transformer and NMT?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Sequence-to-Sequence Modeling}
@@ -65,7 +60,23 @@ The Transformer revolutionized NMT by replacing recurrence with attention, which
   \label{fig:transformer}
 \end{figure}
 
-% Explain autoregressive sampling?
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Decoding Strategies}
+\label{sec:Background:Decoding}
+There are multiple decoding strategies for generating translations in NMT, as presented below. 
+
+\paragraph{Greedy search} Greedy search is the simplest decoding method. It selects the word with the highest probability as its next word. Greedy search is known to make locally optimal choices at each step, without considering the larger context. Due to this it may not always lead to the globally optimal solution \parencite{NMT_book}.
+
+\paragraph{Beam search} This method keeps the most likely hypotheses (beams) at each time step and eventually chooses the hypothesis that has the overall highest probability. It first predicts all possible successor words from the previous \textit{K} beams, each of which has \textit{V} possible outputs. This becomes a total of \textit{KV} paths. Out of these \textit{KV} paths, beam search ranks them by their score, keeping only the top \textit{K} paths. Beam search will always find an output sequence with higher probability than greedy search, but is not guaranteed to find the most likely output. Since Beam search is a greedy algorithm, this means that similarly to  greedy search, it makes locally optimal choices at each step with the hope that these local choices will lead to a globally optimal solution, but this is not always the case \parencite{NMT_book}.
+
+\paragraph{Sampling} This method is non-deterministic and can generate different outputs for the same input. It selects the next word according to its probability distribution. For example, if the word “cat” has a probability of 0.6 and “dog” has a probability of 0.4, sampling might choose “dog” in some cases even though “cat” has a higher probability. Unlike beam search, Sampling does not suffer from repetitive generation, but it may produce text that is not very coherent \parencite{NMT_book}. For this, there are a couple of different methods to modify the sampling algorithm, so that it generates more meaningful content.
+
+\begin{itemize}
+    \item Random Sampling with temperature: Random Sampling, by itself, could potentially generate a very random word by chance. Temperature is used to increase the probability of probable tokens while reducing the one that is not. Usually, the range is between 0 and 1, where 0 is the same as greedy decoding and 1 is the same as Random Sampling.
+    \item Top-K Sampling: In Top-K Sampling, the \textit{K} most likely next words are filtered and the probability mass is redistributed among only those \textit{K} next words. Only the top \textit{K} probable tokens are then considered for a generation. This technique ensures that less probable words are not chosen.
+    \item Top-p (nucleus) Sampling: Instead of sampling only from the most likely K words, Top-p Sampling chooses from the smallest possible set of words whose cumulative probability exceeds the probability \textit{p}. The probability mass is then redistributed among this set of words. This way, the size of the set of words can dynamically increase and decrease according to the next word's probability distribution.
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Ambiguity and Bias in Machine Translation}

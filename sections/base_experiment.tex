@@ -58,34 +58,27 @@ The subsets resulting from the preprocessing are:
 \section{Translation}
 \label{sec:Base_Experiment:Translation}
 
-The next step in conducting the experiments is translating the subsets of sentences. This is executed in two steps:
+The next step in conducting the experiments is translating the subsets of sentences. We translate from English to German. This is executed in two steps:
 
 \begin{enumerate}
     \item \textbf{Translation Source -> Target:} 
-    First, the subsets are translated in the target language.
+    First, the subsets are translated in the target language (German).
     \item \textbf{Backtranslation Target -> Source:}
-    The second step involves translating the translations back into the source language.
+    The second step involves translating the translations back into the source language (English).
 \end{enumerate}
 
-
-% TODO: Decoding/search algorithm/strategy, nbest size (define what nbest means)
-% We use two different decoding algorithms to compare the results: Beam search and Sampling. 
-% In each step we generate nbest lists of different sizes: 10 and 100.
-
-% ! \citet{roberts2020decoding} prove that beam search unlike sampling is skewed toward the generation of more frequent (masculine) pronouns, as it leads models to an extreme operating point that exhibits zero variability.
+For the purpose of  translation, we use two different decoding algorithms: Beam search and Sampling (see Subsection \ref{sec:Background:Decoding}). With Beam search, we compare the results for two different beam sizes: 10 and 100. The nbest size is the size of the number of unique translations, generated at each step. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Word alignment}
 \label{sec:Base_Experiment:Alignment}
 
-% ??? maybe move this to Methodology, because this is the same for all experiments
-
 In order to assign the words in the source sentence to their counterparts in the translations, we use two different alignment methods:
 
-\begin{enumerate}
+\begin{itemize}
     \item Source-to-translation (\textit{fast\_align}, \textit{awesome-align}): This alignment method aligns from the source language to the target language.
     \item Translation-to-translation (\textit{Tercom}): This alignment method aligns between two translations.
-\end{enumerate}
+\end{itemize}
 
 We use the first method to map each word in the source sentence to its translations and backtranslations in the target nbest lists. We do this in a two-step way, depicted in Fig. \ref{fig:alignment}. First, we align between the source sentence and the sentences in the nbest translations and extract the translations for each word. Then, we align between the translations and the backtranslations and extract the corresponding backtranslations resulting from the aligned translations of each word. 
 
@@ -114,11 +107,21 @@ We evaluate how many of the source sentences and source words reoccur in the bac
 \begin{enumerate}
     \item[1. ] Gather the backtranslations for each source sentences.
     \item[2a. ] Count the number of source sentences that reappear in their list of backtranslations.
-    \item[2b. ] Count the number of source sentences which contain the source word in their list of backtranslations.
+    \item[2b. ] Count the number of source sentences which contain the source word in their backtranslations.
 \end{enumerate}
 
 % Is it to test which disambiguation method is better?
-The purpose of this evaluation is to determine which of the subsets are able to reconstruct more of the source sentences/words. This could indicate which disambiguation method does better in restoring the original sentence.
+The purpose of this evaluation is to determine which of the subsets are able to reconstruct more of the source sentences/words. This could indicate which disambiguation method does better in restoring the original sentence. 
+
+We also evaluate how often the source sentences and source words reoccur in the backtranslations:
+
+\begin{enumerate}
+    \item[1. ] Gather the backtranslations for each source sentences.
+    \item[2a. ] Count in how many of the backtranslations the source sentences reappear.
+    \item[2b. ] Count in how many of the backtranslations the source word reappears.
+\end{enumerate}
+
+We use this method to probe the Hypotheses \ref{d}. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Uniqueness Evaluation}
@@ -189,9 +192,10 @@ Next, we will present the results of these statistical evaluations of the subset
 % Variables to consider:
 % - Word alignment method
 % - Disambiguation method 
-% ?- Search method
+% - Search method
 % - Nbest size
 
+We evaluate the translations and backtranslations of the different subsets based on the presented evaluation methods and present the results in the following subsections.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Reoccurrence Evaluation Results}
@@ -203,12 +207,14 @@ Next, we will present the results of these statistical evaluations of the subset
         \begin{tabularx}{\linewidth}{|X|XXXX|}
             \hline
              & \textbf{Ambiguous} & \textbf{Disambiguated (male)} & \textbf{Disambiguated (female)} & \textbf{Non-ambiguous average} \\ \hline
-             \textbf{Sentences} & 295/335 & 293/335 & 118/335 & \underline{308/335} \\
-             \textbf{Sentences (R)} & 295/335 & 6/335 & 25/335 & \underline{308/335} \\ \hline
-             \textbf{Words} & 329/335 & 330/335 & 314/335 & \underline{335/335} \\ 
-             \textbf{Words (R)} & 329/335 & 330/335 & 314/335 & \underline{335/335} \\ \hline
+             \textbf{\#Sentences} & 295/335 & 293/335 & 118/335 & \underline{308/335} \\
+             \textbf{\#Sentences (R)} & 295/335 & 6/335 & 25/335 & \underline{308/335} \\ 
+             \textbf{Sentences } & 6.5/100 & 4.72/100 & 1.13/100 & \underline{6.69/100} \\ \hline
+             \textbf{\#Words} & 329/335 & 330/335 & 314/335 & \underline{335/335} \\ 
+             \textbf{\#Words (R)} & 329/335 & 330/335 & 314/335 & \underline{335/335} \\ 
+             \textbf{Words} & 56.65/100 & 58.8/100 & 50.47/100 & \underline{71.26/100} \\ \hline
         \end{tabularx}
-        \subcaption{\textbf{Beam Size 10}. English-German. Backtranslation. Beam search with beam size 10. Nbest size 10. \\ Highest scores are underlined. \textbf{R}: removed German words for \textit{male} and \textit{female}. \\ First and second row: number of source sentences that reappear in the backtranslations. \\ Third and fourth row: number of source sentences which contain the source word in the backtranslations.}
+        \subcaption{\textbf{Beam search with beam size 10}. Backtranslation. Nbest size 10. \\ Highest scores are underlined. \textbf{R}: removed German words for \textit{male} and \textit{female}. \\ First and second row: number of source sentences that reappear in the backtranslations. \\ Third row: averaged number of times the source sentences reoccur in 100 backtranslations. \\ Fourth and fifth row: number of source sentences which contain the source word in the backtranslations. \\ Sixth row: averaged number of times the source words reoccur in 100 backtranslations.}
         \label{tab:reoccurrence_10}
     \end{subtable}
     
@@ -217,20 +223,36 @@ Next, we will present the results of these statistical evaluations of the subset
         \begin{tabularx}{\linewidth}{|X|XXXX|}
             \hline
              & \textbf{Ambiguous} & \textbf{Disambiguated (male)} & \textbf{Disambiguated (female)} & \textbf{Non-ambiguous average} \\ \hline
-             \textbf{Sentences} & 329/335 & \underline{330/335} & 281/335 & 329/335 \\ 
-             \textbf{Words} & 335/335 & 335/335 & 335/335 & 335/335 \\ \hline
+             \textbf{\#Sentences} & 329/335 & \underline{330/335} & 281/335 & 329/335 \\ 
+             \textbf{Sentences} & 72.51/10000 & 48.59/10000 & 21.85/10000 & \underline{70.94/10000} \\ \hline
+             \textbf{\#Words} & 335/335 & 335/335 & 335/335 & 335/335 \\
+             \textbf{Words} & 4714.74/10000 & 4788.99/10000 & 4192.54/10000 & \underline{5925.98/10000} \\ \hline
         \end{tabularx}
-        \subcaption{\textbf{Beam Size 100}. English-German. Backtranslation. Beam search with beam size 100. Nbest size 100. \\ Highest scores are underlined. \\ First row: number of source sentences that reappear in the backtranslations. \\ Second row: number of source sentences which contain the source word in the backtranslations.}
+        \subcaption{\textbf{Beam search with beam size 100}. Backtranslation. Nbest size 100. \\ Highest scores are underlined. \\ First row: number of source sentences that reappear in the backtranslations. \\ Second row:  averaged number of times the source sentences reoccur in 10000 backtranslations. \\ Third row: number of source sentences which contain the source word in the backtranslations. \\ Fourth row: averaged number of times the source words reoccur in 10000 backtranslations.}
         \label{tab:reoccurrence_100}
+    \end{subtable}
+
+    \begin{subtable}{\textwidth}
+        \centering
+        \begin{tabularx}{\linewidth}{|X|XXXX|}
+            \hline
+             & \textbf{Ambiguous} & \textbf{Disambiguated (male)} & \textbf{Disambiguated (female)} & \textbf{Non-ambiguous average} \\ \hline
+             \textbf{\#Sentences} & 270/335 & 249/335 & 87/335 & \underline{295/335} \\ 
+             \textbf{Sentences} & 3.99/100 & 2.52/100 & 0.58/100 & \underline{4.54/100} \\ \hline
+             \textbf{\#Words} & 332/335 & 333/335 & 326/335 & \underline{335/335} \\
+             \textbf{Words} & 50.83/100 & 49.02/100 & 43.86/100 & \underline{66.83/100} \\ \hline
+        \end{tabularx}
+        \subcaption{\textbf{Sampling}. Backtranslation. Nbest size 10. \\ Highest scores are underlined. \\ First row: number of source sentences that reappear in the backtranslations. \\ Second row:  averaged number of times the source sentences reoccur in 100 backtranslations. \\ Third row: number of source sentences which contain the source word in the backtranslations. \\ Fourth row: averaged number of times the source words reoccur in 100 backtranslations.}
+        \label{tab:reoccurrence_sampling}
     \end{subtable}
     
     \caption{Reoccurrence Evaluation Results}
     \label{tab:reoccurrence}
 \end{table}
 
-The results from the evaluation of reoccurrence for beam search with beam size 10 are listed in Table \ref{tab:reoccurrence_10}.
+The results from the evaluation of reoccurrence are listed in Table \ref{tab:reoccurrence}.
 % Highest score
-As we can observe, the average from the subsets of common words presents the highest score in both the recurring sentences and words. This is to be expected, because the words in these subsets are most generic and have the highest probability of being predicted, compared to the occupational words from the WinoMT sentences in the other three subsets. 
+As we can observe, the average from the subsets of common words dominates the highest score in both the recurring sentences and words. This is to be expected, because the words in these subsets are most generic and have the highest probability of being predicted, compared to the occupational words from the WinoMT sentences in the other three subsets. 
 
 % Interesting findings
 Most interestingly, the female-disambiaguated subset has the lowest score for reoccurring sentences. When investigating the results, we found some discrepancy between the way "female" and "male" are translated. The "female" prefix is very often lost in the backtranslation, which results in the backtranslated sentence being regarded as differing from the source sentence. In contrast, the "male" prefix is most often preserved, resulting in the same sentence in backtranslation. We illustrate this with the following examples:
@@ -247,12 +269,15 @@ Most interestingly, the female-disambiaguated subset has the lowest score for re
 
 As we can see, the "male" prefix is translated to its corresponding word in German "männliche", while the "female" prefix is lost in the translation, but its meaning is reflected in the female gender of the German word for developer "Entwicklerin".
 
-Also, both disambiguation subsets sometimes generate the opposite gender with the correct prefix, for example, "der \textit{weibliche} Entwickler" (the \textit{female} male developer) and "die \textit{männliche} Entwicklerin" (the \textit{male} female developer). This presents a contradiction that influences the translation quality. We tried mitigating this by removing the German words for "female" and "male" from the translations. As we can see this has a significant effect on the reoccurrence in backtranslation for the disambiguated subsets. For the male-disambiguated subset only 6 out of 335 sentences reoccur, while for the female-disambiguated subset 25 out of 335 sentences reoccur. The conclusion we can make from these results is that the gender prefix words "male" and "female" most often reappear in backtranslation, when they are initially translated to their German counterpart, and when this is not the case, they are less likely to be reproduced in backtranslation for male than for female.
+Also, both disambiguation subsets sometimes generate the opposite gender with the correct prefix, for example, "der \textit{weibliche} Entwickler" (the \textit{female} male developer) and "die \textit{männliche} Entwicklerin" (the \textit{male} female developer). This presents a contradiction that influences the translation quality. We tried mitigating this by removing the German words for "female" and "male" from the translations with Beam search with beam size 10 (see Table \ref{tab:reoccurrence_10}). As we can see, this has a significant effect on the reoccurrence in backtranslation for the disambiguated subsets. For the male-disambiguated subset, only 6 out of 335 sentences reoccur, while for the female-disambiguated subset 25 out of 335 sentences reoccur. The conclusion we can make from these results is that the gender prefix words "male" and "female" most often reappear in backtranslation, when they are initially translated to their German counterpart, and when this is not the case, they are less likely to be reproduced in backtranslation for male than for female.
 
 We note that the findings from these results are important and will have an effect on the further experiments.
 
-Table \ref{tab:reoccurrence_100} shows the results from the evaluation of reoccurrence for beam search with beam size 100. Here we can observe that more female sentences are reoccurring in backtranslation compared to beam 100, which means that increasing the beam increases the possibility for preservation of the "female" prefix in the backtranslations.
-Also, with beam size 100 the source word reappears for all source sentences in the backtranslations.
+% Beam size 100
+Table \ref{tab:reoccurrence_100} shows the results from the evaluation of reoccurrence for beam search with beam size 100. Here we can observe that more female sentences are reoccurring in backtranslation compared to beam 100, which means that increasing the beam increases the possibility for preservation of the "female" prefix in the backtranslations. Also, with beam size 100 the source word reappears for all source sentences in the backtranslations.
+
+% Hypothesis d); Sampling
+The results from Sampling, as seen in Table \ref{tab:reoccurrence_sampling}, show that the ambiguous word reoccurs more often in backtranslations than the corresponding disambiguated words (male and female), which was not the case Beam search. Although the non-ambiguous word still reoccurs most often, this is a positive result for Hyp. \ref{d}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Uniqueness Evaluation Results}
@@ -269,7 +294,7 @@ Since we use the beam search algorithm for decoding with beam size 10 and nbest 
          \textbf{Sentences} & 9.94/10 & 9.95/10 & 9.87/10 & \underline{9.97/10} \\ 
          \textbf{Words} & \underline{0.205} & 0.19 & 0.201 & 0.202 \\ \hline
     \end{tabularx}
-    \caption{\textbf{Uniqueness Evaluation Results for Translation}. English-German. Beam search with beam size 10. Nbest size 10. Highest scores are underlined. \\ First row: Averaged number of unique sentences per source sentence out of 10 translations. \\ Second row: Averaged number of unique words per source sentence, normalized by the average total number of words in 10 translations.}
+    \caption{\textbf{Uniqueness Evaluation Results for Translation}. Beam search with beam size 10. Nbest size 10. Highest scores are underlined. \\ First row: Averaged number of unique sentences per source sentence out of 10 translations. \\ Second row: Averaged number of unique words per source sentence, normalized by the average total number of words in 10 translations.}
     \label{tab:uniqueness_translation}
 \end{table}
 
@@ -286,7 +311,7 @@ Since we use the beam search algorithm for decoding with beam size 10 and nbest 
              \textbf{Words} & 0.044 & 0.039 & 0.043 & \underline{0.045} \\ 
              \textbf{Words (R)} & 0.044 & 0.042 & 0.043 & \underline{0.045} \\ \hline
         \end{tabularx}
-        \caption{\textbf{Beam Size 10}. English-German. Beam search with beam size 10. Nbest size 10. \\ Highest scores are underlined. \textbf{R}: removed German words for \textit{male} and \textit{female}. \\ First row: Averaged number of unique sentences per source sentence out of 10 translations. \\ Second row: Averaged number of unique words per source sentence, normalized by the average total number of words in 100 backtranslations.}    
+        \caption{\textbf{Beam Size 10}. Beam search with beam size 10. Nbest size 10. \\ Highest scores are underlined. \textbf{R}: removed German words for \textit{male} and \textit{female}. \\ First row: Averaged number of unique sentences per source sentence out of 10 translations. \\ Second row: Averaged number of unique words per source sentence, normalized by the average total number of words in 100 backtranslations.}    
         \label{tab:uniqueness_backtranslation_10}
     \end{subtable}
 
@@ -297,7 +322,7 @@ Since we use the beam search algorithm for decoding with beam size 10 and nbest 
              & \textbf{Ambiguous} & \textbf{Disambiguated (male)} & \textbf{Disambiguated (female)} & \textbf{Non-ambiguous average} \\ \hline
              \textbf{Sentences} & 3181.51/10000 & 3391.55/10000 & \underline{3424.98/10000} & 3297.48/10000 \\ \hline
         \end{tabularx}
-        \caption{\textbf{Beam Size 100}. English-German. Beam search with beam size 100. Nbest size 100. \\ Highest scores are underlined. Averaged number of unique sentences per source sentence out of 100 translations.}
+        \caption{\textbf{Beam Size 100}. Beam search with beam size 100. Nbest size 100. \\ Highest scores are underlined. Averaged number of unique sentences per source sentence out of 100 translations.}
         \label{tab:uniqueness_backtranslation_100}
     \end{subtable}
 
@@ -413,7 +438,7 @@ Fig. \ref{fig:gender_pie_10} further shows the influence of increasing the beam 
              &&&& \textit{boy}: 0.27\% \\\hline
              \textbf{Both genders} & \underline{38.21\%} & 35.22\% & 28.06\% & average: 0.72\% \\ \hline
         \end{tabularx}
-        \caption{\textbf{Beam Size 10}. English-German. Translation. Beam search with beam size 10. Nbest size 10. \\ Highest scores are underlined. \\ First and second row: Percentage of the source sentences producing male versus female translations. \\ Third row: Percentage of the source sentences producing both genders in translation.}
+        \caption{\textbf{Beam Size 10}. Translation. Beam search with beam size 10. Nbest size 10. \\ Highest scores are underlined. \\ First and second row: Percentage of the source sentences producing male versus female translations. \\ Third row: Percentage of the source sentences producing both genders in translation.}
         \label{tab:gender_percent_10}
     \end{subtable}
 
@@ -434,7 +459,7 @@ Fig. \ref{fig:gender_pie_10} further shows the influence of increasing the beam 
              &&&& \textit{boy}: 0.75\% \\\hline
              \textbf{Both genders} & \underline{91.64\%} & 91.34\% & 82.98\% & average: 23.04\% \\ \hline
         \end{tabularx}
-        \caption{\textbf{Beam Size 100}. English-German. Translation. Beam search with beam size 100. Nbest size 100. \\ Highest scores are underlined. \\ First and second row: Percentage of the source sentences producing male versus female translations. \\ Third row: Percentage of the source sentences producing both genders in translation.}
+        \caption{\textbf{Beam Size 100}. Translation. Beam search with beam size 100. Nbest size 100. \\ Highest scores are underlined. \\ First and second row: Percentage of the source sentences producing male versus female translations. \\ Third row: Percentage of the source sentences producing both genders in translation.}
         \label{tab:gender_percent_100}
     \end{subtable}
     \caption{\textbf{Gender Evaluation Results}}
@@ -528,7 +553,7 @@ Another discovery we can make is about the position of the average value for the
              \textbf{Source word (AA, WOG)} & 2.38/10 & \underline{2.43/10} & 2.33/10 & 1.70/10 \\\hline 
              \textbf{Sentence rest (AA)} & 1.87/10 & 1.67/10 & 1.64/10 & \underline{1.94/10} \\ \hline
         \end{tabularx}
-        \caption{\textbf{Beam Size 10}. English-German. Beam search with beam size 10. Nbest size 10. Highest scores are underlined. \textbf{FA}: \textit{fast\_align}, \textbf{AA}: \textit{awesome-align}. \textbf{WIG} (with gender): gender information preserved, \textbf{WOG} (without gender): gender information removed. \\ First - fourth row: Averaged number of unique translations of the source word per source sentence in the 10 translations. \\ Fifth row: Averaged number of unique translations of the sentence rest per source sentence in the 10 translations.}
+        \caption{\textbf{Beam Size 10}. Beam search with beam size 10. Nbest size 10. Highest scores are underlined. \textbf{FA}: \textit{fast\_align}, \textbf{AA}: \textit{awesome-align}. \textbf{WIG} (with gender): gender information preserved, \textbf{WOG} (without gender): gender information removed. \\ First - fourth row: Averaged number of unique translations of the source word per source sentence in the 10 translations. \\ Fifth row: Averaged number of unique translations of the sentence rest per source sentence in the 10 translations.}
         \label{tab:alignment_translation_10}
     \end{subtable}
 
@@ -543,7 +568,7 @@ Another discovery we can make is about the position of the average value for the
              \textbf{Source word (AA, WOG)} & 9.46/100 & 10.88/100 & \underline{11.75/100} & 5.26/100 \\\hline 
              \textbf{Sentence rest (AA)} & 6.52/100 & 5.39/100 & 5.85/100 & \underline{7.23/100} \\ \hline
         \end{tabularx}
-        \caption{\textbf{Beam Size 100}. English-German. Beam search with beam size 100. Nbest size 100. Highest scores are underlined. \textbf{FA}: \textit{fast\_align}, \textbf{AA}: \textit{awesome-align}. \textbf{WIG} (with gender): gender information preserved, \textbf{WOG} (without gender): gender information removed. \\ First - fourth row: Averaged number of unique translations of the source word per source sentence in the 100 translations. \\ Fifth row: Averaged number of unique translations of the sentence rest per source sentence in the 100 translations.}
+        \caption{\textbf{Beam Size 100}. Beam search with beam size 100. Nbest size 100. Highest scores are underlined. \textbf{FA}: \textit{fast\_align}, \textbf{AA}: \textit{awesome-align}. \textbf{WIG} (with gender): gender information preserved, \textbf{WOG} (without gender): gender information removed. \\ First - fourth row: Averaged number of unique translations of the source word per source sentence in the 100 translations. \\ Fifth row: Averaged number of unique translations of the sentence rest per source sentence in the 100 translations.}
         \label{tab:alignment_translation_100}
     \end{subtable}
 
@@ -564,7 +589,7 @@ Another discovery we can make is about the position of the average value for the
              \textbf{Source word (Tercom)} & 8.02/100 & 7.90/100 & \underline{9.82/100} & 6.52/100 \\ \hline
              \textbf{Sentence rest (AA)} & 4.13/100 & 3.72/100 & 3.73/100 & \underline{4.66/100} \\ \hline
         \end{tabularx}
-        \caption{\textbf{Alignment Evaluation Results for Backtranslation}. English-German. Beam search with beam size 10. Nbest size 10. Highest scores are underlined. \textbf{FA}: \textit{fast\_align}, \textbf{AA}: \textit{awesome-align}. \\ First-third row: Averaged number of unique backtranslations of the source word per source sentence in the 100 backtranslations. \\ Fourth row: Averaged number of unique backtranslations of the sentence rest per source sentence in the 100 backtranslations.}
+        \caption{\textbf{Alignment Evaluation Results for Backtranslation}. Beam search with beam size 10. Nbest size 10. Highest scores are underlined. \textbf{FA}: \textit{fast\_align}, \textbf{AA}: \textit{awesome-align}. \\ First-third row: Averaged number of unique backtranslations of the source word per source sentence in the 100 backtranslations. \\ Fourth row: Averaged number of unique backtranslations of the sentence rest per source sentence in the 100 backtranslations.}
         \label{tab:alignment_backtranslation_10}
     \end{subtable}
 
@@ -577,7 +602,7 @@ Another discovery we can make is about the position of the average value for the
              \textbf{Source word (AA)} & 120.08/10000 & 121.96/10000 & \underline{136.14/10000} & 48.82/10000 \\ \hline 
              \textbf{Sentence rest (AA)} & \underline{68.00/10000} & 66.39/10000 & 63.41/10000 & 66.06/10000 \\ \hline
         \end{tabularx}
-        \caption{\textbf{Alignment Evaluation Results for Backtranslation}. English-German. Beam search with beam size 100. Nbest size 100. Highest scores are underlined. \textbf{FA}: \textit{fast\_align}, \textbf{AA}: \textit{awesome-align}. \\ First-third row: Averaged number of unique backtranslations of the source word per source sentence in the 10000 backtranslations. \\ Fourth row: Averaged number of unique backtranslations of the sentence rest per source sentence in the 10000 backtranslations.}
+        \caption{\textbf{Alignment Evaluation Results for Backtranslation}. Beam search with beam size 100. Nbest size 100. Highest scores are underlined. \textbf{FA}: \textit{fast\_align}, \textbf{AA}: \textit{awesome-align}. \\ First-third row: Averaged number of unique backtranslations of the source word per source sentence in the 10000 backtranslations. \\ Fourth row: Averaged number of unique backtranslations of the sentence rest per source sentence in the 10000 backtranslations.}
         \label{tab:alignment_backtranslation_100}
     \end{subtable}
 
@@ -618,7 +643,7 @@ Another discovery we can make is about the position of the average value for the
          \caption{Disambiguated Subset (female)}
          \label{fig:alignment_translation_female}
      \end{subfigure}
-        \caption{\textbf{Distribution of Unique Translations for Words}. English-German. Beam search with beam size 10. Nbest size 10. Alignment with \textit{awesome-align}. The dashed line marks the average number of unique translations for the source word, the value displayed to the right.}
+        \caption{\textbf{Distribution of Unique Translations for Words}. Beam search with beam size 10. Nbest size 10. Alignment with \textit{awesome-align}. The dashed line marks the average number of unique translations for the source word, the value displayed to the right.}
         \label{fig:alignment_graphs_translation_10}
 
 \end{figure}
@@ -653,7 +678,7 @@ Another discovery we can make is about the position of the average value for the
          \caption{Disambiguated Subset (female)}
          \label{fig:alignment_backtranslation_female}
      \end{subfigure}
-        \caption{\textbf{Distribution of Unique Backtranslations for Words}. English-German. Beam search with beam size 10. Nbest size 10. Alignment with \textit{awesome-align}. The dashed line marks the average number of unique translations for the source word, the value displayed to the right.}
+        \caption{\textbf{Distribution of Unique Backtranslations for Words}. Beam search with beam size 10. Nbest size 10. Alignment with \textit{awesome-align}. The dashed line marks the average number of unique translations for the source word, the value displayed to the right.}
         \label{fig:alignment_graphs_backtranslation_10}
 
 \end{figure}
