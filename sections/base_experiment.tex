@@ -357,14 +357,14 @@ Since we use the beam search algorithm for decoding with beam size 10 and nbest 
      \begin{subfigure}{0.49\textwidth}
          \centering
          \includegraphics[width=\textwidth]{figures/uniqueness/range_beam_10.png}
-         \caption{Beam 10}
+         \caption{Beam search with beam size 10}
          \label{fig:uniqueness_range_10}
      \end{subfigure}
      \hfill
      \begin{subfigure}{0.49\textwidth}
          \centering
          \includegraphics[width=\textwidth]{figures/uniqueness/range_beam_100.png}
-         \caption{Beam 100}
+         \caption{Beam search with beam size 100}
          \label{fig:uniqueness_range_100}
      \end{subfigure}
      
@@ -563,17 +563,20 @@ The results from the evaluation of alignment are listed in Table \ref{tab:alignm
 % Translation
 The alignment results for translation feature unique words with and without gender information. For example, the male and female German word for developer: "Entwickler" and "Entwicklerin", are considered one unique word when disregarding gender information. The removal of gender information is performed using a rule-based approach. The assumption is that this would reduce the number of unique words for the ambiguous subset compared to the other subsets. However, the effect is not significant enough to influence the results. We can see that the non-ambiguous subset has the least amount of unique translations to the source word compared to the other subsets for all algorithms. The only difference is between the ambiguous subset and the disambiguated subsets. With Sampling and Beam search with beam size 100, the ambiguous subset produces the least unique translations, while with Beam search with beam size 10, the male-disambiguated subset has the least translations.
 
-
-% Difference between unique words per ambiguous words vs. rest of sentence for original and unambiguous words average (2.38 – 1.87 vs 1.70 – 1.94)
-A notable trend in the results is that the non-ambiguous subset has the significantly lowest score in uniqueness for the translations of the source word, but it also has the highest score for the rest of the sentence. Also, the difference in the scores for the source word and the rest of the sentence (2.38 - 1.87) is smaller for the non-ambiguous subset than the difference for the ambiguous subset (1.70 - 1.94). This is an indication of the stronger tendency of the decoding algorithm to put more emphasis on the ambiguous word rather than the rest of the sentence, when such an ambiguous word is present.
-
-The results for Beam search with beam size 100 and Sampling show a similar trend.
-
 % Backtranslation
 While the results from the translation are not conclusive, the results from the backtranslation exhibit a noticeable pattern. We can see that for the source word, the non-ambiguous subset has the least amount of unique backtranslations, contrary to the expectation from Hyp. \ref{c}, which postulated that the ambiguous subset should produce the least unique backtranslations. However, the ambiguous subset has less unique translations than the disambiguated subsets when applying Sampling and Beam search with beam size 100, which partially confirms the hypothesis. For Beam search with beam size 10, however, the male-disambiguated subset produces the least amount of backtranslations.
 
-% Interesting results
-Interestingly, for Beam search with beam size 10 as well as for Sampling, both in translation and backtranslation the rest of the sentence for the non-ambiguous subset produces the most diverse translations compared to the ambiguous subset. This may indicate that more emphasis is given on diversity of the rest of the sentence, when the source word is unambiguous itself. However, the same observation cannot be made for beam size 100, where the rest of the sentence for the ambiguous subset produces the most diverse translations.
+% Correlation between translation and backtranslation
+We also investigate the relationship between translation and backtranslation for the source word and the rest of the sentence. Fig. \ref{fig:correlation_translation} shows that there is not a significant discrepancy between the amount of translations compared to the amount of backtranslations for the different subsets. This may indicate a correlation between the number of translations and backtranslations.
+
+% Difference between unique words per ambiguous words vs. rest of sentence for original and unambiguous words average (2.38 – 1.87 vs 1.70 – 1.94)
+A notable trend in the results is that the non-ambiguous subset has the significantly lowest score in uniqueness for the translations of the source word, but it also has the highest score for the rest of the sentence. Also, the difference in the scores for the source word and the rest of the sentence (2.38 - 1.87) is smaller for the non-ambiguous subset than the difference for the ambiguous subset (1.70 - 1.94). A similar tendency is observed also in backtranslation, as well as for Beam search with beam size 100 and Sampling. 
+
+% Correlation between source word and rest of sentence
+To inspect this further, we evaluate the relationship between the source word and the rest of the sentence, as seen in Fig. \ref{fig:correlation_words}. We observe that for the non-ambiguous subset the source word and the rest of the sentence have a similar amount of translations and backtranslations, while the ambiguous and the disambiguated subsets generate almost twice as many translations and backtranslation for the source word compared to the rest of the sentence. This is an indication of the stronger tendency of the decoding algorithm to put more emphasis on the ambiguous word rather than the rest of the sentence, when such an ambiguous word is present. 
+
+% Source word vs. rest of sentence
+Interestingly, for Beam search with beam size 10 as well as for Sampling, both in translation and backtranslation the rest of the sentence for the non-ambiguous subset produces the most diverse translations compared to the ambiguous subset. This may indicate that more emphasis is given on diversity of the rest of the sentence, when the source word is unambiguous itself. 
 
 % Distribtuion graphs
 Furthermore, we plot the distribution of unique translations and backtranslations for every word in the subsets, which can be seen in Fig. \ref{fig:alignment_graphs_translation_10} and \ref{fig:alignment_graphs_backtranslation_10}, containing the histograms for each subset for Beam search with beam size 10. 
@@ -785,5 +788,53 @@ The results for Beam search with beam size 100 and Sampling show a similar trend
      \end{subfigure}
         \caption{\textbf{Distribution of Unique Backtranslations for Words}. Beam search with beam size 10. Nbest size 10. Alignment with \textit{awesome-align}. The dashed line marks the average number of unique translations for the source word, the value displayed to the right.}
         \label{fig:alignment_graphs_backtranslation_10}
+
+\end{figure}
+
+
+%%% Correlation between translation and backtranslation
+\begin{figure}[!htb]
+     \centering
+     
+     \begin{subfigure}{0.49\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{figures/correlation/translation_beam10.png}
+         \caption{Beam search with beam size 10}
+         \label{fig:correlation_translation_10}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}{0.49\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{figures/correlation/translation_sampling.png}
+         \caption{Sampling}
+         \label{fig:correlation_translation_sampling}
+     \end{subfigure}
+     
+    \caption{\textbf{Relationship Between Translation and Backtranslation.} The results represent the amount of backtranslations divided by the amount of translations.}
+    \label{fig:correlation_translation}
+
+\end{figure}
+
+
+%%% Correlation between source word and rest of sentence
+\begin{figure}[!htb]
+     \centering
+     
+     \begin{subfigure}{0.49\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{figures/correlation/words_beam10.png}
+         \caption{Beam search with beam size 10}
+         \label{fig:correlation_words_10}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}{0.49\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{figures/correlation/words_sampling.png}
+         \caption{Sampling}
+         \label{fig:correlation_words_sampling}
+     \end{subfigure}
+     
+    \caption{\textbf{Relationship Between Source Word and Rest of Sentence.} The results represent the amount of translations or backtranslations of the source word divided by the amount of translations or backtranslations of the rest of the sentence.}
+    \label{fig:correlation_words}
 
 \end{figure}
