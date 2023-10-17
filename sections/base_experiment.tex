@@ -428,6 +428,8 @@ The distribution of unique backtranslations for Beam search with beam size 100 a
 
 As next, we want to inspect the uniqueness of translation for the source word separately.
 
+\clearpage
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Gender Evaluation Results}
 \label{ch:Base_Experiment:Results:Gender}
@@ -521,7 +523,6 @@ Fig. \ref{fig:gender_pie_10} further shows the influence of increasing the beam 
     \label{tab:gender_percent}
 \end{table}
 
-
 %%% Pie charts
 \begin{figure}[!htb]
      \centering
@@ -550,6 +551,8 @@ Fig. \ref{fig:gender_pie_10} further shows the influence of increasing the beam 
     \caption{Gender Representation in Translation}
     \label{fig:gender_pie_10}
 \end{figure}
+
+\clearpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Alignment Evaluation Results}
@@ -587,25 +590,8 @@ Another discovery we can make is about the position of the average value for the
 
 The results for Beam search with beam size 100 and Sampling show a similar trend in the distribution and can be seen in Appendix \ref{chap:appendix}.
 
-% Example
-\begin{table}[!htb]
-    \centering
-    \begin{tabularx}{\textwidth}{|l|X|X|}
-        \hline
-        \textbf{Sentence}  & \textbf{Translations} & \textbf{Backtranslations} \\ \hline
-        The & \{Der\} & \{The\} \\ 
-        \textbf{developer} & \{Entwickler, Bauunternehmer, Bauträger\} & \{property, building, contractor, estate, Developer, real, builder, developer, developers\} \\ 
-        argued & \{streitete, sich, stritt, argumentierte\} & \{fought, disagreed, out, argued, argument, argues, clashed, quarreled, disputed, was, reasoned, quarrelled, arguing, had\} \\ 
-        with & \{mit\} & \{with\} \\ 
-        John & \{'Johannes', 'John'\} & \{John, Johannes, him\} \\ 
-        . & \{.\} & \{.\} \\ \hline
-    \end{tabularx}
-    \caption{Example: Nbest translations and backtranslations for each word in the source sentence "The developer argued with John.". Marked ambiguous word.}
-    \label{tab:alignment_example}
-\end{table}
-
 % Table for Translation
-\begin{table}[!htb]
+\begin{table}
 
     \begin{subtable}{\textwidth}
         \centering
@@ -641,7 +627,7 @@ The results for Beam search with beam size 100 and Sampling show a similar trend
     \label{tab:alignment_translation}
 \end{table}
 \clearpage % continue table on new page
-\begin{table}[!htb]
+\begin{table}
     \ContinuedFloat 
     \begin{subtable}{\textwidth}
         \centering
@@ -838,3 +824,20 @@ The results for Beam search with beam size 100 and Sampling show a similar trend
     \label{fig:correlation_words}
 
 \end{figure}
+
+% Example
+\begin{table}[!htb]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|X|}
+        \hline
+        \textbf{Sentence}  & \textbf{Translations} & \textbf{Backtranslations} \\ \hline
+        The & \{Der\} & \{The\} \\ 
+        \textbf{developer} & \{Entwickler, Bauunternehmer, Bauträger\} & \{property, building, contractor, estate, Developer, real, builder, developer, developers\} \\ 
+        argued & \{streitete, sich, stritt, argumentierte\} & \{fought, disagreed, out, argued, argument, argues, clashed, quarreled, disputed, was, reasoned, quarrelled, arguing, had\} \\ 
+        with & \{mit\} & \{with\} \\ 
+        John & \{'Johannes', 'John'\} & \{John, Johannes, him\} \\ 
+        . & \{.\} & \{.\} \\ \hline
+    \end{tabularx}
+    \caption{Example: Nbest translations and backtranslations for each word in the source sentence "The developer argued with John.". Marked ambiguous word.}
+    \label{tab:alignment_example}
+\end{table}

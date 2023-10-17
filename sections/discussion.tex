@@ -8,20 +8,21 @@ This chapter presents a summary of results from conducting the experiments, as w
 % - Are they more different for sentences with unresolved ambiguity?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Summary of Results}
-\label{sec:Discussion:Summary}
+\section{Base Experiment}
+\label{sec:Discussion:Base}
 
-% Base experiment
 In our base experiment, we constructed four subsets to inspect the initial assumption, that sentences containing an ambiguity produce less diverse backtranslations than sentences without an ambiguity. We extracted fully ambiguous sentences from the synthetic dataset WinoMT. In one approach, we attempted disambiguating the source ambiguous words in the sentences with gender prefix words: \textit{male} and \textit{female}. Another approach consisted of replacing the source ambiguous words with five common words (\textit{man, woman, girl, guy, boy}) and averaging the results. We translated and backtranslated the subsets and evaluated the results based on gender, uniqueness of translation and backtranslations, reoccurrence of the source sentence and source word and translations of the source word and words in the rest of the sentence.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Replacement Method} % Disambiguation vs. common words 
 The evaluation of the results showed that disambiguating with \textit{male} and \textit{female} has different effects on the translation and backtranslation. The female-disambiguated subsets often lost the "female" prefix in backtranslation due to not directly translating it to the corresponding German word, but directly producing the female gender noun in translation. On the other hand, the male-disambiguated subset most often kept the "male" prefix in translation and backtranslation. From this, we can conclude that disambiguating with \textit{female} proved to be more successful in terms of translation quality.
 
-The replacement of an ambiguous word using disambiguation proved successful when using Sampling for generating translations. The ambiguous subset produced less unique backtranslations, proving Hyp. \ref{a} and \ref{c}. Also, the ambiguous word in the ambiguous subset reoccurred most often in backtranslation, confirming Hyp. \ref{d}.
+The replacement of an ambiguous word using disambiguation proved successful when using Beam search with beam size 100 and Sampling for generating translations. The ambiguous subset produced less unique backtranslations, proving Hyp. \ref{a} and \ref{c}. Also, the ambiguous word in the ambiguous subset reoccurred most often in backtranslation, confirming Hyp. \ref{d}.
 
-On the other hand, replacing the ambiguous word with a common unambiguous word proved mostly ineffective for all search strategies. This may be due to the chosen words of replacement. From the analysis on alignment, we saw that the occupation words exhibit both general and gender ambiguity, whereas they are generally ambiguous in both the source and the target language. Therefore, the replacement method using common words can be deemed unsuccessful in this scenario.
+Furthermore, when we only regard the ambiguous and the female-disambiguated subsets for Beam search 
+with beam size 10, we observe that the ambiguous subset does produce less unique sentences in the backtranslations as well as less unique backtranslations of the source word, which partially confirms the initial Hypothesis \ref{main}. Since we showed that disambiguating with \textit{female} produces better quality translations than disambiguating with \textit{male}, this result is positive.
 
+On the other hand, replacing the ambiguous word with a common unambiguous word proved mostly ineffective for all search strategies. From the results on uniqueness of the backtranslations, we observed that the ambiguous subset generates the least unique sentences in the backtranslations compared to the disambiguated subsets and the average of the non-ambiguous subset, both for beam size 10 and 100. However, when comparing the result of the ambiguous subset against the result for the common words in the non-ambiguous subset individually, we noticed that there is a lower value. This could be due to the chosen words of replacement. It may mean that the occupational ambiguous words have more semantic meanings outside the ambiguity of gender. From the analysis on alignment, we saw that the occupation words have multiple versions in both the source and the target language. For example, the word \textit{man} most often gets translated to the single word "Mann", while the gender ambiguous word \textit{developer} has been translated to more than three different words not considering gender information: "Bauträger", "Bauunternehmer", "Entwickler". This in turn influences the backtranslation, which also produces more unique backtranslations of the sentences. This can also be observed in the results from the alignment, where the average results for the non-ambiguous subset has the lowest value in unique translations of the source word, even when disregarding gender information for the ambiguous subset. We can conclude that in this case, the multiple meanings of the word have stronger influence on the diversity of translation than its gender ambiguity. Therefore, the replacement method using common words can be deemed unsuccessful in this scenario.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Search Method} % Beam search vs. Sampling; Beam size 10 vs. 100
@@ -31,22 +32,12 @@ We decided to compare Beam search with Sampling to see what effect it would have
 While for Beam search with beam size 10 the ambiguous subset the ambiguous word has more unique backtranslations than the male-disambiguated subset, contrary to Hyp. \ref{c}, Beam search with beam size 100 and Sampling counteract that and show that the ambiguous word has the least amount of backtranslations compared to the disambiguated subset, proving Hyp. \ref{c}
 
 
-% TODO
-Another important result relates to the gender produced in translation. For beam size 10, we observed that in less than half of the translations, both genders occur, which influences comes in the way of evaluating the assumption. Furthermore, we observed from the results on gender that there is an inclined tendency of translation to produce more male nouns than female. To combat these problems, we applied beam search with beam size 100. This successfully contributed to both genders occurring in over 90\% of the translations, however it only slightly improved the balance between male and female translations of the source word.
-
-
-From the results on uniqueness of the backtranslations, we observed that the ambiguous subset generates the least unique sentences in the backtranslations compared to the disambiguated subsets and the average of the non-ambiguous subset, both for beam size 10 and 100. This is one positive result towards attempting to prove the initial assumption. Unfortunately, when comparing the result of the ambiguous subset against the result for the common words in the non-ambiguous subset individually, we noticed that there is a lower value. This does not necessarily completely disprove the assumption, because it may mean that the gender ambiguous words are also more generally ambiguous than the common words, meaning that they have more meanings outside the ambiguity of gender. For example, the word \textit{man} most often gets translated to the single word "Mann", while the gender ambiguous word \textit{developer} has been translated to more than three different words not considering gender information: "Bauträger", "Bauunternehmer", "Entwickler". This in turn influences the backtranslation, which also produces more unique backtranslations of the sentences. This can also be observed in the results from the alignment, where the average results for the non-ambiguous subset has the lowest value in unique translations of the source word, when disregarding gender information.  We can conclude that in this case, the general ambiguity of the word has stronger influence on the diversity of translation than its gender ambiguity.
-
-Furthermore, when we only regard the ambiguous and the female-disambiguated subsets, we observe that the ambiguous subset does produce less unique sentences in the backtranslations as well as less unique backtranslations of the source word, which partially confirms the initial Hypothesis \ref{main}. Since we showed that disambiguating with \textit{female} produces better quality translations than disambiguating with \textit{male}, this result is positive.
-
-Also in regard to the alignment results, we observed that the rest of the sentence produces the most unique translations and backtranslations for the non-ambiguous subset. But most importantly, the difference in the scores for the source word and the rest of the sentence is a lot bigger for the ambiguous subset than the non-ambiguous subset. This proves that the most diversity in translation is given to the ambiguous word in the sentence, when such is present.
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Word Alignment Method}
+\subsection{Correlation} 
 
+We detected a possible correlation between the number of translations and backtranslations. The number of backtranslations seem to increase proportionally to the number of translations for all subsets.
 
-
+In regard to the alignment results, we observed that the rest of the sentence produces the most unique translations and backtranslations for the non-ambiguous subset. But most importantly, the difference in the scores for the source word and the rest of the sentence is a lot bigger for the ambiguous subset than the non-ambiguous subset. This proves that the most diversity in translation is given to the ambiguous word in the sentence, when such is present. Therefore, we can conclude that the number of translations of the non-ambiguous words in a sentence is correlated with the number of translations of the ambiguous word in the sentence.
 
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -58,13 +49,14 @@ Also in regard to the alignment results, we observed that the rest of the senten
 % \label{sec:Discussion:Interset}
 
 
+% TODO: 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Real-world Experiment}
+\label{sec:Discussion:Real}
 
 
 
-
-
-
-
+% TODO
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Answers to Research Questions}
 \label{sec:Discussion:Answers}
@@ -91,17 +83,15 @@ Also in regard to the alignment results, we observed that the rest of the senten
 While conducting the experiments and evaluating the result, we met a couple of challenges.
 
 \paragraph{Gender Bias}
-Firstly, pre-trained NMT models are gender biased, which influences the balance of male and female translations. This also leads to not always having both genders in the translation nbest list. This can be partially solved with increasing the beam size to 100, but this also carries specific drawbacks, such as worsening the translation quality overall. Sampling also slightly improves this issue, but it is still insufficient.
+Pre-trained NMT models are gender biased, which influences the balance of male and female translations. For beam size 10, we observed that in less than half of the translations, both genders occur, which influences the way of evaluating the assumption. Furthermore, we observed from the results on gender that there is an inclined tendency of translation to produce more male nouns than female. To combat these problems, we applied beam search with beam size 100. This successfully contributed to both genders occurring in over 90\% of the translations, however it only slightly improved the balance between male and female translations of the source word. It also carries specific drawbacks, such as worsening the translation quality overall. Sampling also slightly improves this issue, but it is still insufficient.
 
 Furthermore, we noticed that disambiguating with \textit{male} versus \textit{female} yields different results. Unexpectedly, sometimes the gender words were completely disregarded, and the wrong gender noun was produced in translation. This suggests that this method of disambiguation using gender forcing may be ineffective.
 
 \paragraph{Word Alignment}
-Another challenge we encountered relates to the word alignment methods. Often, \textit{fast\_align} and \textit{awesome-align} produced significantly different results. We eventually relied mostly on the results from \textit{awesome-align}, because it is state-of-the-art. Although, it also introduced errors in the results. It would also be useful to evaluate the quality of the alignment methods, which didn't specifically investigate due to time constraints.
+Another challenge we encountered relates to the word alignment methods. Often, \textit{fast\_align} and \textit{awesome-align} produced significantly different results, although the results did not differ in terms of the end conclusion towards the initial assumption. We eventually relied mostly on the results from \textit{awesome-align}, because it is state-of-the-art. It would also be useful to evaluate the quality of the alignment methods, which didn't specifically investigate due to time constraints.
 
 \paragraph{Translation Quality}
 The quality of translation presented another limitation, because the WinoMT dataset does not provide reference translations currently, therefore only manual assessment was possible. An automatic assessment would have been useful for the case, when we explored translation with the Beam search algorithm with beam size 100.
 
-
-% Gender vs. general ambiguity
-
-% ? Subsection about open/unresolved questions
+\paragraph{Ambiguity Definition}
+When detecting ambiguous words, we need to take into account the type of ambiguity we are testing for. Since we defined ambiguity as having one version in the source language and multiple versions in the target language, the occupational words are gender ambiguous in this definition, but they are not generally ambiguous. However, they have multiple semantic meanings in both the chosen source and target language. Therefore, replacing them with words, which have less semantic meanings in both languages, would not be useful for proving their gender ambiguity.
