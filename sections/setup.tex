@@ -62,7 +62,7 @@ on the type of information needed to disambiguate gender translation. We are spe
         \hline
         \textbf{Source Sentence} & \textbf{Ambiguous Word} & \textbf{Gender} \\ \hline
         We have our cognitive biases, so that I can take a perfect history on a \textbf{patient} with chest pain. & patient & male \\ \hline
-        And there was perpetual \textbf{victim} blaming when these victims came to report their crimes. & victim & female \\ \hline
+        This one comes from a note that a \textbf{student} sent me after I gave a lecture about arousal nonconcordance. & student & female \\ \hline
     \end{tabularx}
     \caption{Example: MuST-SHE dataset}
     \label{tab:mustshe}
@@ -128,6 +128,10 @@ We provide reference implementations of various sequence modeling papers:
     \item \textbf{Awesome align \footnote{https://github.com/neulab/awesome-align}:} A contextualized embedding-based word aligner that extracts word alignments based on similarities of the tokens’ contextualized embeddings \parencite{awesome-align}. Awesome-align achieves state-of-the-art performance on five language pairs. It can extract word alignments from multilingual BERT (mBERT) and can be fine-tuned on parallel corpora for better alignment quality. We use the base mBERT model provided in the package to align the source sentences with the translated sentences.
     \item \textbf{Tercom alignment \footnote{https://github.com/jhclark/tercom}:} A tool for aligning between different translations of the source sentence. We use it to align the source sentences with the corresponding backtranslations.
 \end{itemize}
+
+\paragraph{Unmasking Tool:}
+
+For the purpose of unmasking in the real-world experiment (see Chapter \ref{ch:Real_Experiment}), we use a BERT base model, developed by Google \parencite{bert_unmasking}. The concept of Bidirectional Encoder Representations from Transformers (BERT) was first introduced in a paper by \cite{bert}. BERT is a language representation model, pre-trained on a large corpus of English data, using a masked language modeling (MLM) objective. The model learns in a self-supervised fashion by that taking a sentence, randomly masking 15\% of the words in the input, then running the entire masked sentence through the model and predicting the masked words. We use the API \footnote{https://huggingface.co/bert-base-uncased}, developed by Hugging Face, to extract predictions for masked words in a sentence.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsection{Hardware Resources}

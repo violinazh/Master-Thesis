@@ -1,36 +1,91 @@
 \chapter{Real-world Experiment}
-\label{ch:Real_Experiment}
+\label{ch:Real_Experiment} 
 
-% TODO: MuST-SHE Unmasking with BERT 
-% - Workflow 
-% - Results 
+This chapter describes an experiment in a real-world setting. The purpose of this experiment is to test the hypothesis in natural conditions. In the following, we outline the steps for executing the
+experiment and the results from the evaluation.
 
-This chapter describes an experiment in a real-world setting. The purpose of this experiment is to test the hypothesis in a natural setting. In the following, we outline the steps for executing the
-experiment and the results of the evaluation.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Data Extraction}
+\label{sec:Real_Experiment:Extraction}
+
+First, we extract the sentences from the MuST-SHE dataset, as presented in Subsection \ref{sec:Setup:Natural_Corpora}. We choose 10 sentences for the experiment, that contain no context information regarding the gender of the ambiguous words. The sentence set is balanced, containing 5 sentences of each two genders - male and female. All sentences are listed in Table \ref{tab:mustshe_sentences}.
+
+\begin{table} 
+    \begin{tabularx}{\linewidth}{|X|l|l|}
+        \hline
+        \textbf{Source Sentence} & \textbf{Ambiguous Word(s)} & \textbf{Gender} \\ \hline
+        So now Thomson becomes the more likely \textbf{suspect}. & suspect & male \\ \hline
+        There was one black \textbf{professor} and one black assistant \textbf{dean}. & professor, dean & male \\ \hline
+        We have our cognitive biases, so that I can take a perfect history on a \textbf{patient} with chest pain. & patient & male \\ \hline
+        That's the \textbf{officer} who emailed me back, saying I think you can have a few classes with us.  & officer & male \\ \hline
+        Steve, a physician, told me about a \textbf{doctor} that he worked with who was never very respectful, especially to junior staff and nurses. & doctor & male \\ \hline
+        What do you think a batting average for a \textbf{cardiac surgeon} or a \textbf{nurse practitioner} or an \textbf{orthopedic surgeon}, an \textbf{OBGYN}, a \textbf{paramedic} is supposed to be? & \makecell[l]{surgeon, \\ nurse practitioner, \\ OBGYN, paramedic} & female \\ \hline
+        Fortunately for Mama Jane and her \textbf{friend}, a \textbf{donor} had provided treatment so that we could take them to the nearest hospital three hours away. & friend, donor & female \\ \hline
+        The three words are: Do you remember? "Do you remember that patient you sent home?" the other \textbf{nurse} asked matter-of-factly. "Well she's back," in just that tone of voice. & nurse & female \\ \hline
+        This one comes from a note that a \textbf{student} sent me after I gave a lecture about arousal nonconcordance. & student & female \\ \hline
+        At the end of a conference in a hotel lobby once, I'm literally on my way out the door and a \textbf{colleague} chases me down. "Emily, I just have a really quick question."  & colleague & female \\ \hline
+    \end{tabularx}
+    \caption{\textbf{MuST-SHE Extracted Sentences.} 4th Category: No gender-disambiguating information can be retrieved. 10 sentences in total.}
+    \label{tab:mustshe_sentences}
+\end{table}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Data Preprocessing}
 \label{sec:Real_Experiment:Preprocessing}
 
+As next, we preprocess the data by unmasking for each word in each original sentence. For unmasking we use the BERT base model, introduced in Section \ref{sec:Experiments:Tools}. The model generates five most probable words for each masked word. We replace the unmasked words in the sentences with the generated words. For each original sentence, we have five times the number of words in the sentence unmasked sentences.
 
-% First, we extract the sentences from the MuST-SHE datset, as presented in Subsection \ref{sec:Setup:Natural_Corpora}. 
+\paragraph{Sets of Sentences} We have the following multiple sets of sentences:
+\begin{itemize}
+    \item Original set: the extracted sentences, as shown in Table \ref{tab:mustshe_sentences}. 
+    \item Unmasked word sets: $5*|words|$ unmasked sentences for each sentences ($|words|$ denotes the number of words in the sentence)
+\end{itemize}
 
+\paragraph{Manual Replacement} Since very often the ambiguous words in the original sentences are unmasked with ambiguous words as well, we try to mitigate this by manually replacing the ambiguous words with the following non-ambiguous words: \textit{man, woman, girl, guy, boy}. We compare this approach with the originally replaced words by the BERT model.
 
-% Extracted sentences from MuST-SHE exhibiting following gender phenomena: “No gender-disambiguating information can be retrieved.” (4th category)
-%  - 34 sentences total (14F, 20M)
-%  - Extracted 10 sample sentences for test (5M, 5F)
-% 1) Unmask for each word in each sentence with BERT 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Translation}
 \label{sec:Real_Experiment:Translation}
 
-% same as base experiment
+We translate the sets of sentences from English to German in the two steps, also outlined in Section \ref{sec:Base_Experiment:Translation}:
+
+\begin{enumerate}
+    \item \textbf{Translation Source -> Target:} Translate the sets in the target language (German).
+    \item \textbf{Backtranslation Target -> Source:} Translate the translations back into the source language (English).
+\end{enumerate}
+
+For translation, we use the Beam search decoding strategy (see Subsection \ref{sec:Background:Decoding}) with beam size 10.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Uniqueness Evaluation Results}
+\section{Evaluation}
+\label{sec:Real_Experiment:Evaluation}
+
+For each original sentence, we execute the following algorithm:
+\begin{enumerate}
+    \item[1. ] Count the number of unique sentences in the backtranslations. \\
+    $N \leftarrow |unique \; backtranslations|$ 
+    \item[2. ] Count the number of unique sentences in the backtranslations for each unmasked word set of sentences. \\
+    $[w_{11}, w_{21}, ..., w_{|words|1}]$, $[w_{12}, w_{22}, ...,  w_{|words|2}]$, $[w_{13}, w_{23}, ..., w_{|words|3}]$ 
+    \item[3. ] Average the result for the five masks of each word. \\ % list of size |words|
+    $[\frac{w_{11} + w_{12} + w_{13}}{5}, \frac{w_{21} + w_{22} + w_{22}}{5}, ...,  \frac{w_{|words|1} + w_{|words|2} + w_{|words|3}}{5}] = [w_{1}^{'}, w_{2}^{'}, ..., w_{|words|}^{'}]$
+    \item[4. ] Subtract the number of unique backtranslations of the original sentence from the average.
+    $[w_{1}^{'} - N, w_{2}^{'} - N, ..., w_{|words|}^{'} - N]$ 
+    \item[5.] Extract the words, which generate the 5 biggest differences. 
+    
+\end{enumerate}
+
+
+The extracted words indicate the 5 most ambiguous words in the original sentence.
+% hypothesis
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
 \label{sec:Real_Experiment:Results}
 
-% refer to base experiment
 
-% 2) Count unique backtranslations for each sentence and compare with the masked sentences for each word
+% add 5 best to table; ? maybe horizontal table
+
+
+% Compared initial replacement with manual replacement
