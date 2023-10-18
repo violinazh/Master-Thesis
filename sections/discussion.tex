@@ -1,7 +1,7 @@
 \chapter{Discussion}
 \label{ch:Discussion}
 
-This chapter presents a summary of results from conducting the experiments, as well as answers the research questions and discusses challenges and limitations of the approach. 
+This chapter presents a summary of results from conducting the experiments and discusses challenges and limitations of the approach. 
 
 % Compare original test set with disambiguated test set:
 % - How different are translations in each nbest backtranslation list?
@@ -55,34 +55,6 @@ In regard to the alignment results, we observed that the rest of the sentence pr
 
 The real-world experiment aimed to probe the assumption that sentences containing ambiguous words generate less unique backtranslations, and with this to attempt detecting ambiguous words in a sentence. We developed an algorithm of replacing each word in the sentence with the most probable word, unmasked with a BERT model, while also manually replacing the gender ambiguous nouns with non-ambiguous words. We concluded from the results that the method of manual replacement appears more effective than the simple replacement method with BERT, proving that replacing ambiguous words with non-ambiguous words in a sentence may assist in detecting ambiguous words.
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Answers to Research Questions}
-\label{sec:Discussion:Answers}
-
-In this section, we answer the research questions, posed in the Introduction (see Section \ref{sec:Introduction:Questions}).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Subquestion 1} % How diverse are translations?
-\label{sec:Discussion:Answers:1}
-
-The first subquestion pertained to the diversity of translations. We can conclude from the evaluation of our approach that sentences containing an ambiguous word generate less diverse backtranslations. From the analysis on the correlation between the number of unique translations and backtranslations, we estimated that the diversity of translations is proportional to the diversity of backtranslations, therefore we can state that sentences containing an ambiguous word generate less diverse backtranslations
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Subquestion 2} % How do ambiguous and non-ambiguous words influence the diversity in translation?
-\label{sec:Discussion:Answers:2}
-
-The second subquestion related to the influence of ambiguous and non-ambiguous words on the diversity of translations. From the evaluation, we observed that sentences containing an ambiguous word place more attention in translation generation on the diversity of translations of this word compared to the rest of the sentence, resulting in more unique translation of the ambiguous word compared to the non-ambiguous words in the sentence.
-
-By comparing sentences with an ambiguous word to sentences with disambiguated ambiguous word, we can conclude that disambiguation leads to more diverse backtranslations, proving the initial assumption that sentences containing an ambiguous word generate less unique backtranslations than sentences without ambiguity. 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Main Research Question} % How can we detect ambiguous words in written text?
-\label{sec:Discussion:Answers:Main}
-
-This study aimed to answer the main research question of how we can detect ambiguous words in text. Our approach of disambiguating gender ambiguous words with gender forcing using gender words \textit{male} and \textit{female} proved effective when decoding with Beam search with beam size 100, as well as with Sampling. However, this method is only applicable to gender ambiguous words.
-
-On the other hand, replacing the gender ambiguous words with common non-ambiguous words appeared ineffective in the specific scenario, because of the multiple meanings of the occupation gender ambiguous words in both the source and the target language. Using a similar approach in the real-world scenario seemed to work only sometimes. Therefore, more work is required towards developing on a more universal method of detection of all types of ambiguity.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Challenges and Limitations}

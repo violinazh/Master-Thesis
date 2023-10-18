@@ -83,6 +83,7 @@ Considering the above methods for bias detection and mitigation, there is curren
 \section{Present work}
 \label{sec:Related_work:Present_work}
 
-The present work expands on the subject of detecting biases in NMT models by inspecting ambiguity that could lead to biases instead. The developed method does not rely on context relating to the ambiguity in the form of coreference resolution, but focuses on fully ambiguous words. Since most of the available benchmarks, as presented above, are focused on ambiguity in terms of gender, this work also uses these benchmarks for evaluation, but does not limit its further application to other types of ambiguity. The contribution of this study pertains to helping to prevent MT systems from making an unjustified assumption, which is usually the precursor of bias.
+The present work expands on the subject of detecting biases in NMT models by inspecting ambiguity that could lead to biases. Previous work has focused on removing bias by modifying the dataset, adjusting the model or by adding additional metadata relating to the ambiguous words. In contrast, our approach aims to detect ambiguous words in text before they lead to bias by a method of disambiguation and inspecting the diversity of translation. The developed method does not rely on context relating to the ambiguity in the form of coreference resolution, but focuses on fully ambiguous words. 
 
-% TODO: Add more discussion on how the present work is better than previous work and a “step forward” (new or better)
+Since most of the available benchmarks, as presented above, are focused on ambiguity in terms of gender, this work also uses these benchmarks for evaluation, but does not limit its further application to other types of ambiguity. The main contribution of this study pertains to helping to prevent MT systems from making an unjustified assumption, which is usually the precursor of bias.
+

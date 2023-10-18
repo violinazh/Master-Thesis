@@ -56,7 +56,7 @@ We translate the sets of sentences from English to German in the two steps, also
     \item \textbf{Backtranslation Target -> Source:} Translate the translations back into the source language (English).
 \end{enumerate}
 
-For translation, we use the Beam search decoding strategy (see Subsection \ref{sec:Background:Decoding}) with beam size 10.
+For translation, we use the Beam search decoding strategy (see Subsection \ref{sec:Background:Decoding}) with beam size 10. We choose this strategy based on the uniqueness evaluation results of the base experiment, where the number of unique sentences for the ambiguous subset is smaller than the number of unique sentences for the unambiguous subset, as expected.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Evaluation}

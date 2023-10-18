@@ -1,23 +1,57 @@
 \chapter{Conclusion and Future Work}
 \label{ch:Conclusion}
 
+% Motivation and contribution
+In this work, we developed an approach to detecting ambiguous words in text by inspecting the diversity of translation. Our method is context-independent, meaning that it does not rely on context relating to the ambiguity in order to detect ambiguous words. Furthermore, despite utilizing a dataset, focused on gender ambiguity, this does not limit the application of the approach to other types of ambiguity, provided that the ambiguous words are defined as words which have one version in the source language and multiple versions in the target language. With this work, we strive to contribute to preventing MT systems from making an unjustified assumption, which may lead to bias further on.
 
+% Approach summary
+Our approach is based on the hypothesis that sentences containing an ambiguity produce less diverse backtranslations than sentences without an ambiguity. In our base experiment, we probe this by comparing a dataset containing ambiguous sentences with a dataset replacing the ambiguous word in the sentences with a non-ambiguous word. For this purpose, we also compare two replacement methods: disambiguation using gender forcing with gender adjectives and replacement with non-ambiguous common words. We translate the ambiguous and non-ambiguous datasets into the target language and backtranslate the translations back into the source language, after which we evaluate the generated translations and extract patterns relating to the diversity of translations.
 
+% Summary of results: base experiment
+The results from the base experiment show that replacing the ambiguous word in a sentence with the corresponding disambiguated word led to generating more diverse backtranslations when generating translations using Beam search with beam size 10 and Sampling. This is an expected result according to the hypothesis. On the other hand, replacing the ambiguous word with a common unambiguous word did not achieve the desired result. We observed that the chosen words had far fewer synonyms in both the source and the target language, compared to the occupation words in the chosen dataset, which led to less diversity in translation, but not due to ambiguity. With that, we deem this replacement method unsuccessful in this specific scenario. 
 
+% Summary of results: real experiment
+Furthermore, we tested our approach in a real-world experiment by using natural spoken sentences, containing ambiguity. Our approach used an unmasking model and manual replacement to replace each word in the sentences with a non-ambiguous word one at a time and compare the results of the original sentences with each unmasked sentence. The unmasked sentence, which differs the most from the original sentence in terms of number of unique backtranslation, indicates an ambiguous word. The ambiguous word is the word in the unmasked sentence, which was replaced in the original sentence. Although not every ambiguous word was uncovered in the sentences, manually replacing the ambiguous words with non-ambiguous words in the sentence led to more ambiguous words being detected overall, which speaks for the method being partially effective.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Answers to Research Questions}
+\label{sec:Conclusion:Answers}
 
-% take ideas for Future work from literature reviews and thesis
+In this section, we answer the research questions, posed in the Introduction (see Section \ref{sec:Introduction:Questions}).
 
-% not only gender bias 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Subquestion 1} % How diverse are translations?
+\label{sec:Discussion:Answers:1}
 
-% The study could be extended to general ambiguity instead of only gender ambiguity.
+The first subquestion pertained to the diversity of translations. We can conclude from the evaluation of our approach that sentences containing an ambiguous word generate less diverse backtranslations. From the analysis on the correlation between the number of unique translations and backtranslations, we estimated that the diversity of translations is proportional to the diversity of backtranslations, therefore we can state that sentences containing an ambiguous word generate less diverse translations.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Subquestion 2} % How do ambiguous and non-ambiguous words influence the diversity in translation?
+\label{sec:Discussion:Answers:2}
 
-% Future work:
-% - Unsupervised Word Sense Disambiguation (WSD) may help discover biased words
-% WSD: technique in natural language processing (NLP), defined as the ability to determine which meaning of word is activated by the use of word in a particular context
-% - Researching methods for Quality Estimation (QE) for detecting biases in translation
-% QE: method for predicting the quality of a given translation rather than assessing how similar it is to a reference segment, E.g. multiple beams in Beam search: low confidence = high confidence for error in translation
+The second subquestion related to the influence of ambiguous and non-ambiguous words on the diversity of translations. From the evaluation, we observed that sentences containing an ambiguous word place more attention in translation generation on the diversity of translations of the ambiguous word compared to the rest of the sentence, resulting in more unique translations of the ambiguous word compared to the non-ambiguous words in the same sentence.
 
-% Real experiment: more sentences, Sampling, automatic replacement
+By comparing sentences with an ambiguous word to sentences with disambiguated ambiguous word, we can conclude that disambiguation leads to more diverse backtranslations, proving the initial assumption that sentences containing an ambiguous word generate less unique backtranslations than sentences without ambiguity. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Main Research Question} % How can we detect ambiguous words in written text?
+\label{sec:Discussion:Answers:Main}
+
+This study aimed to answer the main research question of how we can detect ambiguous words in text. Our approach of disambiguating gender ambiguous words with gender forcing using gender words \textit{male} and \textit{female} proved effective when decoding with Beam search with beam size 100, as well as with Sampling. However, this method is only applicable to gender ambiguous words.
+
+On the other hand, replacing the gender ambiguous words with common non-ambiguous words appeared ineffective in the specific scenario, because of the multiple meanings of the occupation gender ambiguous words in both the source and the target language. Using a similar approach in the real-world scenario seemed to work only sometimes. Therefore, more work is required towards developing a more universal method of detection of all types of ambiguity.
+
+Next, we propose possibilities for future work, building up on this thesis.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Future Work}
+\label{sec:Conclusion:Future}
+
+In the future, we would like to explore the possibility of also detecting other types of ambiguity except gender. Unfortunately, our proposed disambiguation method using the gender words \textit{male} and \textit{female} is limited only to gender ambiguous words. For this, we would need to develop a more general disambiguation method to be able to disambiguate generally ambiguous words in text. We would also benefit from an appropriate dataset containing ambiguous words of different types. 
+
+While the focus of this work lies mainly on the proof-of-concept, achieved with the base experiment, the real-world experiment sets the scene for a promising future for the approach. Therefore, it would be useful to do the real-world experiment with a larger corpus and to test with different decoding strategies, such as Sampling. Also, manually replacing the ambiguous words is cost ineffective and would require automatization to be applicable for a larger dataset.
+
+It may also be beneficial to use an Unsupervised Word Sense Disambiguation (WSD) approach for detecting ambiguous words. WSD is a technique in Natural Language Processing (NLP), defined as the ability to determine which meaning of a word is activated by the use of the word in a particular context. Our method can also be applied to a WSD test set by inspecting the diversity of translations of the ambiguous word in the sentence compared to the diversity of translation of the rest of the sentence. 
+
+Furthermore, we propose that researching methods for Quality Estimation (QE) may help to detect possible biases in translation. QE is a method for predicting the quality of a given translation instead than assessing how similar it is to a reference segment. For example, following multiple beams in Beam search indicates low confidence in translation, which may point to a possibility for error in translation due to ambiguity.
 
