@@ -48,39 +48,47 @@ In regard to the alignment results, we observed that the rest of the sentence pr
 % \subsection{Interset Evaluation}
 % \label{sec:Discussion:Interset}
 
-
-% TODO: 
+ 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Real-world Experiment}
 \label{sec:Discussion:Real}
 
+The real-world experiment aimed to probe the assumption that sentences containing ambiguous words generate less unique backtranslations, and with this to attempt detecting ambiguous words in a sentence. We developed an algorithm of replacing each word in the sentence with the most probable word, unmasked with a BERT model, while also manually replacing the gender ambiguous nouns with non-ambiguous words. We concluded from the results that the method of manual replacement appears more effective than the simple replacement method with BERT, proving that replacing ambiguous words with non-ambiguous words in a sentence may assist in detecting ambiguous words.
 
 
-% TODO
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Answers to Research Questions}
 \label{sec:Discussion:Answers}
+
+In this section, we answer the research questions, posed in the Introduction (see Section \ref{sec:Introduction:Questions}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Subquestion 1} % How diverse are translations?
 \label{sec:Discussion:Answers:1}
 
-% -> Disambiguated sentences are more diverse
+The first subquestion pertained to the diversity of translations. We can conclude from the evaluation of our approach that sentences containing an ambiguous word generate less diverse backtranslations. From the analysis on the correlation between the number of unique translations and backtranslations, we estimated that the diversity of translations is proportional to the diversity of backtranslations, therefore we can state that sentences containing an ambiguous word generate less diverse backtranslations
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Subquestion 2} % How do ambiguous and non-ambiguous words influence the diversity in translation?
 \label{sec:Discussion:Answers:2}
 
+The second subquestion related to the influence of ambiguous and non-ambiguous words on the diversity of translations. From the evaluation, we observed that sentences containing an ambiguous word place more attention in translation generation on the diversity of translations of this word compared to the rest of the sentence, resulting in more unique translation of the ambiguous word compared to the non-ambiguous words in the sentence.
+
+By comparing sentences with an ambiguous word to sentences with disambiguated ambiguous word, we can conclude that disambiguation leads to more diverse backtranslations, proving the initial assumption that sentences containing an ambiguous word generate less unique backtranslations than sentences without ambiguity. 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Main Research Question} % How can we detect ambiguous words in written text?
 \label{sec:Discussion:Answers:Main}
 
+This study aimed to answer the main research question of how we can detect ambiguous words in text. Our approach of disambiguating gender ambiguous words with gender forcing using gender words \textit{male} and \textit{female} proved effective when decoding with Beam search with beam size 100, as well as with Sampling. However, this method is only applicable to gender ambiguous words.
+
+On the other hand, replacing the gender ambiguous words with common non-ambiguous words appeared ineffective in the specific scenario, because of the multiple meanings of the occupation gender ambiguous words in both the source and the target language. Using a similar approach in the real-world scenario seemed to work only sometimes. Therefore, more work is required towards developing on a more universal method of detection of all types of ambiguity.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Challenges and Limitations}
 \label{sec:Discussion:Challenges}
 
-While conducting the experiments and evaluating the result, we met a couple of challenges.
+While conducting the experiments and evaluating the result, we also met a couple of challenges.
 
 \paragraph{Gender Bias}
 Pre-trained NMT models are gender biased, which influences the balance of male and female translations. For beam size 10, we observed that in less than half of the translations, both genders occur, which influences the way of evaluating the assumption. Furthermore, we observed from the results on gender that there is an inclined tendency of translation to produce more male nouns than female. To combat these problems, we applied beam search with beam size 100. This successfully contributed to both genders occurring in over 90\% of the translations, however it only slightly improved the balance between male and female translations of the source word. It also carries specific drawbacks, such as worsening the translation quality overall. Sampling also slightly improves this issue, but it is still insufficient.
@@ -96,7 +104,10 @@ The quality of translation presented another limitation, because the WinoMT data
 \paragraph{Ambiguity Definition}
 When detecting ambiguous words, we need to take into account the type of ambiguity we are testing for. Since we defined ambiguity as having one version in the source language and multiple versions in the target language, the occupational words are gender ambiguous in this definition, but they are not generally ambiguous. However, they have multiple semantic meanings in both the chosen source and target language. Therefore, replacing them with words, which have less semantic meanings in both languages, would not be useful for proving their gender ambiguity.
 
-% TODO:
-% Real experiment:
-% - Unmasking may generate ambiguous word 
-% -> manual replacement necessary
+\paragraph{Real-world Scenario}
+In regard to detecting ambiguous words in a real-world setting, we met a couple of challenges. The method of replacement using BERT is not always successful in replacing the ambiguous words with non-ambiguous words, which facilitated the need for manual replacement. This manual replacement would only be applicable in the small set of sentences we use for proof-of-concept, but not in a large dataset. Therefore, we outline the need for an automatic method of replacement of ambiguous words with non-ambiguous words. 
+
+Furthermore, the marked ambiguous words in the sentences were only gender ambiguous nouns. However, there may be other detected ambiguous words in these sentences, which were not marked, and which are not necessarily gender ambiguous. We do not limit our approach to only detecting gender ambiguous words, but we currently have only the means to evaluate for such words.
+
+
+
