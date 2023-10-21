@@ -1,10 +1,16 @@
 \Abstract
-% Context:
 
-% Problem:
+% Context; importance of the topic, research gap
+In the era of globalization, the need for effective communication across different languages is paramount. Neural Machine Translation (NMT), a subfield of Machine Learning, has made significant strides in this direction by using deep learning to translate directly from an input source language to an output target language. 
+% Problem
+However, these models often perpetuate social constructs and stereotypes present in the training data, leading to biased translations.
 
-% Idea:
+% Method/approach
+This thesis presents a novel method for detecting ambiguous words in text that could lead to bias by inspecting the diversity of translation. We hypothesize that sentences containing ambiguous words produce less diverse backtranslations than sentences without ambiguity. To test this hypothesis, we compare a dataset containing ambiguous sentences with such where the ambiguous word is replaced with a non-ambiguous equivalent.
+% Results/Findings
+Our approach reveals patterns in translation diversity that could indicate ambiguity, providing a new framework for detecting ambiguity in text devoid of contextual information regarding the ambiguity. The results show that replacing an ambiguous word with its disambiguated equivalent leads to more diverse translations, proving the hypothesis. 
+Furthermore, we tested our approach in a real-world experiment using natural spoken sentences containing ambiguity. The experiment revealed the potential of the approach to detect ambiguous words, while also uncovering specific limitations of the method.
 
-% Results:
- 
-% Findings:
+% Takeaway message
+This research has significant implications for the field of NMT, offering a potential solution to the problem of unjustified assumptions about ambiguous words leading to bias in machine translations. By uncovering ambiguity, we can work towards more accurate and fair translations, fostering better cross-cultural communication and understanding.
+
