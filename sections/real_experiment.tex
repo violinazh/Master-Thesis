@@ -90,8 +90,8 @@ Based on the Hypothesis \ref{a}, the original sentence containing an ambiguous w
 The results from the evaluation can be seen in Table \ref{tab:mustshe_result}. We also compare the results of the replacement of the gender ambiguous nouns with BERT against the manual replacement. As we can see from the results, the manual replacement method achieves more detected ambiguous words in the list with the most probable ambiguous words. This proves that the theory of replacing ambiguous words with non-ambiguous words may help in detecting ambiguous words in a sentence. 
 
 
-\begin{landscape} 
-    \begin{tabularx}{\linewidth}{|>{\hsize=1\hsize}X|>{\hsize=0.6\hsize}X|>{\hsize=0.7\hsize}X|>{\hsize=0.7\hsize}X|}
+\begin{landscape}
+    \begin{xltabular}{\linewidth}{|>{\hsize=1\hsize}X|>{\hsize=0.6\hsize}X|>{\hsize=0.7\hsize}X|>{\hsize=0.7\hsize}X|}
         \hline
         \textbf{Source Sentence} & \textbf{Ambiguous Word(s)} & \textbf{BERT Replacement} & \textbf{Manual Replacement} \\ \hline
         
@@ -115,8 +115,8 @@ The results from the evaluation can be seen in Table \ref{tab:mustshe_result}. W
         
         At the end of a conference in a hotel lobby once, I'm literally on my way out the door and a \textbf{colleague} chases me down. "Emily, I just have a really quick question."  & colleague & [chases, way, have, end, down] & [chases, way, have, end, down] \\ \hline
         
-    \caption{\textbf{Natural Experiment Results.} Displays the 3 most ambiguous words (sorted in descending order) for each sentence generated according to the evaluation. The marked words are the expected ambiguous words. \\ BERT Replacement: Unmasking of each word with the BERT model. \\ Manual Replacement: Unmasking of the gender ambiguous nouns manually with non-ambiguous nouns.}
-    \label{tab:mustshe_result}
-    \end{tabularx}  
+        \caption{\textbf{Natural Experiment Results.} Displays the 3 most ambiguous words (sorted in descending order) for each sentence generated according to the evaluation. The marked words are the expected ambiguous words. \\ BERT Replacement: Unmasking of each word with the BERT model. \\ Manual Replacement: Unmasking of the gender ambiguous nouns manually with non-ambiguous nouns.}
+        \label{tab:mustshe_result}
+    \end{xltabular}  
 \end{landscape} 
 
