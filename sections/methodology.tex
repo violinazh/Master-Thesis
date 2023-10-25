@@ -28,11 +28,11 @@ We base our approach to detecting ambiguous words in text on an initial assumpti
 The approach to answering the research question is based on the following hypothesis:
 
 % Main hypothesis (intuition/hypothesis/assumption)
-\begin{hyp}\label{main}
+\begin{hyp}[H]\label{main}
 Sentences containing an ambiguity produce less diverse backtranslations than sentences without an ambiguity.
 \end{hyp}
 
-\setcounter{subhyp}{0}
+% \setcounter{subhyp}{0}
 
 %%% ??? Translation
 % ??? The ambiguous word in a sentence generates more unique words in translation than the corresponding non-ambiguous word.
@@ -68,10 +68,10 @@ Because the gender-ambiguous word generates the male and female version of the s
 
 % propagation of diversity
 
-\begin{figure}
+\begin{figure}[!htb]
   \centering
   \includegraphics[scale=0.45]{figures/intuition.png}
-  \caption{\textbf{Example Illustration of the Intuition.} In each translation step, the model produces two unique translations (nbest size = 2).}
+  \caption[Example Illustration of the Intuition]{\textbf{Example Illustration of the Intuition.} In each translation step, the model produces two unique translations (nbest size = 2).}
   \label{fig:intuition}
 \end{figure}
 
@@ -108,6 +108,5 @@ The evaluation of the results happens in two directions:
 \end{itemize}
 
 Next, we will perform a more thorough explanation of the different experimental conditions and steps followed to inspect the assumption.
-
 
 

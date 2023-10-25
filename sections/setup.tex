@@ -39,7 +39,7 @@ For detecting gender ambiguous words, we used the tagged challenge test set Wino
 
 % - Downsides: synthetic samples - controlled experiment environment, but may introduce some artificial biases; only English as source language; too small set for training easy to overfit
 
-\begin{table}
+\begin{table}[!htb]
     \begin{tabularx}{\linewidth}{|X|l|l|l|}
         \hline
         \textbf{Source Sentence} & \textbf{Ambiguous word} & \textbf{Position} & \textbf{Gender} \\ \hline
@@ -57,7 +57,7 @@ For detecting gender ambiguous words, we used the tagged challenge test set Wino
 In order to evaluate the approach in a natural setting, we used the natural multilingual corpus MuST-SHE \parencite{MuST-SHE}, designed to evaluate the performance of NMT systems in the translation of gender for English to Spanish/French/Italian. It comprises naturally occurring instances of spoken language retrieved from MuST-C \parencite{MuST-C}, which is built on TED Talks data. The samples in the dataset are balanced between masculine and feminine phenomena. They include sentences representing four different types of gender phenomena, which are classified based
 on the type of information needed to disambiguate gender translation. We are specifically interested in the fourth category, which comprises sentences, for which no gender-disambiguating information can be retrieved from context, referred previously as \textit{unresolvable ambiguity}. It contains 34 sentences in total. In Table \ref{tab:mustshe} we can see two sentences of the category. 
 
-\begin{table} 
+\begin{table}[!htb]
     \begin{tabularx}{\linewidth}{|X|l|l|}
         \hline
         \textbf{Source Sentence} & \textbf{Ambiguous Word} & \textbf{Gender} \\ \hline
