@@ -18,7 +18,7 @@ The source language used for translation is English, because translating from a 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Target Language} 
-The main target language for the base experiments of this study is German. This is primarily due to the writer's knowledge of the language, which leads to easier manual evaluation when necessary, as well as because the main occupational dataset, WinoMT \parencite{Stanovsky_2019}, also has gender evaluation for German.
+The main target language for the base experiments of this study is German. This is primarily due to the writer's knowledge of the language, which leads to easier manual evaluation when necessary, as well as because the main occupational dataset, WinoMT \parencite{Stanovsky_2019}, also provides gender evaluation for German.
 
 % The experiments will be extended to other language families and lower-resource languages such as Bulgarian.
 
@@ -46,7 +46,7 @@ For detecting gender ambiguous words, we used the tagged challenge test set Wino
         The \textbf{developer} argued with the designer because she did not like the design. & developer & 1 & female \\ \hline
         The developer argued with the \textbf{designer} because his idea cannot be implemented. & designer & 5 & male \\ \hline
     \end{tabularx}
-    \caption{Example: WinoMT challenge set}
+    \caption{Example: WinoMT Challenge Set}
     \label{tab:winomt}
 \end{table}
 
@@ -64,7 +64,7 @@ on the type of information needed to disambiguate gender translation. We are spe
         We have our cognitive biases, so that I can take a perfect history on a \textbf{patient} with chest pain. & patient & male \\ \hline
         This one comes from a note that a \textbf{student} sent me after I gave a lecture about arousal nonconcordance. & student & female \\ \hline
     \end{tabularx}
-    \caption{Example: MuST-SHE dataset}
+    \caption{Example: MuST-SHE Natural Corpus}
     \label{tab:mustshe}
 \end{table}
 
@@ -105,7 +105,7 @@ toolkit \parencite{fairseq}. The Workshop on Machine Translation (WMT) is the ma
 \section{Tools}
 \label{sec:Experiments:Tools}
 
-In this section, we mention the most used tools during the development of the experiments. The programming code for the experiments is written in Python, and we use PyTorch's library for deep learning.
+In this section, we mention the most used tools during the development of the experiments. The programming code for the experiments is written in Python, and we use PyTorch's library for deep learning \parencite{Pytorch}.
 
 \paragraph{Pre-processing Tools:}
 \begin{itemize}
@@ -117,21 +117,19 @@ In this section, we mention the most used tools during the development of the ex
 
 \paragraph{Translation Tools:}
 \begin{itemize}
-    \item \textbf{fairseq \footnote{https://github.com/facebookresearch/fairseq/tree/main}}: A sequence modeling toolkit that provides researchers and developers with tools to train custom models for translation, summarization, language modeling and other text generation tasks. It also provides reference implementations of various sequence modeling papers, including the WMT19 Transformer model \parencite{WMT19} we use for translation, as described in Section \ref{sec:Setup:Models}.
-
-We provide reference implementations of various sequence modeling papers:
+    \item \textbf{Fairseq \footnote{https://github.com/facebookresearch/fairseq/tree/main}}: A sequence modeling toolkit that provides tools for training custom models for translation, summarization, language modeling and other text generation tasks. It also provides reference implementations of various sequence modeling papers, including the WMT19 Transformer model \parencite{WMT19} we use for translation, as described in Section \ref{sec:Setup:Models}.
 \end{itemize}
 
 \paragraph{Word Alignment Tools:}
 \begin{itemize}
-    \item \textbf{Fast align \footnote{https://github.com/clab/fast\_align}:} A simple and fast unsupervised word aligner developed by \citet{fast-align}. This tool is used to align the translated sentences with the source sentences.
-    \item \textbf{Awesome align \footnote{https://github.com/neulab/awesome-align}:} A contextualized embedding-based word aligner that extracts word alignments based on similarities of the tokens’ contextualized embeddings \parencite{awesome-align}. Awesome-align achieves state-of-the-art performance on five language pairs. It can extract word alignments from multilingual BERT (mBERT) and can be fine-tuned on parallel corpora for better alignment quality. We use the base mBERT model provided in the package to align the source sentences with the translated sentences.
+    \item \textbf{Fast-align \footnote{https://github.com/clab/fast\_align}:} A simple and fast unsupervised word aligner developed by \citet{fast-align}. We use this tool to align the translated sentences with the source sentences.
+    \item \textbf{Awesome-align \footnote{https://github.com/neulab/awesome-align}:} A contextualized embedding-based word aligner that extracts word alignments based on similarities of the tokens’ contextualized embeddings \parencite{awesome-align}. Awesome-align outperforms Fast-align and achieves state-of-the-art performance on five language pairs, one of which is German - English. It can extract word alignments from multilingual BERT (mBERT) and can be fine-tuned on parallel corpora for better alignment quality. We use the base mBERT model provided in the package to align the source sentences with the translated sentences.
     \item \textbf{Tercom alignment \footnote{https://github.com/jhclark/tercom}:} A tool for aligning between different translations of the source sentence. We use it to align the source sentences with the corresponding backtranslations.
 \end{itemize}
 
 \paragraph{Unmasking Tool:}
 
-For the purpose of unmasking in the real-world experiment (see Chapter \ref{ch:Real_Experiment}), we use a BERT base model, developed by Google \parencite{bert_unmasking}. The concept of Bidirectional Encoder Representations from Transformers (BERT) was first introduced in a paper by \cite{bert}. BERT is a language representation model, pre-trained on a large corpus of English data, using a masked language modeling (MLM) objective. The model learns in a self-supervised fashion by that taking a sentence, randomly masking 15\% of the words in the input, then running the entire masked sentence through the model and predicting the masked words. We use the API \footnote{https://huggingface.co/bert-base-uncased}, developed by Hugging Face, to extract predictions for masked words in a sentence.
+For the purpose of unmasking in the real-world experiment (see Chapter \ref{ch:Real_Experiment}), we use a BERT base model, developed by Google \parencite{bert_unmasking}. The concept of Bidirectional Encoder Representations from Transformers (BERT) was first introduced in a paper by \cite{bert}. BERT is a language representation model, pre-trained on a large corpus of English data, using a masked language modeling (MLM) objective. The model learns in a self-supervised fashion by taking a sentence, randomly masking 15\% of the words in the input, then running the entire masked sentence through the model and predicting the masked words. We use the API \footnote{https://huggingface.co/bert-base-uncased}, developed by Hugging Face, to extract predictions for masked words in a sentence.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsection{Hardware Resources}
