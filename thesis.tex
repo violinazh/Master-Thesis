@@ -109,6 +109,8 @@
 % \crefname{subhyp}{Subhyp}{Subhyp} % always uppercase
 
 
+\usepackage{pdfpages}
+
 %% --------------------------------
 %% | Bibliography                 |
 %% --------------------------------
@@ -136,7 +138,8 @@
 %% The Preamble begins here
 \frontmatter
 
-\input{sections/declaration.tex}
+%\input{sections/declaration.tex}
+\includepdf{Declaration.pdf}
 
 \setcounter{page}{1}
 \pagenumbering{roman}

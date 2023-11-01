@@ -1,7 +1,7 @@
 \chapter{Base Experiment}
 \label{ch:Base_Experiment}
 
-This chapter describes the base experiment, which serves the purpose of applying the approach and probing the hypothesis, presented in Chapter \ref{ch:Methodology}. A summarized representation of the workflow can be seen in Fig. \ref{fig:base_workflow}. In the following, we outline the steps for executing the experiment and the results of the evaluation.
+This chapter describes the base experiment, which serves the purpose of applying the approach and probing the hypothesis, presented in Chapter \ref{ch:Methodology}. A summarized representation of the workflow can be seen in Fig. \ref{fig:base_workflow}. In the following, we outline the steps for executing the experiment and the results of the evaluation. \\
 
 \begin{figure}[!htb]
   \centering
@@ -17,8 +17,8 @@ The first step in conducting the base experiment is preprocessing the dataset. W
 
 \begin{enumerate}
   \item \textbf{Sentence Extraction:}  
-  In order to obtain fully ambiguous sentences, we remove the context information from the sentences and obtain a subset of 335 sentences from the type: "The developer argued with the designer.".
-  To remove additional detection overhead, we want to have a single ambiguous word per sentence. For this purpose, we replace the second ambiguous word with a non-ambiguous proper noun, e.g., "John". 
+  In order to obtain fully ambiguous sentences, we remove the context information from the sentences and obtain a subset of 335 sentences from the type: “The developer argued with the designer.”.
+  To remove additional detection overhead, we want to have a single ambiguous word per sentence. For this purpose, we replace the second ambiguous word with a non-ambiguous proper noun, e.g., “John”. 
   \item \textbf{Replacement:} As next, we generate new subsets of sentences, substituting the ambiguous word in the original sentence with a non-ambiguous version, using two different techniques:
   \begin{itemize}
       \item \textbf{Disambiguation:} We use the gender-defining adjectives \textit{male} and \textit{female} in front of the gender-ambiguous word. This technique is meant to force the translator to make the right decision regarding gender. % gender forcing
@@ -26,7 +26,7 @@ The first step in conducting the base experiment is preprocessing the dataset. W
   \end{itemize}
 \end{enumerate}
 
-Table \ref{tab:preprocessing} shows the generated non-ambiguous subsets obtained by modifying the base ambiguous sentence "The developer argued with John.".
+Table \ref{tab:preprocessing} shows the generated non-ambiguous subsets obtained by modifying the base ambiguous sentence “The developer argued with John.”.
 
 \begin{table}[!htb]
     \begin{tabularx}{\linewidth}{|l|X|l|}
@@ -40,7 +40,7 @@ Table \ref{tab:preprocessing} shows the generated non-ambiguous subsets obtained
         & The \textbf{guy} argued with John. & guy \\
         & The \textbf{boy} argued with John. & boy \\ \hline
     \end{tabularx}
-    \caption[Non-ambiguous subsets for the baseline sentence "The developer argued with John.".]{Non-ambiguous subsets for the baseline sentence "The developer argued with John.". \\ Source sentence: reflects the sentence in the non-ambiguous subset \\ Source word: word in the sentence we evaluate for}
+    \caption[Non-ambiguous subsets for the baseline sentence “The developer argued with John.”.]{Non-ambiguous subsets for the baseline sentence “The developer argued with John.”. \\ Source sentence: reflects the sentence in the non-ambiguous subset \\ Source word: word in the sentence we evaluate for}
     \label{tab:preprocessing}
 \end{table}
 
@@ -49,7 +49,7 @@ The subsets resulting from the preprocessing are:
     \item \textbf{Ambiguous Subset}: a subset, containing the base ambiguous sentences.
     \item \textbf{Disambiguated Subset (male)}: a subset, containing the sentences, disambiguating the ambiguous word with \textit{male}.
     \item \textbf{Disambiguated Subset (female)}: a subset, containing the sentences, disambiguating the ambiguous word with \textit{female}.
-    \item \textbf{Non-ambiguous Subsets}: five subsets, where the ambiguous word is replaced with the common words: \textit{man, woman, girl, guy, boy}.
+    \item \textbf{Non-ambiguous Subsets}: five subsets, where the ambiguous word is replaced with one of the common words: \textit{man, woman, girl, guy, boy}.
 \end{itemize}
 
 
@@ -67,16 +67,16 @@ The next step in conducting the experiments is translating the subsets of senten
     The second step involves translating the translations back into the source language (English).
 \end{enumerate}
 
-For the purpose of  translation, we use two different decoding algorithms: Beam search and Sampling (see Subsection \ref{sec:Background:Decoding}). With Beam search, we compare the results for two different beam sizes: 10 and 100. The nbest size is the size of the number of unique translations, generated at each step. 
+For the purpose of  translation, we use two different decoding algorithms: \textbf{Beam search} and \textbf{Sampling} (refer to Subsection \ref{sec:Background:Decoding}). With Beam search, we compare the results for two different beam sizes: 10 and 100. The \textit{nbest size} is equal to the number of unique translations, generated at each step. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Word alignment}
+\section{Word Alignment}
 \label{sec:Base_Experiment:Alignment}
 
 \begin{figure}[!htb]
   \centering
   \includegraphics[scale=0.5]{figures/alignment.png}
-  \caption{Example Illustration: 2-step mapping from source to translation and backtranslation}
+  \caption[Illustration of Word Alignment]{\textbf{Illustration of Word Alignment.} 2-step mapping from source to backtranslation}
   \label{fig:alignment}
 \end{figure}
 
@@ -89,9 +89,7 @@ In order to assign the words in the source sentence to their counterparts in the
 
 We use the first method to map each word in the source sentence to its translations and backtranslations in the target nbest lists. We do this in a two-step way, depicted in Fig. \ref{fig:alignment}. First, we align between the source sentence and the sentences in the nbest translations and extract the translations for each word. Then, we align between the translations and the backtranslations and extract the corresponding backtranslations resulting from the aligned translations of each word. 
 
-We use the results from the second method as a baseline for comparison with the first method and to detect possible errors, which may occur in the information transfer between the two steps in the first method.
-
-
+The results from the second method we use as a baseline for comparison with the first method and to detect possible errors, which may occur in the information transfer between the two steps in the first method.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Evaluation}
@@ -132,7 +130,7 @@ We evaluate the number of unique words and sentences in the translations and bac
 
 For the sake of the evaluation, we follow this routine (\textit{[translations | backtranslations]} denotes that we follow the same step for both the translations and backtranslations):
 \begin{enumerate}
-    \item[1. ] Collect the \textit{[translations | backtranslations]} for each source sentences.
+    \item[1. ] Collect the \textit{[translations | backtranslations]} for each source sentence.
     % sentence level
     \item[2a. ] Count how many of the \textit{[translations | backtranslations]} are unique. 
     % word level
